@@ -1,0 +1,48 @@
+library(ggplot2)
+library(viridis)
+
+temp = list.files(pattern="*.csv")
+myfiles = lapply(temp, read.delim)
+
+ctheta <- lapply(list.files(pattern="cTheta_[0-9]"), read.csv)
+stheta <- lapply(list.files(pattern="sTheta_[0-9]"), read.csv)
+theta <- lapply(list.files(pattern="^Theta_[0-9]"), read.csv)
+delta <- lapply(list.files(pattern="Delta_[0-9]"), read.csv)
+weakLTP <- lapply(list.files(pattern="weakLTP_[0-9]"), read.csv)
+HFS <- lapply(list.files(pattern="HFS_[0-9]"), read.csv)
+LFS <- lapply(list.files(pattern="LFS_[0-9]"), read.csv)
+LFSDouble <- lapply(list.files(pattern="LFSDouble_[0-9]"), read.csv)
+LFSPP50 <- lapply(list.files(pattern="LFSPP50_[0-9]"), read.csv)
+LFSPP200 <- lapply(list.files(pattern="LFSPP200_[0-9]"), read.csv)
+
+
+average_ctheta <- Reduce("+", ctheta) / length(ctheta)
+average_stheta <- Reduce("+", stheta) / length(stheta)
+average_theta <- Reduce("+", theta) / length(theta)
+average_delta <- Reduce("+", delta) / length(delta)
+average_HFS <- Reduce("+", HFS) / length(HFS)
+average_weakLTP <- Reduce("+", weakLTP) / length(weakLTP)
+average_LFS <- Reduce("+", LFS) / length(LFS)
+average_LFSDouble <- Reduce("+", LFSDouble) / length(LFSDouble)
+average_LFSPP50 <- Reduce("+", LFSPP50) / length(LFSPP50)
+average_LFSPP200 <- Reduce("+", LFSPP200) / length(LFSPP200)
+
+
+write_xlsx(average_ctheta, "average_ctheta.xlsx")
+
+write_xlsx(average_stheta, "average_stheta.xlsx")
+
+write_xlsx(average_theta, "average_theta.xlsx")
+
+write_xlsx(average_delta, "average_delta.xlsx")
+
+write_xlsx(average_HFS, "average_HFS.xlsx")
+
+write_xlsx(average_weakLTP, "average_weakLTP.xlsx")
+
+write_xlsx(average_LFS, "average_LFS.xlsx")
+
+write_xlsx(average_LFSPP50, "average_LFSPP50.xlsx")
+
+write_xlsx(average_LFSPP200, "average_LFSPP200.xlsx")
+

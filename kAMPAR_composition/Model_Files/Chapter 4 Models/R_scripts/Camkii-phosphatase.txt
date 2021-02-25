@@ -1,0 +1,34 @@
+library(readxl)
+library(ggplot2)
+library(viridis)
+
+cTheta <- read_excel("CaMKII-Phosphatase.xlsx", sheet = "cTheta")
+sTheta <- read_excel("CaMKII-Phosphatase.xlsx", sheet = "sTheta")
+Delta <- read_excel("CaMKII-Phosphatase.xlsx", sheet = "Delta")
+HFS <- read_excel("CaMKII-Phosphatase.xlsx", sheet = "HFS")
+weakLTP <- read_excel("CaMKII-Phosphatase.xlsx", sheet = "weakLTP")
+
+
+
+ggplot(`cTheta`, aes(T)) + geom_line(aes(y = Phosphatase,colour = "Phosphatase"), size=1.2) + geom_line(aes(y = CaMKII,colour = "CaMKII"), size=1.2) + scale_y_continuous(trans='log10') + expand_limits(y=c(1, 1000)) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("cTheta.png", dpi = 320)
+
+
+ggplot(`sTheta`, aes(T)) + geom_line(aes(y = Phosphatase,colour = "Phosphatase"), size=1.2) + geom_line(aes(y = CaMKII,colour = "CaMKII"), size=1.2) + scale_y_continuous(trans='log10') + expand_limits(y=c(1, 1000)) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("sTheta.png", dpi = 320)
+
+ggplot(`Delta`, aes(T)) + geom_line(aes(y = Phosphatase,colour = "Phosphatase"), size=1.2) + geom_line(aes(y = CaMKII,colour = "CaMKII"), size=1.2) + scale_y_continuous(trans='log10') + expand_limits(y=c(1, 1000)) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("Delta.png", dpi = 320)
+
+ggplot(`HFS`, aes(T)) + geom_line(aes(y = Phosphatase,colour = "Phosphatase"), size=1.2) + geom_line(aes(y = CaMKII,colour = "CaMKII"), size=1.2) + scale_y_continuous(trans='log10') + expand_limits(y=c(1, 1000)) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("HFS.png", dpi = 320)
+
+ggplot(`weakLTP`, aes(T)) + geom_line(aes(y = Phosphatase,colour = "Phosphatase"), size=1.2) + geom_line(aes(y = CaMKII,colour = "CaMKII"), size=1.2) + scale_y_continuous(trans='log10') + expand_limits(y=c(1, 1000)) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("weakLTP.png", dpi = 320)
+
+

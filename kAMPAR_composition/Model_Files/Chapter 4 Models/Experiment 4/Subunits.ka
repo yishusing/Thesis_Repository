@@ -1,0 +1,49 @@
+//AMPAR subunits
+//A file to define each subunit within AMPARs. Includes dimerisation and construction of distinct
+//AMPAR populations. Focus made on GluA1 homomers, GluA1/2 heterodimers, and GluA2/3 heterodimers.
+
+//Define Populations
+
+	%agent: GluA1(b)
+    	%agent: GluA2(b)
+    	%agent: GluA3(b)
+    
+   	%agent: GluA1A1(b)
+    	%agent: GluA1A2(b)
+    	%agent: GluA2A3(b)
+    
+//Initial Values
+//Estimates from literature suggest 80% GluA1/2 receptors, and 20% GluA2/3 receptors
+//GluA1's are rare, and seem to be driven to production only in extreme synaptic plasticity events (how quickly can they be made?)
+
+	%init: 500		GluA1(b),GluA2(b)
+	%init: 200		GluA3(b)
+    	%init: 0 		GluA1A1(b),GluA1A2(b),GluA2A3(b)
+    
+//Rules
+//For the purpose of this model, there are only three different combinations of subunits to generate
+//AMPARs. The rules specify these only.
+
+//Synth Subunits
+	GluA1(b)+ @ 1000/Theta
+	GluA2(b)+ @ 1000/Theta
+	GluA3(b)+ @ 1000/Theta
+
+	GluA1(b[.])-,GluA1(b[.])-,GluA1A1(b)+ @ 1
+    
+    GluA1(b[.])-,GluA2(b[.])-,GluA1A2(b)+ @ 1
+    
+	GluA2(b[.])-,GluA3(b[.])-,GluA2A3(b)+ @ 1
+    
+    
+    GluA1A1(b)-,GluA1A1(b)-,AMPAR_1(S831{u},S845{u},Open{B},Glu{g0},Anchor{endo},K868{u0},DUB,Nedd4)+ @ 1/Theta
+    
+    GluA1A2(b)-,GluA1A2(b)-,AMPAR_12(S831{u},S845{u},S880{u},Y876{u},Open{B},Glu{g0},Anchor{endo},K868{u0},K870{u0},K882{u0},DUB,Nedd4,RNF)+ 	@ 30/Theta
+    
+    GluA2A3(b)-,GluA2A3(b)-,AMPAR_23(S880{u},Y876{u},Open{B},Glu{g0},K870{u0},K882{u0},DUB,Nedd4,RNF)+ 	@ 3/Theta
+    
+    
+    %obs: 'AMPAR1'	|AMPAR_1()|
+    %obs: 'AMPAR12'	|AMPAR_12()|
+    %obs: 'AMPAR23'	|AMPAR_23()|
+    

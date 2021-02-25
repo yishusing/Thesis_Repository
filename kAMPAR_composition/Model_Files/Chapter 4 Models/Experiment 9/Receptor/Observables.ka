@@ -1,0 +1,129 @@
+//Observables
+
+//AMPAR
+
+
+%obs: 'AMPAR1'	|GluA1(sub1[1],sub2[3]),GluA1(sub1[1],sub2[4]),GluA1(sub1[2],sub2[3]),GluA1(sub1[2],sub2[4])|/4
+
+%obs: 'AMPAR12'	|GluA1(sub1[1],sub2[3]),GluA2(sub1[1],sub2[4]),GluA1(sub1[2],sub2[4]),GluA2(sub1[2],sub2[3])|/2
+
+%obs: 'AMPAR23'	|GluA2(sub1[1],sub2[3]),GluA3(sub1[1],sub2[4]),GluA2(sub1[2],sub2[4]),GluA3(sub1[2],sub2[3])|/2
+
+
+%obs: 'AMPAR1homo'	|GluA1(sub1[1],sub2[.]),GluA1(sub1[1],sub2[.])|/2
+%obs: 'AMPAR12hetero'	|GluA1(sub1[1],sub2[.]),GluA2(sub1[1],sub2[.])|
+%obs: 'AMPAR23hetero'	|GluA2(sub1[1],sub2[.]),GluA3(sub1[1],sub2[.])|
+
+
+%obs: 'A1'	|GluA1(sub1[.],sub2[.])|
+%obs: 'A2'	|GluA2(sub1[.],sub2[.])|
+%obs: 'A3'	|GluA3(sub1[.],sub2[.])|
+
+
+%obs: 'A2sub1'	|GluA2(sub1[_],sub2[.])|
+%obs: 'A2sub2'	|GluA2(sub1[.],sub2[_])|
+%obs: 'A2subboth'	|GluA2(sub1[_],sub2[_])|
+
+
+//Glutamate binding
+ 
+%obs: 'Basal'	|GluA1(sub1[1],sub2[3],Open{B}),GluA2(sub1[1],sub2[4],Open{B}),GluA1(sub1[2],sub2[4],Open{B}),GluA2(sub1[2],sub2[3],Open{B})|/2
+%obs: 'Small' 	|GluA1(sub1[1],sub2[3],Open{S}),GluA2(sub1[1],sub2[4],Open{S}),GluA1(sub1[2],sub2[4],Open{S}),GluA2(sub1[2],sub2[3],Open{S})  |/2
+%obs: 'Medium' 	|GluA1(sub1[1],sub2[3],Open{M}),GluA2(sub1[1],sub2[4],Open{M}),GluA1(sub1[2],sub2[4],Open{M}),GluA2(sub1[2],sub2[3],Open{M})|/2
+%obs: 'Large' 	|GluA1(sub1[1],sub2[3],Open{L}),GluA2(sub1[1],sub2[4],Open{L}),GluA1(sub1[2],sub2[4],Open{L}),GluA2(sub1[2],sub2[3],Open{L})  |/2
+
+//%obs: 'Glu_events_total' |Counter()|
+
+%obs: 'Glu_Trigger'	|Random()|
+%obs: 'Glutamate_level'	|Glutamate()|
+
+
+
+//Phosphorylation
+%obs: 'S831_P'	|GluA1(sub1[1],sub2[3],S831{p},Anchor{PSD}),GluA2(sub1[1],sub2[4],Anchor{PSD}),GluA1(sub1[2],sub2[4],S831{u},Anchor{PSD}),GluA2(sub1[2],sub2[3],Anchor{PSD})|/2
+%obs: 'S831_PP'	|GluA1(sub1[1],sub2[3],S831{p},Anchor{PSD}),GluA2(sub1[1],sub2[4],Anchor{PSD}),GluA1(sub1[2],sub2[4],S831{p},Anchor{PSD}),GluA2(sub1[2],sub2[3],Anchor{PSD})|/2
+%obs: 'S831_u'	|GluA1(sub1[1],sub2[3],S831{u},Anchor{PSD}),GluA2(sub1[1],sub2[4],Anchor{PSD}),GluA1(sub1[2],sub2[4],S831{u},Anchor{PSD}),GluA2(sub1[2],sub2[3],Anchor{PSD})|/2
+
+%obs: 'S845_P'	|GluA1(sub1[1],sub2[3],S845{p},Anchor{PSD}),GluA2(sub1[1],sub2[4],Anchor{PSD}),GluA1(sub1[2],sub2[4],S845{u},Anchor{PSD}),GluA2(sub1[2],sub2[3],Anchor{PSD})|/2
+%obs: 'S845_PP'	|GluA1(sub1[1],sub2[3],S845{p},Anchor{PSD}),GluA2(sub1[1],sub2[4],Anchor{PSD}),GluA1(sub1[2],sub2[4],S845{p},Anchor{PSD}),GluA2(sub1[2],sub2[3],Anchor{PSD})|/2
+%obs: 'S845_u'	|GluA1(sub1[1],sub2[3],S845{u},Anchor{PSD}),GluA2(sub1[1],sub2[4],Anchor{PSD}),GluA1(sub1[2],sub2[4],S845{u},Anchor{PSD}),GluA2(sub1[2],sub2[3],Anchor{PSD})|/2
+
+%obs: 'S818_p'	|GluA1(sub1[1],sub2[3],S818{p},Anchor{PSD}),GluA2(sub1[1],sub2[4],Anchor{PSD}),GluA1(sub1[2],sub2[4],S818{u},Anchor{PSD}),GluA2(sub1[2],sub2[3],Anchor{PSD})|/2
+%obs: 'S818_pp'	|GluA1(sub1[1],sub2[3],S818{p},Anchor{PSD}),GluA2(sub1[1],sub2[4],Anchor{PSD}),GluA1(sub1[2],sub2[4],S818{p},Anchor{PSD}),GluA2(sub1[2],sub2[3],Anchor{PSD})|/2
+%obs: 'S818_u'	|GluA1(sub1[1],sub2[3],S818{u},Anchor{PSD}),GluA2(sub1[1],sub2[4],Anchor{PSD}),GluA1(sub1[2],sub2[4],S818{u},Anchor{PSD}),GluA2(sub1[2],sub2[3],Anchor{PSD})|/2
+
+    
+%obs: I1_P	|I1(Phos{p})|
+%obs: I1_u	|I1(Phos{u})|
+%obs: 'PKA_a'	|PKA(Active{a})|
+%obs: 'PKA_i'	|PKA(Active{i})|
+
+  
+%obs: 'Slots'	|PSD()|
+    
+%obs: 'Synaptic_12'	|GluA1(sub1[1],sub2[3],Anchor{PSD}),GluA2(sub1[1],sub2[4],Anchor{PSD}),GluA1(sub1[2],sub2[4],Anchor{PSD}),GluA2(sub1[2],sub2[3],Anchor{PSD})|/2
+%obs: 'Synaptic_23' |GluA2(sub1[1],sub2[3],Anchor{PSD}),GluA3(sub1[1],sub2[4],Anchor{PSD}),GluA2(sub1[2],sub2[4],Anchor{PSD}),GluA3(sub1[2],sub2[3],Anchor{PSD})|/2
+%obs: 'Synaptic_receptors'	'Synaptic_12' + 'Synaptic_23'
+
+%obs: 'PP2B'	|CaM(calcium{c4}[1]),CaNAB(calcium{c4}[1])|
+
+//Calcium Signalling
+
+%obs: Calcium_Levels	|Ca()|
+%obs: 'R2C2_total'	|R2C2()|
+%obs: 'cAMP_levels'	|cAMP()|
+%obs: 'Active_CaM'	|CaM(calcium{c4})|
+
+//camkii
+
+%obs: Phos_CK_subunits |CK(T286{p})|
+%obs: Phos_CK_hexamers |CK(a[1],b[2],T286{p}), CK(a[2],b[3],T286{p}), CK(a[3],b[4],T286{p}), CK(a[4],b[5],T286{p}), CK(a[5],b[6],T286{p}), CK(a[6],b[1],T286{p})|/6
+%obs: Free_PP |PP1(b[.])|
+%obs: CaM_CaMKII_C4 |CaM(ck[_],calcium{c4})|
+%obs: CaMKII_CaM |CK(cam[_])|
+%obs: CaM_CaMKII_all |CaM(ck[_])|
+
+//Gallimore
+
+%obs: GRIP_level	|GRIP(ampa[.])|
+%obs: PICK1_level	|PICK1(ampa[.],pkc[.])|
+%obs: actPKC_level	|PKC(pick1, Calcium{c3})|
+%obs: PKC_membrane	|PKC(Location{Membrane}, Calcium{c3})|
+%obs: PKC_endo		|PKC(Location{Endo}, Calcium{c3})|
+
+
+%obs: PKC_PICK1		|PKC(pick1[1],Calcium{c3}),PICK1(pkc[1])|
+
+
+
+
+%obs: subunits_AMPA_PSD		|GluA1(Anchor{PSD})| + |GluA2(Anchor{PSD})| + |GluA3(Anchor{PSD})|
+
+%obs: subunits_AMPA_X		|GluA1(Anchor{X})| + |GluA2(Anchor{X})| + |GluA3(Anchor{X})|
+
+%obs: subunits_AMPA_endo		|GluA1(Anchor{endo})| + |GluA2(Anchor{endo})| + |GluA3(Anchor{endo})|
+
+
+//Ubq
+
+
+%obs: 'K868' |GluA1(K868{u0})|
+%obs: 'K868_ub' |GluA1(K868{u1})|
+%obs: 'K868_ub2' |GluA1(K868{u2})|
+%obs: 'K868_ub3' |GluA1(K868{u3})|
+%obs: 'K868_ub4' |GluA1(K868{u4})|
+%obs: 'K868_ub5' |GluA1(K868{u5})|
+
+
+%obs: 'K870_ub' |GluA2(K870{u1})|
+%obs: 'K870_ub2' |GluA2(K870{u2})|
+%obs: 'K870_ub3' |GluA2(K870{u3})|
+%obs: 'K870_ub4' |GluA2(K870{u4})|
+%obs: 'K870_ub5' |GluA2(K870{u5})|
+
+
+%obs: 'K882_ub' |GluA2(K882{u1})|
+%obs: 'K882_ub2' |GluA2(K882{u2})|
+%obs: 'K882_ub3' |GluA2(K882{u3})|
+%obs: 'K882_ub4' |GluA2(K882{u4})|
+%obs: 'K882_ub5' |GluA2(K882{u5})|

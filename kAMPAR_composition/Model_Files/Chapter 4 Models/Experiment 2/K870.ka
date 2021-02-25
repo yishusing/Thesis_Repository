@@ -1,0 +1,185 @@
+//GluA2 (K870) ubiquitination model 
+//GluA1 ubiquitination acts as an endocytic signal
+//GluA1 phosphorylation at Ser845 prevents subunit interaction with Nedd4 - preventing ubiquitination and inhibiting AMPAR downregulation
+//Amyloid-beta induces GluA1 ubiquitination --> targeted GluA1 phosphorylation provide a therapeuatic intervention in AD treatment
+
+
+//Ubiquitinating enzymes//
+
+//%agent: E1(s{u0 u1}, E2)
+//%agent: E2(E1, s{u0 u1}, Nedd4, RNF)
+//%agent: DUB (AMPAR)
+
+%agent: RNF(CK{Active Inactive},E2, AMPAR, s{u0 u1})
+
+
+//AMPAR//
+
+//%agent: AMPAR_12(anchor{untethered tethered},open_state{basal small medium large},glutamate{g0 g1 g2 g3 g4}, S831{u p pp}, S845{u p pp}, K868{u0 u1 u2 u3 u4 u5}, K870{u0 u1 u2 u3 u4 u5}, K882 {u0 u1 u2 u3 u4 u5}, DUB, Nedd4, RNF)
+
+
+//Initial Concentrations//
+
+//%init: 180 E1()
+//%init: 180 E2()
+//%init: 18 DUB ()
+//%init: 1.8 AMPAR_12 ()
+
+%init: 18 RNF (CK{Inactive},s{u0})
+
+
+//Variables//
+
+//%var: 'V' 3E-16 //litres, average dendritic spine volume
+//%var: 'A' 6.022E14 //per mole, Avogadro's constant
+//%var: 'AV' 'A'*'V'
+
+//%var: 'E1 activation rate' 0.01/'AV'
+//%var: 'E1 deactivation rate' 0.1
+//%var: 'E1 association rate' 0.01/'AV'
+//%var: 'E1 dissociation rate' 0.1
+//%var: 'E1 ub transfer rate' 0.2
+//%var: 'E2 association rate' 0.01/'AV'
+//%var: 'E2 dissociation rate' 0.1
+//%var: 'E2 ub transfer rate' 0.2
+
+
+//%var: 'E3 bind rate' 0.002/'AV'
+//%var: 'E3 dissociation rate' 0.7
+//%var: 'kub1' 0.2
+//%var: 'kub2' 4
+//%var: 'kub3' 4
+//%var: 'kub4' 4
+//%var: 'kub5' 4
+
+//%var: 'DUB bind rate' 0.06/'AV'
+//%var: 'DUB dissociation rate' 0.043
+//%var: 'kdub' 0.054
+
+
+//%var: 'ks' 0.08
+//%var: 'kd' 0.01
+//%var: 'kb' 0.0001
+
+
+%var: RNFCK_assoc	27777.59/Theta
+%var: RNFCK_dissoc	2
+%var: RNF_Activate	0.5
+
+//Observations//
+
+
+%obs: 'K870' |AMPAR_12(K870{u0})|
+%obs: 'K870_ub' |AMPAR_12(K870{u1})|
+%obs: 'K870_ub2' |AMPAR_12(K870{u2})|
+%obs: 'K870_ub3' |AMPAR_12(K870{u3})|
+%obs: 'K870_ub4' |AMPAR_12(K870{u4})|
+%obs: 'K870_ub5' |AMPAR_12(K870{u5})|
+
+//Rules
+
+// AMPAR synthesis & degradation 
+//AMPAR_12(K868{u0}[.],K870{u0}[.],K882{u0}[.])+ @ 'ks'
+//AMPAR_12(K868{u0}[.],K870{u0}[.],K882{u0}[.])- @ 'kb'
+
+
+//E1 activates ubiquitin 
+//E1(s{u0}) <-> E1(s{u1}) @ 'E1 activation rate','E1 deactivation rate'
+
+
+//Ub transfer from E1 to E2
+//E1(s{u1},E2[.]), E2(E1[.],s{u0}) <-> E1(s{u1},E2[1]), E2(E1[1],s{u0}) @ 'E1 association rate','E1 dissociation rate'
+//E1(s{u1},E2[1]), E2(E1[1],s{u0}) -> E1(s{u0},E2[.]), E2(E1[.],s{u1}) @ 'E1 ub transfer rate' //E2 accepts Ub from E1
+
+//RNF activated by CaMKII
+
+RNF(CK{Inactive}[.],s{u0}),CK(T286{p}[.]) <-> RNF(CK{Inactive}[1],s{u0}),CK(T286{p}[1]) @ RNFCK_assoc, RNFCK_dissoc
+RNF(CK{Inactive}[1],s{u0}),CK(T286{p}[1]) -> RNF(CK{Active}[.],s{u0}),CK(T286{p}[.]) @ RNF_Activate
+
+//RNF associates with E2_ub to catalyse K870 ubiquitination
+
+E2(s{u1},RNF[.]),RNF(E2[.],s{u0}) <-> E2(s{u1},RNF[1]),RNF(E2[1],s{u0}) @ 'E2 association rate','E2 dissociation rate' //E2_ub associates with RNF
+E2(s{u1},RNF[1]),RNF(E2[1],s{u0}) -> E2(s{u0},RNF[.]),RNF(E2[.],s{u1}) @ 'E2 ub transfer rate' //RNF-E2 complex allows ub to be activated for transfer to substrate
+
+
+RNF(s{u1},AMPAR[.]),AMPAR_12(K870{u0},RNF[.]) <-> RNF(s{u1},AMPAR[1]),AMPAR_12(K870{u0},RNF[1]) @ 'E3 bind rate','E3 dissociation rate' //RNF associates with AMPAR
+RNF(s{u1},AMPAR[1]),AMPAR_12(K870{u0},RNF[1]) -> RNF(s{u0},AMPAR[.]),AMPAR_12(K870{u1},RNF[.]) @ 'kub1' //RNF association with AMPAR allows mobilised ub to ubiquitinate K870
+
+RNF(s{u1},AMPAR[.]),AMPAR_23(K870{u0},RNF[.]) <-> RNF(s{u1},AMPAR[1]),AMPAR_23(K870{u0},RNF[1]) @ 'E3 bind rate','E3 dissociation rate' //RNF associates with AMPAR
+RNF(s{u1},AMPAR[1]),AMPAR_23(K870{u0},RNF[1]) -> RNF(s{u0},AMPAR[.]),AMPAR_23(K870{u1},RNF[.]) @ 'kub1' //RNF association with AMPAR allows mobilised ub to ubiquitinate K870
+
+
+AMPAR_12(K870{u1}[.])-,PSD()+  @ 'kb' //K870_ub degradation
+
+AMPAR_23(K870{u1}[.])-,PSD()+  @ 'kb' //K870_ub degradation
+
+
+//Deubiquitination of K870_ub
+
+AMPAR_12(K870{u1},DUB[.]),DUB(AMPAR[.]) <-> AMPAR_12(K870{u1},DUB[1]),DUB(AMPAR[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with K870_ub
+AMPAR_12(K870{u1},DUB[1]),DUB(AMPAR[1]) -> AMPAR_12(K870{u0},DUB[.]),DUB(AMPAR[.]) @ 'kdub' //K870_ub deubiquitinated to K870
+
+AMPAR_23(K870{u1},DUB[.]),DUB(AMPAR[.]) <-> AMPAR_23(K870{u1},DUB[1]),DUB(AMPAR[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with K870_ub
+AMPAR_23(K870{u1},DUB[1]),DUB(AMPAR[1]) -> AMPAR_23(K870{u0},DUB[.]),DUB(AMPAR[.]) @ 'kdub' //K870_ub deubiquitinated to K870
+
+//Ubiquitination of K870_ub
+
+RNF(CK{Active},s{u1},AMPAR[.]),AMPAR_12(K870{u1},RNF[.]) <-> RNF(CK{Active},s{u1},AMPAR[1]),AMPAR_12(K870{u1},RNF[1]) @ 'E3 bind rate','E3 dissociation rate' //RNF associates with AMPAR
+RNF(s{u1},AMPAR[1]),AMPAR_12(K870{u1},RNF[1]) -> RNF(s{u0},AMPAR[.]),AMPAR_12(K870{u2},RNF[.]) @ 'kub1' //RNF association with AMPAR allows mobilised ub to ubiquitinate K870
+
+AMPAR_12(K870{u2}[.])-,PSD()+ @ 'kb' //K870_ub degradation
+
+
+//Deubiquitination of K870_ub2
+
+AMPAR_12(K870{u2},DUB[.]),DUB(AMPAR[.]) <-> AMPAR_12(K870{u2},DUB[1]),DUB(AMPAR[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with K870_ub
+AMPAR_12(K870{u2},DUB[1]),DUB(AMPAR[1]) -> AMPAR_12(K870{u1},DUB[.]),DUB(AMPAR[.]) @ 'kdub' //K870_ub2 deubiquitinated to K870_ub
+
+
+
+//Ubiquitination of K870_ub2
+
+RNF(CK{Active},s{u1},AMPAR[.]),AMPAR_12(K870{u2},RNF[.]) <-> RNF(CK{Active},s{u1},AMPAR[1]),AMPAR_12(K870{u2},RNF[1]) @ 'E3 bind rate','E3 dissociation rate' //RNF associates with AMPAR
+RNF(s{u1},AMPAR[1]),AMPAR_12(K870{u2},RNF[1]) -> RNF(s{u0},AMPAR[.]),AMPAR_12(K870{u3},RNF[.]) @ 'kub1' //RNF association with AMPAR allows mobilised ub to ubiquitinate K870
+
+AMPAR_12(K870{u3}[.])-,PSD()+ @ 'kb' //K870_ub degradation
+
+
+//Deubiquitination of K870_ub3
+
+AMPAR_12(K870{u3},DUB[.]),DUB(AMPAR[.]) <-> AMPAR_12(K870{u3},DUB[1]),DUB(AMPAR[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with K870_ub3
+AMPAR_12(K870{u3},DUB[1]),DUB(AMPAR[1]) -> AMPAR_12(K870{u2},DUB[.]),DUB(AMPAR[.]) @ 'kdub' //K870_ub3 deubiquitinated to K870_ub2
+
+
+
+//Ubiquitination of K870_ub3
+
+RNF(CK{Active},s{u1},AMPAR[.]),AMPAR_12(K870{u3},RNF[.]) <-> RNF(CK{Active},s{u1},AMPAR[1]),AMPAR_12(K870{u3},RNF[1]) @ 'E3 bind rate','E3 dissociation rate' //RNF associates with AMPAR
+RNF(s{u1},AMPAR[1]),AMPAR_12(K870{u3},RNF[1]) -> RNF(s{u0},AMPAR[.]),AMPAR_12(K870{u4},RNF[.]) @ 'kub1' //RNF association with AMPAR allows mobilised ub to ubiquitinate K870
+
+AMPAR_12(K870{u4}[.])-,PSD()+ @ 'kb' //K870_ub degradation
+
+
+//Deubiquitination of K870_ub4
+
+AMPAR_12(K870{u4},DUB[.]),DUB(AMPAR[.]) <-> AMPAR_12(K870{u4},DUB[1]),DUB(AMPAR[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with K870_ub4
+AMPAR_12(K870{u4},DUB[1]),DUB(AMPAR[1]) -> AMPAR_12(K870{u3},DUB[.]),DUB(AMPAR[.]) @ 'kdub' //K870_ub4 deubiquitinated to K870_ub3
+
+
+
+//Ubiquitination of K870_ub4
+
+RNF(CK{Active},s{u1},AMPAR[.]),AMPAR_12(K870{u4},RNF[.]) <-> RNF(CK{Active},s{u1},AMPAR[1]),AMPAR_12(K870{u4},RNF[1]) @ 'E3 bind rate','E3 dissociation rate' //RNF associates with AMPAR
+RNF(s{u1},AMPAR[1]),AMPAR_12(K870{u4},RNF[1]) -> RNF(s{u0},AMPAR[.]),AMPAR_12(K870{u5},RNF[.]) @ 'kub1' //RNF association with AMPAR allows mobilised ub to ubiquitinate K870
+
+AMPAR_12(K870{u5}[.])-,PSD()+ @ 'kb' //K870_ub degradation
+
+
+//Deubiquitination of K870_ub5
+
+AMPAR_12(K870{u5},DUB[.]),DUB(AMPAR[.]) <-> AMPAR_12(K870{u5},DUB[1]),DUB(AMPAR[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with K870_ub5
+AMPAR_12(K870{u5},DUB[1]),DUB(AMPAR[1]) -> AMPAR_12(K870{u4},DUB[.]),DUB(AMPAR[.]) @ 'kdub' //K870_ub5 deubiquitinated to K870_ub4
+
+
+
+//%mod: alarm 1000 do $STOP "K870.ka";

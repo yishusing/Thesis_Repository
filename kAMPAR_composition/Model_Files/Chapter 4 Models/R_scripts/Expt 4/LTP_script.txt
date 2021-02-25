@@ -1,0 +1,15 @@
+
+
+LTP_All12 <- read.csv("LTP_All12.csv")
+LTP_All23 <- read.csv("LTP_All23.csv")
+LTP_equal <- read.csv("LTP_equal.csv")
+LTP_most12 <- read.csv("LTP_most12.csv")
+LTP_most23 <- read.csv("LTP_most23.csv")
+
+LTP <- lapply(list(LTP_All12,LTP_All23,LTP_equal,LTP_most12,LTP_most23), function(x) x[, c("Synaptic_12","Synaptic_23","Synaptic_receptors")])
+
+Syn_Receptors <- as.data.frame(
+LTP)
+
+
+write.csv(Syn_Receptors, "LTP.csv")

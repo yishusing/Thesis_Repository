@@ -1,0 +1,43 @@
+//Modification file
+//List all feasible modifications for the Kappa_AMPAR model
+
+//NECESSARY MODS
+
+//Calcium dependent cAMP activation
+
+%mod: Calcium_Levels > 8 do $UPDATE cAMP_synth 10; repeat [true]
+%mod: Calcium_Levels < 5 do $UPDATE cAMP_synth 0.5; repeat [true]
+
+//Calcium dependent PKC activation
+
+%mod: Calcium_Levels > 8 do $UPDATE pkc_act 100; repeat [true]
+%mod: Calcium_Levels < 5 do $UPDATE pkc_act 0; repeat [true]
+
+//NSF binding rate
+
+%mod: Calcium_Levels > 6 do $UPDATE ansf_off 50; repeat [true]
+%mod: Calcium_Levels < 5 do $UPDATE ansf_off 5; repeat [true]
+
+//OPTIONAL MODS
+
+//Add x Calcium every y seconds until set Time
+
+//%mod: alarm 0.5 [true] do $ADD 720 Ca(); repeat [T] < 150
+
+
+//Add Calcium for set time period with specific gap
+
+%agent: G()
+%init: 0	G()
+
+%obs: 'Gap'		|G()|
+
+%mod: alarm 0.5 [T] > 2500 do $ADD 1 G(); repeat [true]
+%mod: 'Gap' > 3 do $DEL |G()| G(); repeat [true]
+
+%mod: alarm 0.01 Gap > 1 do $ADD 180 Ca(); repeat [T] < 2530
+
+%mod: alarm 4300 do $ADD 20 PSD();
+
+//%mod: alarm
+

@@ -1,0 +1,238 @@
+library(ggplot2)
+library(viridis)
+
+temp = list.files(pattern="*.csv")
+myfiles = lapply(temp, read.delim)
+
+HB <- lapply(list.files(pattern="HB_[0-9]"), read.csv)
+KHAB_mass <- lapply(list.files(pattern="KHAB_mass_[0-9]"), read.csv)
+KHAB_space <- lapply(list.files(pattern="KHAB_space_[0-9]"), read.csv)
+MHTL <- lapply(list.files(pattern="MHTL_[0-9]"), read.csv)
+
+
+
+average_HB <- Reduce("+", HB) / length(HB)
+average_KHAB_mass <- Reduce("+", KHAB_mass) / length(KHAB_mass)
+average_KHAB_space <- Reduce("+", KHAB_space) / length(KHAB_space)
+average_MHTL <- Reduce("+", MHTL) / length(MHTL)
+
+
+
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_S831.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_S845.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_S818.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_880876.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_I1.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_PKA.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_CK.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_Slots.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_PP1.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_CaM.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_ampar.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_k868.png", dpi = 320)
+
+ggplot(`average_HB`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HB_Ca.png", dpi = 320)
+
+
+
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_S831.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_S845.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_S818.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_880876.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_I1.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_PKA.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_CK.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_Slots.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_PP1.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_CaM.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_ampar.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_k868.png", dpi = 320)
+
+ggplot(`average_KHAB_mass`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_mass_Ca.png", dpi = 320)
+
+
+
+
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_S831.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_S845.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_S818.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_880876.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_I1.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_PKA.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_CK.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_Slots.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_PP1.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_CaM.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_ampar.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_k868.png", dpi = 320)
+
+ggplot(`average_KHAB_space`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_KHAB_space_Ca.png", dpi = 320)
+
+
+
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_S831.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_S845.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_S818.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_880876.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_I1.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_PKA.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_CK.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_Slots.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_PP1.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_CaM.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_ampar.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_k868.png", dpi = 320)
+
+ggplot(`average_MHTL`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_MHTL_Ca.png", dpi = 320)

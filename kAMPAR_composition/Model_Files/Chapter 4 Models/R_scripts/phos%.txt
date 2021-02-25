@@ -1,0 +1,17 @@
+
+library(readxl)
+library(ggplot2)
+library(viridis)
+S845 <- read_excel("Kronos.xlsx", sheet = "%S845")
+
+ggplot(`S845`, aes(T)) + geom_line(aes(y = cTheta_Slot,colour = "cTheta_Slot"), size=1.2) + geom_line(aes(y = sTheta_Slot,colour = "sTheta_Slot"), size=1.2) + geom_line(aes(y = Delta_Slot,colour = "Delta_Slot"), size=1.2)+ geom_line(aes(y = HFS_Slot,colour = "HFS_Slot"), size=1.2) + geom_line(aes(y = weakLTP_Slot,colour = "weakLTP_Slot"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 100)) + theme_classic() + labs(x = "T(s)", y = "%", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("S845_Slot.png", dpi = 320)
+
+ggplot(`S845`, aes(T)) + geom_line(aes(y = cTheta_Receptor,colour = "cTheta_Receptor"), size=1.2) + geom_line(aes(y = sTheta_Receptor,colour = "sTheta_Receptor"), size=1.2) + geom_line(aes(y = Delta_Receptor,colour = "Delta_Receptor"), size=1.2)+ geom_line(aes(y = HFS_Receptor,colour = "HFS_Receptor"), size=1.2) + geom_line(aes(y = weakLTP_Receptor,colour = "weakLTP_Receptor"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 100)) + theme_classic() + labs(x = "T(s)", y = "%", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("S845_Receptor.png", dpi = 320)
+
+ggplot(`S845`, aes(T)) + geom_line(aes(y = cTheta_Exocytosis,colour = "cTheta_Exocytosis"), size=1.2) + geom_line(aes(y = sTheta_Exocytosis,colour = "sTheta_Exocytosis"), size=1.2) + geom_line(aes(y = Delta_Exocytosis,colour = "Delta_Exocytosis"), size=1.2)+ geom_line(aes(y = HFS_Exocytosis,colour = "HFS_Exocytosis"), size=1.2) + geom_line(aes(y = weakLTP_Exocytosis,colour = "weakLTP_Exocytosis"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 100)) + theme_classic() + labs(x = "T(s)", y = "%", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("S845_Exocytosis.png", dpi = 320)

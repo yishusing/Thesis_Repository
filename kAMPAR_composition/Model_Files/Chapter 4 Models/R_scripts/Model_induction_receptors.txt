@@ -1,0 +1,36 @@
+library(writexl)
+
+Receptors_Protocols <- lapply(list(average_HB, average_KHAB_mass, average_KHAB_space, average_MHTL), function(x) x$Synaptic_receptors)
+
+Syn_Receptors <- as.data.frame(Receptors_Protocols)
+
+write_xlsx(Syn_Receptors, "E:/KAPPA/Asteria/temp.xlsx")
+
+
+
+
+
+
+
+library(readxl)
+library(ggplot2)
+library(viridis)
+Slot <- read_excel("Membrane_model.xlsx", sheet = "Slots")
+Exocytosis <- read_excel("Membrane_model.xlsx", sheet = "Exocytosis")
+All_suff <- read_excel("Membrane_model.xlsx", sheet = "All_suff")
+
+
+
+ggplot(`Slot`, aes(T)) + geom_line(aes(y = HB,colour = "HB")) + geom_line(aes(y = KHAB_mass,colour = "KHAB_mass")) + geom_line(aes(y = KHAB_space,colour = "KHAB_space")) + geom_line(aes(y = MHTL,colour = "MHTL")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("Slot.png", dpi = 320)
+
+
+ggplot(`Exocytosis`, aes(T)) + geom_line(aes(y = HB,colour = "HB")) + geom_line(aes(y = KHAB_mass,colour = "KHAB_mass")) + geom_line(aes(y = KHAB_space,colour = "KHAB_space")) + geom_line(aes(y = MHTL,colour = "MHTL")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("Exocytosis.png", dpi = 320)
+
+
+ggplot(`All_suff`, aes(T)) + geom_line(aes(y = HB,colour = "HB")) + geom_line(aes(y = KHAB_mass,colour = "KHAB_mass")) + geom_line(aes(y = KHAB_space,colour = "KHAB_space")) + geom_line(aes(y = MHTL,colour = "MHTL")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("All_suff.png", dpi = 320)

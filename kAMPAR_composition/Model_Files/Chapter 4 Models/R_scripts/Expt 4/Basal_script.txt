@@ -1,0 +1,14 @@
+
+All12 <- read.csv("All12.csv")
+All23 <- read.csv("All23.csv")
+equal <- read.csv("equal.csv")
+most12 <- read.csv("most12.csv")
+most23 <- read.csv("most23.csv")
+
+Basal <- lapply(list(All12,All23,equal,most12,most23), function(x) x[, c("Synaptic_12","Synaptic_23","Synaptic_receptors")])
+
+Syn_Receptors <- as.data.frame(
+Basal)
+
+
+write.csv(Syn_Receptors, "Basal.csv")

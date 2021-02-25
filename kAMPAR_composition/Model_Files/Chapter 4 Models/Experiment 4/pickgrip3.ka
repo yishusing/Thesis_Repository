@@ -1,0 +1,211 @@
+// GRIP-PICK1 AMPAR Interaction Model
+// Adapted from Galliimore et al. 2016
+
+//AMPAR Binding Interactions at PSD and Endosome
+
+%var: ampar_grip_on		5500000/Theta
+%var: ampar_grip_off		0.3
+%var: ampar_grip_offPS		70
+
+%var: ampar_pick_on		700000/Theta /*Note in high Ca this goes to 2800000/Theta*/
+%var: ampar_pick_off		5
+%var: ampar_pick_onstar		2800000/Theta
+
+%var: grip_pick_on		10000000/Theta
+%var: grip_pick_off		5
+
+%var: ansf_on			1000000/Theta
+%var: ansf_off			5
+
+//AMPAR Lateral Diffusion (PSD and extrasynaptic area, X)
+
+%var: diff_psd_x		0.02
+%var: diff_x_psd		0.02
+
+//AMPAR Lateral Diffusion (Extrasynaptic X and Endocytic Zone, EZ)
+
+%var: diff_x_ez			0.02
+%var: diff_ez_x			0.002
+
+//AMPAR Endocytosis and Exocytosis
+
+%var: ampa_endo			3
+%var: ampa_exo			0.045
+
+//PKC
+
+%var: pkc_act			0	/*100*/
+%var: pkc_deact			0.5
+
+//PICK-PKC
+
+%var: pick_pkc_on		6000000/Theta
+%var: pick_pkc_off		1
+
+//Enzymatic Reactions (Converted from Km and Kcat)
+//PKC phosphorylation of S880 on GluA2
+
+%var: pkc_k1			186507/Theta
+%var: pkc_k2			18.8
+%var: pkc_k3			4.7
+
+//s880 Dephosphorylation
+
+%var: s880_pp2a_k1		384615/Theta
+%var: s880_pp2a_k2		2.4
+%var: s880_pp2a_k3		0.6
+
+//SFK phosphorylation of Y876 on GluA2
+
+%var: sfk_k1			14285714/Theta
+%var: sfk_k2			40
+%var: sfk_k3			10
+
+//Y876 Dephosphorylation
+
+%var: ptpmeg_k1			3525641/Theta
+%var: ptpmeg_k2			22
+%var: ptpmeg_k3			5.5
+
+
+
+//Initial Concentrations
+
+%var: GRIP				66
+%var: PICK1				40
+%var: PKC				40	
+%var: SFK				40
+%var: NSF				120
+%var: PTPMEG				66
+																														
+																																									
+//AGENTS
+
+%agent: GRIP(ampa)
+%agent: PICK1(ampa,pkc)
+%agent: PKC(pick1, Active{a i}, Location{Endo PSD})
+%agent: NSF(ampa)
+%agent: SFK(b)
+%agent: PTPMEG(b)
+
+//INITIALISE
+
+%init: GRIP		GRIP(ampa)
+%init: PICK1		PICK1(ampa,pkc)
+%init: PKC		PKC(pick1, Active{i})
+%init: NSF		NSF(ampa)
+%init: SFK 		SFK(b)
+%init: PTPMEG		PTPMEG(b)
+
+//OBSERVATIONS
+
+%obs: GRIP_level	|GRIP(ampa[.])|
+%obs: PICK1_level	|PICK1(ampa[.],pkc[.])|
+%obs: actPKC_level	|PKC(pick1, Active{a})|
+
+%obs: AMPA_GRIP_endo	|AMPAR_12(Anchor{endo},grip[_])|
+%obs: AMPA_GRIP_PSD	|AMPAR_12(Anchor{PSD},grip[_])|
+%obs: AMPA_PICK_endo	|AMPAR_12(Anchor{endo},pick1[_])|
+%obs: AMPA_PICK_PSD	|AMPAR_12(Anchor{PSD},pick1[_])|
+%obs: AMPA_NSF		|AMPAR_12(nsf[_])|
+%obs: AMPA_GRIP_PICK_endo	|AMPAR_12(Anchor{endo},grip[_],pick1[_])|
+%obs: AMPA_GRIP_PICK_PSD	|AMPAR_12(Anchor{PSD},grip[_],pick1[_])|
+%obs: AMPA_S880		|AMPAR_12(S880{p},Anchor{PSD})|
+%obs: AMPA_Y876		|AMPAR_12(Y876{p},Anchor{PSD})|
+
+%obs: '23AMPA_GRIP_endo'	|AMPAR_23(Anchor{endo},grip[_])|
+%obs: '23AMPA_GRIP_PSD'	|AMPAR_23(Anchor{PSD},grip[_])|
+%obs: '23AMPA_PICK_endo'	|AMPAR_23(Anchor{endo},pick1[_])|
+%obs: '23AMPA_PICK_PSD'	|AMPAR_23(Anchor{PSD},pick1[_])|
+%obs: '23AMPA_NSF'		|AMPAR_23(nsf[_])|
+%obs: '23AMPA_GRIP_PICK_endo'	|AMPAR_23(Anchor{endo},grip[_],pick1[_])|
+%obs: '23AMPA_GRIP_PICK_PSD'	|AMPAR_23(Anchor{PSD},grip[_],pick1[_])|
+%obs: '23AMPA_S880'		|AMPAR_23(S880{p},Anchor{PSD})|
+%obs: '23AMPA_Y876'		|AMPAR_23(Y876{p},Anchor{PSD})|
+
+//REACTIONS
+
+//AMPAR binding interactions
+
+AMPAR_12(S880{u},pick1[.],grip[.],nsf[.]),GRIP(ampa[.]) <-> AMPAR_12(S880{u},pick1[.],grip[1],nsf[.]),GRIP(ampa[1]) @ ampar_grip_on,ampar_grip_off
+AMPAR_23(S880{u},pick1[.],grip[.],nsf[.]),GRIP(ampa[.]) <-> AMPAR_23(S880{u},pick1[.],grip[1],nsf[.]),GRIP(ampa[1]) @ ampar_grip_on,ampar_grip_off
+
+AMPAR_12(S880{p},pick1[.],grip[.],nsf[.]),GRIP(ampa[.]) <-> AMPAR_12(S880{p},pick1[.],grip[1],nsf[.]),GRIP(ampa[1]) @ ampar_grip_on,ampar_grip_offPS
+AMPAR_23(S880{p},pick1[.],grip[.],nsf[.]),GRIP(ampa[.]) <-> AMPAR_23(S880{p},pick1[.],grip[1],nsf[.]),GRIP(ampa[1]) @ ampar_grip_on,ampar_grip_offPS
+
+
+AMPAR_12(pick1[.],grip[.],nsf[.]),PICK1(ampa[.]) <-> AMPAR_12(pick1[1],grip[.],nsf[.]),PICK1(ampa[1]) @ ampar_pick_on,ampar_pick_off
+AMPAR_23(pick1[.],grip[.],nsf[.]),PICK1(ampa[.]) <-> AMPAR_23(pick1[1],grip[.],nsf[.]),PICK1(ampa[1]) @ ampar_pick_on,ampar_pick_off
+
+AMPAR_12(pick1[.],grip[.],nsf[.]),PICK1(ampa[.],pkc[1]),PKC(pick1[1],Active{a}) <-> AMPAR_12(pick1[2],grip[.],nsf[.]),PICK1(ampa[2],pkc[1]),PKC(pick1[1],Active{a}) @ ampar_pick_onstar,ampar_pick_off
+AMPAR_23(pick1[.],grip[.],nsf[.]),PICK1(ampa[.],pkc[1]),PKC(pick1[1],Active{a}) <-> AMPAR_23(pick1[2],grip[.],nsf[.]),PICK1(ampa[2],pkc[1]),PKC(pick1[1],Active{a}) @ ampar_pick_onstar,ampar_pick_off
+
+
+
+AMPAR_12(pick1[.],grip[1],nsf[.]),GRIP(ampa[1]),PICK1(ampa[.]) <-> AMPAR_12(pick1[2],grip[1],nsf[.]),GRIP(ampa[1]),PICK1(ampa[2]) @ grip_pick_on,grip_pick_off
+AMPAR_23(pick1[.],grip[1],nsf[.]),GRIP(ampa[1]),PICK1(ampa[.]) <-> AMPAR_23(pick1[2],grip[1],nsf[.]),GRIP(ampa[1]),PICK1(ampa[2]) @ grip_pick_on,grip_pick_off
+
+
+
+AMPAR_12(pick1[2/.],grip[1/.],nsf[.]),GRIP(ampa[1/.]),PICK1(ampa[2/.]) @ ampar_grip_off
+AMPAR_23(pick1[2/.],grip[1/.],nsf[.]),GRIP(ampa[1/.]),PICK1(ampa[2/.]) @ ampar_grip_off
+
+
+AMPAR_12(Anchor{endo},pick1[.],grip[.],nsf[.]),NSF(ampa[.]) <-> AMPAR_12(Anchor{endo},pick1[.],grip[.],nsf[1]),NSF(ampa[1]) @ ansf_on,ansf_off
+AMPAR_23(Anchor{endo},pick1[.],grip[.],nsf[.]),NSF(ampa[.]) <-> AMPAR_23(Anchor{endo},pick1[.],grip[.],nsf[1]),NSF(ampa[1]) @ ansf_on,ansf_off
+
+AMPAR_12(Anchor{PSD},nsf[1/.]),NSF(ampa[1/.]) @ ansf_off
+AMPAR_23(Anchor{PSD},nsf[1/.]),NSF(ampa[1/.]) @ ansf_off
+
+
+//AMPAR LATERAL DIFFUSION (BETWEEN PSD AND ENDO)
+
+AMPAR_12(Anchor{PSD/endo},S845{u},pick1[1],grip[.],nsf[.]),PICK1(ampa[1]), PSD()+ @ ampa_endo
+AMPAR_23(Anchor{PSD/endo},pick1[1],grip[.],nsf[.]),PICK1(ampa[1]), PSD()+ @ ampa_endo
+
+AMPAR_12(Anchor{PSD/endo},S845{p},pick1[1],grip[.],nsf[.]),PICK1(ampa[1]), PSD()+ @ ampa_endo/2
+AMPAR_12(Anchor{PSD/endo},S845{pp},pick1[1],grip[.],nsf[.]),PICK1(ampa[1]), PSD()+ @ ampa_endo/5
+
+//AMPAR_12(Anchor{endo/PSD},pick1[.],grip[.],nsf[1/.]),NSF(ampa[1/.]) @ ampa_exo
+//AMPAR_23(Anchor{endo/PSD},pick1[.],grip[.],nsf[1/.]),NSF(ampa[1/.]) @ ampa_exo
+
+//PKC REACTIONS
+
+PKC(Active{i}) <-> PKC(Active{a}) @ pkc_act,pkc_deact
+
+//PKC(Active{a}) <-> PKC(Active{a}) @ 1.2705, 3.5026
+
+PKC(pick1[.],Active{a}),PICK1(pkc[.]) <-> PKC(pick1[1],Active{a}),PICK1(pkc[1]) @ pick_pkc_on,pick_pkc_off
+
+AMPAR_12(S880{u}[.],pick1[2],grip[.],nsf[.]),PICK1(ampa[2],pkc[1]),PKC(pick1[1],Active{a}[.]) <-> AMPAR_12(S880{u}[3],pick1[2],grip[.],nsf[.]),PICK1(ampa[2],pkc[1]),PKC(pick1[1],Active{a}[3]) @ pkc_k1,pkc_k2
+AMPAR_12(S880{u/p}[3/.],pick1[2],grip[.],nsf[.]),PICK1(ampa[2],pkc[1]),PKC(pick1[1],Active{a}[3/.]) @ pkc_k3
+
+AMPAR_23(S880{u}[.]),PKC(Active{a}[.]) <-> AMPAR_23(S880{u}[1]),PKC(Active{a}[1]) @ pkc_k1,pkc_k2
+AMPAR_23(S880{u/p}[1/.]),PKC(Active{a}[1/.]) @ pkc_k3
+
+//S880 DEPHOSPHORYLATION
+
+AMPAR_12(S880{p}[.]),PP2A(b[.]) <-> AMPAR_12(S880{p}[1]),PP2A(b[1]) @ s880_pp2a_k1,s880_pp2a_k2
+AMPAR_12(S880{p/u}[1/.]),PP2A(b[1/.]) @ s880_pp2a_k3
+
+AMPAR_23(S880{p}[.]),PP2A(b[.]) <-> AMPAR_23(S880{p}[1]),PP2A(b[1]) @ s880_pp2a_k1,s880_pp2a_k2
+AMPAR_23(S880{p/u}[1/.]),PP2A(b[1/.]) @ s880_pp2a_k3
+
+//SFK PHOSPHORYLATION OF Y876
+
+AMPAR_12(Y876{u}[.]),SFK(b[.]) <-> AMPAR_12(Y876{u}[1]),SFK(b[1]) @ sfk_k1,sfk_k2
+AMPAR_12(Y876{u/p}[1/.]),SFK(b[1/.]) @ sfk_k3
+
+AMPAR_23(Y876{u}[.]),SFK(b[.]) <-> AMPAR_23(Y876{u}[1]),SFK(b[1]) @ sfk_k1,sfk_k2
+AMPAR_23(Y876{u/p}[1/.]),SFK(b[1/.]) @ sfk_k3
+
+//Y876 DEPHOSPHORYLATION
+
+AMPAR_12(Y876{p}[.]),PTPMEG(b[.]) <-> AMPAR_12(Y876{p}[1]),PTPMEG(b[1]) @ ptpmeg_k1,ptpmeg_k2
+AMPAR_12(Y876{p/u}[1/.]),PTPMEG(b[1/.]) @ ptpmeg_k3
+
+
+AMPAR_23(Y876{p}[.]),PTPMEG(b[.]) <-> AMPAR_23(Y876{p}[1]),PTPMEG(b[1]) @ ptpmeg_k1,ptpmeg_k2
+AMPAR_23(Y876{p/u}[1/.]),PTPMEG(b[1/.]) @ ptpmeg_k3
+
+

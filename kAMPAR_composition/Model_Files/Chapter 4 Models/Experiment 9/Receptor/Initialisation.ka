@@ -1,0 +1,67 @@
+//Initialisation
+
+%init: Glu 		Glutamate()
+%init: 0			Random()
+%init: PP1			PP1(b)
+%init: 67			PP2A(b)					
+%init: 108			I1(Phos{u},b)																		
+%init: PKA			PKA(b,Active{i})
+%init: PSD_slots		PSD()
+
+
+%init: 500		GluA1(Glu{g0},Anchor{X})
+%init: 500	GluA2(Glu{g0},Anchor{X})
+%init: 200		GluA3(Glu{g0},Anchor{X})
+
+%init: 0		GluA1(sub1[1],sub2[.]),GluA1(sub1[1],sub2[.])
+%init: 0		GluA1(sub1[1],sub2[.]),GluA2(sub1[1],sub2[.])
+%init: 0 		GluA2(sub1[1],sub2[.]),GluA3(sub1[1],sub2[.])
+
+
+%init: 10	cAMP()
+%init: 30	R2C2(cAMP{c0},C{c2})
+%init: 15	PKA_Inhibitor(b)
+%init: 1586	CaM(calcium{c0})
+%init: 5	Ca()
+%init: 60	CaNAB(b,calcium{c0})
+
+
+
+%init: 500 CK(a[1],b[2],c[13]), CK(a[2],b[3],c[14]), CK(a[3],b[4],c[15]), CK(a[4],b[5],c[16]), CK(a[5],b[6],c[17]), CK(a[6],b[1],c[18]),CK(a[7],b[8],d[13]), CK(a[8],b[9],d[14]), CK(a[9],b[10],d[15]), CK(a[10],b[11],d[16]), CK(a[11],b[12],d[17]), CK(a[12],b[7],d[18])
+
+
+
+
+
+%init: GRIP		GRIP(ampa)
+%init: PICK1		PICK1(ampa,pkc)
+%init: PKC		PKC(pick1, Calcium{c0})
+%init: NSF		NSF(ampa)
+%init: SFK 		SFK(b)
+%init: PTPMEG		PTPMEG(b)
+
+
+
+%init: 18 RNF (CK{Inactive},s{u0})
+%init: 180 E1()
+%init: 180 E2()
+%init: 18 Nedd4(Cdomain{Inactive},s{u0})
+%init: 18 DUB ()
+
+
+
+
+
+//Calcium dependent cAMP activation
+
+%mod: Calcium_Levels > 10 do $UPDATE cAMP_synth 20; repeat [true]
+%mod: Calcium_Levels < 5 do $UPDATE cAMP_synth 0.5; repeat [true]
+
+
+%mod: 'Glu_Trigger' > 0 do $UPDATE 'Glu_Release' 1500000000000000/Theta; repeat [true]
+%mod: 'Glu_Trigger' = 0 do $UPDATE 'Glu_Release' 0; repeat [true]
+
+//for above, 3000000000000000/Theta is 1Hz rate of fire
+//adjust rate accordingly.
+
+%mod: alarm 300 do $SNAPSHOT "steady_state_300";

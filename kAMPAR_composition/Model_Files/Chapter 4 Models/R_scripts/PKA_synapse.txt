@@ -1,0 +1,45 @@
+library(writexl)
+library(readxl)
+
+
+average_ctheta <- read_excel("average_ctheta.xlsx")
+average_stheta <- read_excel("average_stheta.xlsx")
+average_theta <- read_excel("average_theta.xlsx")
+average_delta <- read_excel("average_delta.xlsx")
+average_HFS <- read_excel("average_HFS.xlsx")
+average_weakLTP <- read_excel("average_weakLTP.xlsx")
+average_LFS <- read_excel("average_LFS.xlsx")
+average_LFSPP50 <- read_excel("average_LFSPP50.xlsx")
+average_LFSPP200 <- read_excel("average_LFSPP200.xlsx")
+
+
+Kinase_Protocols <- lapply(list(average_ctheta, average_stheta, average_theta, average_delta, average_HFS, average_weakLTP, average_LFS, average_LFSPP50, average_LFSPP200), function(x) x[, c("S845_P","S845_PP")])
+
+Syn_Kinase <- as.data.frame(Kinase_Protocols)
+
+write_xlsx(Syn_Kinase, "temp845.xlsx")
+
+
+Kinase_Protocols <- lapply(list(average_ctheta, average_stheta, average_theta, average_delta, average_HFS, average_weakLTP, average_LFS, average_LFSPP50, average_LFSPP200), function(x) x[, c("S831_P","S831_PP")])
+
+Syn_Kinase <- as.data.frame(Kinase_Protocols)
+
+write_xlsx(Syn_Kinase, "temp831.xlsx")
+
+
+
+library(readxl)
+library(ggplot2)
+library(viridis)
+S845 <- read_excel("temp845.xlsx")
+
+ggplot(`S845`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.2) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.2) + geom_line(aes(y = Theta,colour = "Theta"), size=1.2) + geom_line(aes(y = Delta,colour = "Delta"), size=1.2)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.2) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("S845.png", dpi = 320)
+
+
+S831 <- read_excel("temp831.xlsx")
+
+ggplot(`S831`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.2) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.2) + geom_line(aes(y = Theta,colour = "Theta"), size=1.2) + geom_line(aes(y = Delta,colour = "Delta"), size=1.2)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.2) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("S831.png", dpi = 320)

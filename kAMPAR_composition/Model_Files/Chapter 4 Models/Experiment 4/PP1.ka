@@ -1,0 +1,41 @@
+//PP1 I2 Model
+//A model to capture the binding. inhibition and inactivation reactions between PP1 and I2 (or modulator)
+//Until recently a forgotten, and far more likely, mechanism behind the activity of PP1 within dendritic spines
+
+//I2/modulator between 0.08 and 1 nM [Goris et al 1984]
+//0.1 nM is enough for inactivation
+//1 -10 nM causes inhibition (instant) [Foulkes et al 1983]
+
+//PP1 0.25uM in skeletal muscle same amount of I2
+//1.8 uM in dendrite so 1.8 uM I2? 
+//1.5 nM I2 from Yang et al 2000 for a large amount of phosphatase however
+
+//1:1 ratio I2 to PP1 generates 0.3 mol phosphate
+
+//PP1 is localised to spine/PSD by binding to F-actin assoicated neurabin. This is inhibited by PKA phosphorylation at S861
+
+PP1(neurabin[./1], S861{u}),neurabin(PP1[./1])	@ 
+
+//If PP1 is phosphorylated at Thr320 by CDK5, then PP1 is inactivated/stuck in inactive state [check]
+
+PP1(State{Active/Inactive},Thr320{u/p}),CDK5	@
+
+//I2 binds to an inactivation site (high affinity)
+
+PP1(State{Inactive},I2[./1], S861{u},Thr320{u}),I2(PP1[./1])	@
+
+//If GSK3-beta is present, it phosphoryates I2 [rate-limiting step]
+
+PP1(State{Inactive},I2[1]),I2(PP1[1], Thr72{u/p}),GSK3b()	@
+
+//This phosphorylation rotates I2 to also bind to the inactive catalytic site, activating it
+
+PP1(State{Inactive/Active}[./2],I2[1]),I2(PP1[1], Thr72{p}[./2])	@
+
+//The active site then (rather neatly) dephosphorylates I2
+
+PP1(State{Active}[2],I2[1]),I2(PP1[1], Thr72{p/u}[2])	@
+
+//I2 swings back, revealing the active site, which persists for 20 mins to hour (half life 10 - 30 mins)
+
+PP1(State{Active}[2/.],I2[1]),I2(PP1[1], Thr72{u}[2/.])	@

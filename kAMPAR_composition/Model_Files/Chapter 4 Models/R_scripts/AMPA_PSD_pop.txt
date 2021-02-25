@@ -1,0 +1,91 @@
+library(readxl)
+library(ggplot2)
+library(viridis)
+library(writexl)
+
+average_ctheta <- read_excel("average_ctheta.xlsx")
+average_stheta <- read_excel("average_stheta.xlsx")
+average_theta <- read_excel("average_theta.xlsx")
+average_delta <- read_excel("average_delta.xlsx")
+average_HFS <- read_excel("average_HFS.xlsx")
+average_weakLTP <- read_excel("average_weakLTP.xlsx")
+average_LFS <- read_excel("average_LFS.xlsx")
+average_LFSPP50 <- read_excel("average_LFSPP50.xlsx")
+average_LFSPP200 <- read_excel("average_LFSPP200.xlsx")
+
+AMPA_pop_Protocols <- lapply(list(average_ctheta, average_stheta, average_theta, average_delta, average_HFS, average_weakLTP, average_LFS, average_LFSPP50, average_LFSPP200), function(x) x[, c("Synaptic_12","Synaptic_23")])
+
+Syn_Receptors <- as.data.frame(
+AMPA_pop_Protocols)
+
+
+write_xlsx(Syn_Receptors, "temp.xlsx")
+
+
+
+library(readxl)
+library(ggplot2)
+library(viridis)
+A12 <- read_excel("AMPA_Pop.xlsx", sheet = "Exocytosis")
+
+ggplot(`A12`, aes(T)) + geom_line(aes(y = cTheta_12,colour = "cTheta_12"), size=1.2) + geom_line(aes(y = sTheta_12,colour = "sTheta_12"), size=1.2) + geom_line(aes(y = Theta_12,colour = "Theta_12"), size=1.2) + geom_line(aes(y = Delta_12,colour = "Delta_12"), size=1.2)+ geom_line(aes(y = HFS_12,colour = "HFS_12"), size=1.2) + geom_line(aes(y = weakLTP_12,colour = "weakLTP_12"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("A12_Exo.png", dpi = 320)
+
+
+ggplot(`A12`, aes(T)) + geom_line(aes(y = LFS_12,colour = "LFS_12"), size=1.2) + geom_line(aes(y = LFSPP50_12,colour = "LFSPP50_12"), size=1.2) + geom_line(aes(y = LFSPP200_12,colour = "LFSPP200_12"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("LFS_A12_Exo.png", dpi = 320)
+
+A23 <- read_excel("AMPA_Pop.xlsx", sheet = "Exocytosis")
+
+ggplot(`A23`, aes(T)) + geom_line(aes(y = cTheta_23,colour = "cTheta_23"), size=1.2) + geom_line(aes(y = sTheta_23,colour = "sTheta_23"), size=1.2) + geom_line(aes(y = Theta_23,colour = "Theta_23"), size=1.2) + geom_line(aes(y = Delta_23,colour = "Delta_23"), size=1.2)+ geom_line(aes(y = HFS_23,colour = "HFS_23"), size=1.2) + geom_line(aes(y = weakLTP_23,colour = "weakLTP_23"), size=1.2) +  scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("A23_Exo.png", dpi = 320)
+
+ggplot(`A23`, aes(T)) + geom_line(aes(y = LFS_23,colour = "LFS_23"), size=1.2) + geom_line(aes(y = LFSP50_23,colour = "LFSPP50_23"), size=1.2) + geom_line(aes(y = LFSPP200_23,colour = "LFSPP200_23"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("LFS_A23_Exo.png", dpi = 320)
+
+A12 <- read_excel("AMPA_Pop.xlsx", sheet = "Receptor")
+
+ggplot(`A12`, aes(T)) + geom_line(aes(y = cTheta_12,colour = "cTheta_12"), size=1.2) + geom_line(aes(y = sTheta_12,colour = "sTheta_12"), size=1.2) + geom_line(aes(y = Theta_12,colour = "Theta_12"), size=1.2) + geom_line(aes(y = Delta_12,colour = "Delta_12"), size=1.2)+ geom_line(aes(y = HFS_12,colour = "HFS_12"), size=1.2) + geom_line(aes(y = weakLTP_12,colour = "weakLTP_12"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("A12_Receptor.png", dpi = 320)
+
+ggplot(`A12`, aes(T)) + geom_line(aes(y = LFS_12,colour = "LFS_12"), size=1.2) + geom_line(aes(y = LFSPP50_12,colour = "LFSPP50_12"), size=1.2) + geom_line(aes(y = LFSPP200_12,colour = "LFSPP200_12"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("LFS_A12_Receptor.png", dpi = 320)
+
+A23 <- read_excel("AMPA_Pop.xlsx", sheet = "Receptor")
+
+ggplot(`A23`, aes(T)) + geom_line(aes(y = cTheta_23,colour = "cTheta_23"), size=1.2) + geom_line(aes(y = sTheta_23,colour = "sTheta_23"), size=1.2) + geom_line(aes(y = Theta_23,colour = "Theta_23"), size=1.2) + geom_line(aes(y = Delta_23,colour = "Delta_23"), size=1.2)+ geom_line(aes(y = HFS_23,colour = "HFS_23"), size=1.2) + geom_line(aes(y = weakLTP_23,colour = "weakLTP_23"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("A23_Receptor.png", dpi = 320)
+
+
+ggplot(`A23`, aes(T)) + geom_line(aes(y = LFS_23,colour = "LFS_23"), size=1.2) + geom_line(aes(y = LFSP50_23,colour = "LFSPP50_23"), size=1.2) + geom_line(aes(y = LFSPP200_23,colour = "LFSPP200_23"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("LFS_A23_Receptor.png", dpi = 320)
+
+
+
+A12 <- read_excel("AMPA_Pop.xlsx", sheet = "Slot")
+
+ggplot(`A12`, aes(T)) + geom_line(aes(y = cTheta_12,colour = "cTheta_12"), size=1.2) + geom_line(aes(y = sTheta_12,colour = "sTheta_12"), size=1.2) + geom_line(aes(y = Theta_12,colour = "Theta_12"), size=1.2) + geom_line(aes(y = Delta_12,colour = "Delta_12"), size=1.2)+ geom_line(aes(y = HFS_12,colour = "HFS_12"), size=1.2) + geom_line(aes(y = weakLTP_12,colour = "weakLTP_12"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("A12_Slot.png", dpi = 320)
+
+ggplot(`A12`, aes(T)) + geom_line(aes(y = LFS_12,colour = "LFS_12"), size=1.2) + geom_line(aes(y = LFSPP50_12,colour = "LFSPP50_12"), size=1.2) + geom_line(aes(y = LFSPP200_12,colour = "LFSPP200_12"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("LFS_A12_Slot.png", dpi = 320)
+
+A23 <- read_excel("AMPA_Pop.xlsx", sheet = "Slot")
+
+ggplot(`A23`, aes(T)) + geom_line(aes(y = cTheta_23,colour = "cTheta_23"), size=1.2) + geom_line(aes(y = sTheta_23,colour = "sTheta_23"), size=1.2) + geom_line(aes(y = Theta_23,colour = "Theta_23"), size=1.2) + geom_line(aes(y = Delta_23,colour = "Delta_23"), size=1.2)+ geom_line(aes(y = HFS_23,colour = "HFS_23"), size=1.2) + geom_line(aes(y = weakLTP_23,colour = "weakLTP_23"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("A23_Slot.png", dpi = 320)
+
+ggplot(`A23`, aes(T)) + geom_line(aes(y = LFS_23,colour = "LFS_23"), size=1.2) + geom_line(aes(y = LFSP50_23,colour = "LFSPP50_23"), size=1.2) + geom_line(aes(y = LFSPP200_23,colour = "LFSPP200_23"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("LFS_A23_Slot.png", dpi = 320)

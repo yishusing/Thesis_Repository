@@ -1,0 +1,442 @@
+	//Avogadro's Number (umol)
+	%var: 'NA'	6.022e23
+	//Compartment volume
+	%var: 'V'	1e-16	//L - size of spine head in AMPS
+	
+	 
+	//Rate constants
+	
+	
+	//###########################
+	//#	open-close state rates  #
+	//###########################
+	
+	%var: Bkoff	4495
+	%var: Bkon	5000000/60220000
+	
+	%var: BSc	0.0601
+	
+	%var: p		0.5
+		
+	%var: BSk4	300000
+	%var: BSk3	BSk4*(BSc^p)
+	%var: BSk2	BSk3*(BSc^p)
+	%var: BSk1	BSk2*(BSc^p)
+	%var: BSk0	BSk1*(BSc^p)
+	
+	//################
+	
+	%var: Skoff	270.4
+	%var: Skon	5000000/60220000
+	
+	%var: SMc	0.0616
+	
+	%var: SBk4	860
+	%var: SBk3	SBk4/(BSc^p)
+	%var: SBk2	SBk3/(BSc^p)	
+	%var: SBk1	SBk2/(BSc^p)
+	%var: SBk0	SBk1/(BSc^p)
+	
+	%var: SMk4	20000
+	%var: SMk3	SMk4*(SMc^p)
+	%var: SMk2	SMk3*(SMc^p)
+	%var: SMk1	SMk2*(SMc^p)
+	%var: SMk0	SMk1*(SMc^p)
+	
+	//################
+
+	%var: Mkoff	16.65
+	%var: Mkon	5000000/60220000
+	
+	%var: MLc		0.069
+	
+	%var: MSk4	145
+	%var: MSk3	MSk4/(SMc^p)
+	%var: MSk2	MSk3/(SMc^p)
+	%var: MSk1	MSk2/(SMc^p)
+	%var: MSk0	MSk1/(SMc^p)
+	
+	%var: MLk4	50000
+	%var: MLk3	MLk4*(MLc^p)
+	%var: MLk2	MLk3*(MLc^p)
+	%var: MLk1	MLk2*(MLc^p)
+	%var: MLk0	MLk1*(MLc^p)
+	
+	//################
+	
+	%var: Lkoff	1.149
+	%var: Lkon	5000000/60220000
+	
+	%var: LMk4	691
+	%var: LMk3	LMk4/(MLc^p)
+	%var: LMk2	LMk3/(MLc^p)
+	%var: LMk1	LMk2/(MLc^p)
+	%var: LMk0	LMk1/(MLc^p)
+	
+	//#####################
+	//# Enzyme parameters #
+	//##################### 
+
+	//%var: pp1_km_s831			2.00005e-06
+	//%var: pp1_kcat_s831		0.35
+    
+    %var: pp1_s831_k1			874978.13/60220000
+    %var: pp1_s831_k2			1.40
+    %var: pp1_s831_k3			0.35
+	
+	//%var: pp1_km_s845			0.971451e-06
+	//%var: pp1_kcat_s845		0.17
+    
+    %var: pp1_s845_k1			874979.80/60220000
+    %var: pp1_s845_k2			0.68
+    %var: pp1_s845_k3			0.17
+	
+	//%var: pka_km				7.50021e-06
+	//%var: pka_kcat				6
+    
+	%var: pka_k1				3999888/60220000
+	%var: pka_k2				24
+    %var: pka_k3				6
+    
+	//%var: camkii_km			90.0006e-06
+	//%var: camkii_kcat			0.5
+    
+    %var: camkii_k1				27777.59/60220000
+	%var: camkii_k2				2
+    %var: camkii_k3				0.5
+	
+	//%var: pp2b_km				4.97061e-06
+	//%var: pp2b_kcat			2
+    
+    %var: pp2b_k1				2011825.51/60220000
+	%var: pp2b_k2				8
+	%var: pp2b_k3				2	
+    
+    
+    //I1 control reaction parameters
+    
+	%var: PKA_I1_k1				6000000/60220000
+	%var: PKA_I1_k2				36
+    %var: PKA_I1_k3				9
+    
+	%var: PP2A_I1_k1			3832259/60220000
+	%var: PP2A_I1_k2			24
+	%var: PP2A_I1_k3			6
+    
+	%var: PP2A_PP1_I1_k1		3832259/60220000
+	%var: PP2A_PP1_I1_k2		24
+	%var: PP2A_PP1_I1_k3		6
+    
+	%var: PP2B_I1_k1			34200/60220000
+	%var: PP2B_I1_k2			0.14
+	%var: PP2B_I1_k3			0.03
+    
+	%var: PP2B_PP1_I1_k1		34200/60220000
+	%var: PP2B_PP1_I1_k2		0.14
+	%var: PP2B_PP1_I1_k3		0.03
+    
+	//##########################
+	//#	Initial concentrations #
+	//##########################
+	%var: Basal_12			8.302693916e-07*60220000
+	%var: Glu				0 /*0.0008302693916*60220000*/
+
+	%var: PKA				0 /*1.41e-06*60220000*/
+	%var: PP1				3.5e-06*60220000
+	%var: Ca				0.08e-06*60220000
+    %var: PSD_slots			8.302693916e-07*60220000
+
+    //#831 and 845 are phosphorylation sites on GLuA1 associated with AMPAR translocation
+	//#880 and 876 are phosphorylation sites on GLuA2 associated with GRIP/PICK activity
+	//#Extra ubiquitination sites are possible to add later
+	 
+	//# B,S,M,L correspond to basal (closed) -> large (fully open) states of the receptor
+	//# For the purposes of this model, each of these states is treated as a separate AMPAR population
+
+	%agent: AMPAR_12(S831{u p pp},S845{u p pp},S880{u p pp},Y876{u p pp},Open{B S M L},Glu{g0 g1 g2 g3 g4},Anchor{tethered, untethered})
+	%agent: AMPAR_23(S880{u p pp},Y876{u p pp},Open{B S M L},Glu{g0 g1 g2 g3 g4})
+	%agent: AMPAR_Pool()
+    
+	%agent: Glutamate()
+    %agent: PSD()
+    
+	%agent: PP1(b)
+	%agent: PP2B(b,Active{i a})
+	%agent: PKA(b,Active{i a})
+
+	%agent: PKA_Inhibitor(b)
+	%agent: I1(Phos{u p},b)
+
+	//%agent: CAM(b)
+	%agent: Ca()
+	%agent: PP2A(b)
+
+
+
+	%init: Basal_12								AMPAR_12(S831{u},S845{u},S880{u},Y876{u},Open{B},Glu{g0},Anchor{untethered})
+	%init: Glu 									Glutamate()
+	%init: 0									AMPAR_Pool()
+	%init: PP1									PP1(b)
+	%init: 1e-06*60220000						PP2B(b,Active{i})
+	%init: 0.2592592593e-06*60220000			PKA_Inhibitor(b)
+	%init: 1.11111e-06*60220000					PP2A(b)							
+	//%init: 1.25e-06*60220000						CAM(b)
+	%init: 8e-6*60220000						I1(Phos{u},b)				/*will need I1 phos p too???*/														
+	%init: PKA									PKA(b,Active{a})
+	%init: Ca									Ca()	
+    %init: PSD_slots							PSD()
+
+//				Observables
+
+
+	/*%obs: 'Basal'	|AMPAR_12(Open{B})|
+	%obs: 'Small' 	|AMPAR_12(Open{S})|
+	%obs: 'Medium' 	|AMPAR_12(Open{M})|
+	%obs: 'Large' 	|AMPAR_12(Open{L})|*/
+	
+	%obs: 'B0'		|AMPAR_12(Open{B},Glu{g0},Anchor{tethered})|
+	/*%obs: 'B1'		|AMPAR_12(Open{B},Glu{g1})|
+	%obs: 'B2'		|AMPAR_12(Open{B},Glu{g2})|
+	%obs: 'B3'		|AMPAR_12(Open{B},Glu{g3})|
+	%obs: 'B4'		|AMPAR_12(Open{B},Glu{g4})|
+	
+	%obs: 'S0'		|AMPAR_12(Open{S},Glu{g0})|
+	%obs: 'S1'		|AMPAR_12(Open{S},Glu{g1})|
+	%obs: 'S2'		|AMPAR_12(Open{S},Glu{g2})|
+	%obs: 'S3'		|AMPAR_12(Open{S},Glu{g3})|
+	%obs: 'S4'		|AMPAR_12(Open{S},Glu{g4})|
+	
+	%obs: 'M0'		|AMPAR_12(Open{M},Glu{g0})|
+	%obs: 'M1'		|AMPAR_12(Open{M},Glu{g1})|
+	%obs: 'M2'		|AMPAR_12(Open{M},Glu{g2})|
+	%obs: 'M3'		|AMPAR_12(Open{M},Glu{g3})|
+	%obs: 'M4'		|AMPAR_12(Open{M},Glu{g4})|
+
+	%obs: 'L0'		|AMPAR_12(Open{L},Glu{g0})|
+	%obs: 'L1'		|AMPAR_12(Open{L},Glu{g1})|
+	%obs: 'L2'		|AMPAR_12(Open{L},Glu{g2})|
+	%obs: 'L3'		|AMPAR_12(Open{L},Glu{g3})|
+	%obs: 'L4'		|AMPAR_12(Open{L},Glu{g4})|
+	
+	%obs: 'S831_P'	|AMPAR_12(S831{p})|
+	%obs: 'S831_PP'	|AMPAR_12(S831{pp})|
+	%obs: 'S831_u'	|AMPAR_12(S831{u})|
+	%obs: 'S845_P'	|AMPAR_12(S845{p})|
+	%obs: 'S845_PP'	|AMPAR_12(S845{pp})|
+	%obs: 'S845_u'	|AMPAR_12(S845{u})|
+    
+    %obs: I1_P	|I1(Phos{p})|
+    %obs: I1_u	|I1(Phos{u})|
+    %obs: 'PKA_a'	|PKA(Active{a})|
+    %obs: 'PKA_i'	|PKA(Active{i})|
+    %obs: 'PKA_killer'	|PKA_Inhibitor(b)|
+    %obs: 'Glutamate_level'	|Glutamate()|
+    %obs: 'Conductance'		'S831_u'+(1.5*'S831_P')+(2*'S831_PP')*/
+    
+    %obs: 'Tethering_rate' |AMPAR_12(Open{B},Glu{g0},Anchor{untethered})|
+		
+//				Reactions
+
+
+	//AMPAR Pool to act as simple AMPAR synth reaction
+	//To be made more complex in later versions
+	
+	//AMPAR_Pool() -> AMPAR_12(S831{u},S845{u},S880{u},Y876{u},Open{B},Glu{g0})	@ 100
+    
+    //Rate of AMPAR tethering to PSD - no PSD molecule for now, just a state for the AMPAR
+    
+    
+    
+    . <-> PKA(Active{a}) @ 1000000/60220000,0
+    
+    Glutamate() -> . @ 1000000000/60220000
+	
+	//###############
+	//#	  GLUA1/2   #
+	//###############
+	 
+	//Basal-to-Small_12 
+	AMPAR_12(Open{B},Glu{g0}) <-> AMPAR_12(Open{S},Glu{g0}) @ BSk0,SBk0
+	AMPAR_12(Open{B},Glu{g1}) <-> AMPAR_12(Open{S},Glu{g1}) @ BSk1,SBk1
+	AMPAR_12(Open{B},Glu{g2}) <-> AMPAR_12(Open{S},Glu{g2}) @ BSk2,SBk2
+	AMPAR_12(Open{B},Glu{g3}) <-> AMPAR_12(Open{S},Glu{g3}) @ BSk3,SBk3
+	AMPAR_12(Open{B},Glu{g4}) <-> AMPAR_12(Open{S},Glu{g4}) @ BSk4,SBk4
+    
+    AMPAR_12(S831{p},Open{B},Glu{g0}) <-> AMPAR_12(S831{p},Open{S},Glu{g0}) @ 1.5*BSk0,SBk0
+	AMPAR_12(S831{p},Open{B},Glu{g1}) <-> AMPAR_12(S831{p},Open{S},Glu{g1}) @ 1.5*BSk1,SBk1
+	AMPAR_12(S831{p},Open{B},Glu{g2}) <-> AMPAR_12(S831{p},Open{S},Glu{g2}) @ 1.5*BSk2,SBk2
+	AMPAR_12(S831{p},Open{B},Glu{g3}) <-> AMPAR_12(S831{p},Open{S},Glu{g3}) @ 1.5*BSk3,SBk3
+	AMPAR_12(S831{p},Open{B},Glu{g4}) <-> AMPAR_12(S831{p},Open{S},Glu{g4}) @ 1.5*BSk4,SBk4
+    
+    AMPAR_12(S831{pp},Open{B},Glu{g0}) <-> AMPAR_12(S831{pp},Open{S},Glu{g0}) @ 2*BSk0,SBk0
+	AMPAR_12(S831{pp},Open{B},Glu{g1}) <-> AMPAR_12(S831{pp},Open{S},Glu{g1}) @ 2*BSk1,SBk1
+	AMPAR_12(S831{pp},Open{B},Glu{g2}) <-> AMPAR_12(S831{pp},Open{S},Glu{g2}) @ 2*BSk2,SBk2
+	AMPAR_12(S831{pp},Open{B},Glu{g3}) <-> AMPAR_12(S831{pp},Open{S},Glu{g3}) @ 2*BSk3,SBk3
+	AMPAR_12(S831{pp},Open{B},Glu{g4}) <-> AMPAR_12(S831{pp},Open{S},Glu{g4}) @ 2*BSk4,SBk4
+	
+	//Small-to-Medium_12
+	AMPAR_12(Open{S},Glu{g0}) <-> AMPAR_12(Open{M},Glu{g0}) @ SMk0,MSk0
+	AMPAR_12(Open{S},Glu{g1}) <-> AMPAR_12(Open{M},Glu{g1}) @ SMk1,MSk1
+	AMPAR_12(Open{S},Glu{g2}) <-> AMPAR_12(Open{M},Glu{g2}) @ SMk2,MSk2
+	AMPAR_12(Open{S},Glu{g3}) <-> AMPAR_12(Open{M},Glu{g3}) @ SMk3,MSk3
+	AMPAR_12(Open{S},Glu{g4}) <-> AMPAR_12(Open{M},Glu{g4}) @ SMk4,MSk4
+	
+    AMPAR_12(S831{p},Open{S},Glu{g0}) <-> AMPAR_12(S831{p},Open{M},Glu{g0}) @ 1.5*SMk0,MSk0
+	AMPAR_12(S831{p},Open{S},Glu{g1}) <-> AMPAR_12(S831{p},Open{M},Glu{g1}) @ 1.5*SMk1,MSk1
+	AMPAR_12(S831{p},Open{S},Glu{g2}) <-> AMPAR_12(S831{p},Open{M},Glu{g2}) @ 1.5*SMk2,MSk2
+	AMPAR_12(S831{p},Open{S},Glu{g3}) <-> AMPAR_12(S831{p},Open{M},Glu{g3}) @ 1.5*SMk3,MSk3
+	AMPAR_12(S831{p},Open{S},Glu{g4}) <-> AMPAR_12(S831{p},Open{M},Glu{g4}) @ 1.5*SMk4,MSk4
+    
+    AMPAR_12(S831{pp},Open{S},Glu{g0}) <-> AMPAR_12(S831{pp},Open{M},Glu{g0}) @ 2*SMk0,MSk0
+	AMPAR_12(S831{pp},Open{S},Glu{g1}) <-> AMPAR_12(S831{pp},Open{M},Glu{g1}) @ 2*SMk1,MSk1
+	AMPAR_12(S831{pp},Open{S},Glu{g2}) <-> AMPAR_12(S831{pp},Open{M},Glu{g2}) @ 2*SMk2,MSk2
+	AMPAR_12(S831{pp},Open{S},Glu{g3}) <-> AMPAR_12(S831{pp},Open{M},Glu{g3}) @ 2*SMk3,MSk3
+	AMPAR_12(S831{pp},Open{S},Glu{g4}) <-> AMPAR_12(S831{pp},Open{M},Glu{g4}) @ 2*SMk4,MSk4
+    
+    
+	//Medium-to-Large_12
+	AMPAR_12(Open{M},Glu{g0}) <-> AMPAR_12(Open{L},Glu{g0}) @ MLk0,LMk0
+	AMPAR_12(Open{M},Glu{g1}) <-> AMPAR_12(Open{L},Glu{g1}) @ MLk1,LMk1
+	AMPAR_12(Open{M},Glu{g2}) <-> AMPAR_12(Open{L},Glu{g2}) @ MLk2,LMk2
+	AMPAR_12(Open{M},Glu{g3}) <-> AMPAR_12(Open{L},Glu{g3}) @ MLk3,LMk3
+	AMPAR_12(Open{M},Glu{g4}) <-> AMPAR_12(Open{L},Glu{g4}) @ MLk4,LMk4
+    
+    AMPAR_12(S831{p},Open{M},Glu{g0}) <-> AMPAR_12(S831{p},Open{L},Glu{g0}) @ 1.5*MLk0,LMk0
+	AMPAR_12(S831{p},Open{M},Glu{g1}) <-> AMPAR_12(S831{p},Open{L},Glu{g1}) @ 1.5*MLk1,LMk1
+	AMPAR_12(S831{p},Open{M},Glu{g2}) <-> AMPAR_12(S831{p},Open{L},Glu{g2}) @ 1.5*MLk2,LMk2
+	AMPAR_12(S831{p},Open{M},Glu{g3}) <-> AMPAR_12(S831{p},Open{L},Glu{g3}) @ 1.5*MLk3,LMk3
+	AMPAR_12(S831{p},Open{M},Glu{g4}) <-> AMPAR_12(S831{p},Open{L},Glu{g4}) @ 1.5*MLk4,LMk4
+    
+    AMPAR_12(S831{pp},Open{M},Glu{g0}) <-> AMPAR_12(S831{pp},Open{L},Glu{g0}) @ 2*MLk0,LMk0
+	AMPAR_12(S831{pp},Open{M},Glu{g1}) <-> AMPAR_12(S831{pp},Open{L},Glu{g1}) @ 2*MLk1,LMk1
+	AMPAR_12(S831{pp},Open{M},Glu{g2}) <-> AMPAR_12(S831{pp},Open{L},Glu{g2}) @ 2*MLk2,LMk2
+	AMPAR_12(S831{pp},Open{M},Glu{g3}) <-> AMPAR_12(S831{pp},Open{L},Glu{g3}) @ 2*MLk3,LMk3
+	AMPAR_12(S831{pp},Open{M},Glu{g4}) <-> AMPAR_12(S831{pp},Open{L},Glu{g4}) @ 2*MLk4,LMk4
+    
+ 	
+	//#####################
+	//#  PSD Tethering    #
+	//#####################
+    
+    AMPAR_12(Open{B},Glu{g0},Anchor{untethered}),PSD() <-> AMPAR_12(Open{B},Glu{g1},Anchor{tethered}),. @ 3000000/60220000,0
+	   
+	
+	//######################
+	//#	Glutamate Binding #
+	//#####################
+	
+	//Glu_bind_basal_12
+	AMPAR_12(Open{B},Glu{g0},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{B},Glu{g1},Anchor{tethered}),. @ 4*Bkon,Bkoff
+	AMPAR_12(Open{B},Glu{g1},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{B},Glu{g2},Anchor{tethered}),. @ 3*Bkon,2*Bkoff
+	AMPAR_12(Open{B},Glu{g2},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{B},Glu{g3},Anchor{tethered}),. @ 2*Bkon,3*Bkoff
+	AMPAR_12(Open{B},Glu{g3},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{B},Glu{g4},Anchor{tethered}),. @ Bkon,4*Bkoff
+	
+	//Glu_bind_small_12 
+	AMPAR_12(Open{S},Glu{g0},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{S},Glu{g1},Anchor{tethered}),. @ 4*Skon,Skoff
+	AMPAR_12(Open{S},Glu{g1},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{S},Glu{g2},Anchor{tethered}),. @ 3*Skon,2*Skoff
+	AMPAR_12(Open{S},Glu{g2},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{S},Glu{g3},Anchor{tethered}),. @ 2*Skon,3*Skoff
+	AMPAR_12(Open{S},Glu{g3},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{S},Glu{g4},Anchor{tethered}),. @ Skon,4*Skoff
+	
+	//Glu_bind_medium_12 
+	AMPAR_12(Open{M},Glu{g0},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{M},Glu{g1},Anchor{tethered}),. @ 4*Mkon,Mkoff
+	AMPAR_12(Open{M},Glu{g1},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{M},Glu{g2},Anchor{tethered}),. @ 3*Mkon,2*Mkoff
+	AMPAR_12(Open{M},Glu{g2},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{M},Glu{g3},Anchor{tethered}),. @ 2*Mkon,3*Mkoff
+	AMPAR_12(Open{M},Glu{g3},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{M},Glu{g4},Anchor{tethered}),. @ Mkon,4*Mkoff
+	
+	//Glu_bind_large_12 
+	AMPAR_12(Open{L},Glu{g0},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{L},Glu{g1},Anchor{tethered}),. @ 4*Lkon,Lkoff
+	AMPAR_12(Open{L},Glu{g1},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{L},Glu{g2},Anchor{tethered}),. @ 3*Lkon,2*Lkoff
+	AMPAR_12(Open{L},Glu{g2},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{L},Glu{g3},Anchor{tethered}),. @ 2*Lkon,3*Lkoff
+	AMPAR_12(Open{L},Glu{g3},Anchor{tethered}),Glutamate() <-> AMPAR_12(Open{L},Glu{g4},Anchor{tethered}),. @ Lkon,4*Lkoff
+	
+	
+	//###############
+	//#	Phos/Dephos	#
+	//###############
+	
+	//PP1_dephos
+    //S845
+	AMPAR_12(S845{p}[.]),PP1(b[.]) <-> AMPAR_12(S845{p}[1]),PP1(b[1]) 							@ pp1_s845_k1,pp1_s845_k2
+    AMPAR_12(S845{p}[1]),PP1(b[1]) -> AMPAR_12(S845{u}[.]),PP1(b[.])							@ pp1_s845_k3
+    
+    AMPAR_12(S845{pp}[.]),PP1(b[.]) <-> AMPAR_12(S845{pp}[1]),PP1(b[1]) 						@ pp1_s845_k1,pp1_s845_k2
+    AMPAR_12(S845{pp}[1]),PP1(b[1]) -> AMPAR_12(S845{u}[.]),PP1(b[.])							@ pp1_s845_k3
+    
+    //S831
+	AMPAR_12(S831{p}[.]),PP1(b[.]) <-> AMPAR_12(S831{p}[1]),PP1(b[1]) 							@ pp1_s831_k1,pp1_s831_k2
+    AMPAR_12(S831{p}[1]),PP1(b[1]) -> AMPAR_12(S831{u}[.]),PP1(b[.]) 							@ pp1_s831_k3
+    
+    AMPAR_12(S831{pp}[.]),PP1(b[.]) <-> AMPAR_12(S831{pp}[1]),PP1(b[1]) 						@ pp1_s831_k1,pp1_s831_k2
+    AMPAR_12(S831{pp}[1]),PP1(b[1]) -> AMPAR_12(S831{u}[.]),PP1(b[.]) 							@ pp1_s831_k3
+	
+    
+    
+	//PKA_phos
+	AMPAR_12(S845{u}[.]),PKA(b[.],Active{a}) <-> AMPAR_12(S845{u}[1]),PKA(b[1],Active{a}) 		@ pka_k1,pka_k2
+	AMPAR_12(S845{u}[1]),PKA(b[1],Active{a}) -> AMPAR_12(S845{p}[.]),PKA(b[.],Active{a}) 		@ pka_k3
+    
+    AMPAR_12(S845{p}[.]),PKA(b[.],Active{a}) <-> AMPAR_12(S845{p}[1]),PKA(b[1],Active{a}) 		@ pka_k1,pka_k2
+	AMPAR_12(S845{p}[1]),PKA(b[1],Active{a}) -> AMPAR_12(S845{pp}[.]),PKA(b[.],Active{a}) 		@ pka_k3
+    
+    
+    
+    
+	//CAMKII_phos
+    AMPAR_12(S831{u}[.]),CK(T286{p}[.]) <-> AMPAR_12(S831{u}[1]),CK(T286{p}[1])					@camkii_k1,camkii_k2
+    AMPAR_12(S831{u}[1]),CK(T286{p}[1]) -> AMPAR_12(S831{p}[.]),CK(T286{p}[.])					@camkii_k3
+
+    AMPAR_12(S831{p}[.]),CK(T286{p}[.]) <-> AMPAR_12(S831{p}[1]),CK(T286{p}[1])					@camkii_k1,camkii_k2
+    AMPAR_12(S831{p}[1]),CK(T286{p}[1]) -> AMPAR_12(S831{pp}[.]),CK(T286{p}[.])					@camkii_k3
+
+
+
+
+	//PP2B_dephos
+	AMPAR_12(S845{p}[.]),PP2B(b[.],Active{a}) <-> AMPAR_12(S845{p}[1]),PP2B(b[1],Active{a}) 	@ pp2b_k1,pp2b_k2
+    AMPAR_12(S845{p}[1]),PP2B(b[1],Active{a}) -> AMPAR_12(S845{u}[.]),PP2B(b[.],Active{a}) 		@ pp2b_k3
+	
+	//##################
+	//#	  Act/Inhib    #
+	//##################
+	
+	PP1(b[.]),I1(Phos{u}[.]) <-> PP1(b[1]),I1(Phos{u}[1]) 	@ 0,0.1
+	
+	PP1(b[.]),I1(Phos{p}[.]) <-> PP1(b[1]),I1(Phos{p}[1])	@ 49.998/60220000,0.01
+    
+
+	
+	I1(Phos{p}[.]),PP2A(b[.]) <-> I1(Phos{p}[2]),PP2A(b[2]) @ PP2A_I1_k1,PP2A_I1_k2
+    I1(Phos{p}[2]),PP2A(b[2]) -> I1(Phos{u}[.]),PP2A(b[.])  @ PP2A_I1_k3
+	
+    PP1(b[1]),I1(Phos{p}[1]b[.]),PP2A(b[.]) <-> PP1(b[1]),I1(Phos{p}[1],b[3]),PP2A(b[3])  @ PP2A_PP1_I1_k1,PP2A_PP1_I1_k2
+    PP1(b[1]),I1(Phos{p}[1],b[3]),PP2A(b[3]) -> PP1(b[1]),I1(Phos{u}[1]b[.]),PP2A(b[.])   @ PP2A_PP1_I1_k3
+    
+    
+    
+    
+    PKA_Inhibitor(),PKA(Active{a}) <-> .,PKA(Active{i})		@ 53999500/60220000,0.9 /*Will need to remove Inhibitor in diff reaction/inactivate to fit with HB model*/
+    
+    I1(Phos{u}[.]),PKA(Active{a}[.]) <-> I1(Phos{u}[1]),PKA(Active{a}[1])	@ PKA_I1_k1,PKA_I1_k2
+    I1(Phos{u}[1]),PKA(Active{a}[1]) -> I1(Phos{p}[.]),PKA(Active{a}[.])	@ PKA_I1_k3  
+    
+    
+    
+    
+	PP2B(Active{i}),CaM(ck) <-> PP2B(Active{a}),CaM(ck)					    @ 1666/60220000,10 		/*Taken from Alcantara 2003. Could be refined Same as above wrt remove or inactivate CAM*/
+	
+    I1(Phos{p}[.]),PP2B(Active{a}[.]) <-> I1(Phos{p}[4]),PP2B(Active{a}[4])	@ PP2B_I1_k1,PP2B_I1_k2
+    I1(Phos{p}[4]),PP2B(Active{a}[4]) ->  I1(Phos{u}[.]),PP2B(Active{a}[.])	@ PP2B_I1_k3 /*Should this not inactivate PP2B? Is that not enzymatic then though?*/
+    
+	PP1(b[1]),I1(Phos{p}[1],b[.]),PP2B(b[.],Active{a}) <-> PP1(b[1]),I1(Phos{p}[1],b[5]),PP2B(b[5],Active{a})		@ PP2B_PP1_I1_k1,PP2B_PP1_I1_k2
+    PP1(b[1]),I1(Phos{p}[1],b[5]),PP2B(Active{a},b[5]) -> PP1(b[1]),I1(Phos{u}[1],b[.]),PP2B(Active{a},b[.]) 		@ PP2B_PP1_I1_k3
+
+
+	%mod: alarm 50 do $ADD 0.0008302693916*60220000 Glutamate();
+    //%mod: alarm 49 do $SNAPSHOT "conductance.ka"; 
+    //%mod: 'Glu' >  40000 do $UPDATE 'pka_k1' 'pka_k1'*10;
+    //%mod: 'Glu' >  40000 do $UPDATE 'pka_k3' 'pka_k3'*10;
+ 	//%mod: 'Glutamate_level' >  40000 do $UPDATE 'camkii_k1' 'camkii_k1'*5;
+ 	//%mod: 'Glutamate_level' >  40000 do $UPDATE 'camkii_k3' 'camkii_k3'*5;
+	//%mod: 'Glutamate_level' <  40000 do $UPDATE 'camkii_k3' 'camkii_k3';
+	//%mod: 'Glutamate_level' <  40000 do $UPDATE 'camkii_k1' 'camkii_k1';
+	//%mod: 'Glutamate_level' >  400 do $ADD 2000 CK(T286{p});

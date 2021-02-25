@@ -1,0 +1,54 @@
+library(readxl)
+library(ggplot2)
+library(viridis)
+library(writexl)
+
+Basal <- read_excel("Basal.xlsx", sheet = "Synaptic Receptors")
+Late_LTP_Slots <- read_excel("late_LTP_Slots.xlsx", sheet = "Synaptic Receptors")
+LTP <- read_excel("LTP.xlsx", sheet = "Synaptic Receptors")
+LTP_length <- read_excel("LTP_length.xlsx", sheet = "Synaptic Receptors")
+new_LTP <- read_excel("new_LTP.xlsx", sheet = "Synaptic Receptors")
+LTP_PP1 <- read_excel("LTP_PP1.xlsx", sheet = "Synaptic Receptors")
+Basal_Slots <- read_excel("Basal_Slots.xlsx", sheet = "Synaptic Receptors")
+LTP_Slots <- read_excel("LTP_Slots.xlsx", sheet = "Synaptic Receptors")
+
+
+
+ggplot(`Basal`, aes(Time)) + geom_line(aes(y = All12,colour = "All12"), size=1.2) + geom_line(aes(y = All23,colour = "All23"), size=1.2) + geom_line(aes(y = equal,colour = "equal"), size=1.2) + geom_line(aes(y = most12,colour = "most12"), size=1.2) + geom_line(aes(y = most23,colour = "most23"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("Basal.png", dpi = 320)
+
+
+ggplot(`Late_LTP_Slots`, aes(Time)) + geom_line(aes(y = Slots_10,colour = "Slots_10"), size=1.2) + geom_line(aes(y = Slots_25,colour = "Slots_25"), size=1.2) + geom_line(aes(y = Slots_50,colour = "Slots_50"), size=1.2) + geom_line(aes(y = Slots_100,colour = "Slots_100"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("Late_LTP_Slots.png", dpi = 320)
+
+
+ggplot(`LTP`, aes(Time)) + geom_line(aes(y = All12,colour = "All12"), size=1.2) + geom_line(aes(y = All23,colour = "All23"), size=1.2) + geom_line(aes(y = equal,colour = "equal"), size=1.2) + geom_line(aes(y = most12,colour = "most12"), size=1.2) + geom_line(aes(y = most23,colour = "most23"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("LTP.png", dpi = 320)
+
+
+ggplot(`LTP_length`, aes(Time)) + geom_line(aes(y = LTP_1,colour = "LTP_1"), size=1.2) + geom_line(aes(y = LTP_2,colour = "LTP_2"), size=1.2) + geom_line(aes(y = LTP_5,colour = "LTP_5"), size=1.2) + geom_line(aes(y = LTP_10,colour = "LTP_10"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("LTP_length.png", dpi = 320)
+
+
+ggplot(`new_LTP`, aes(Time)) + geom_line(aes(y = All12,colour = "All12"), size=1.2) + geom_line(aes(y = All23,colour = "All23"), size=1.2) + geom_line(aes(y = equal,colour = "equal"), size=1.2) + geom_line(aes(y = most12,colour = "most12"), size=1.2) + geom_line(aes(y = most23,colour = "most23"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("new_LTP.png", dpi = 320)
+
+
+ggplot(`LTP_PP1`, aes(Time)) + geom_line(aes(y = All12,colour = "All12"), size=1.2) + geom_line(aes(y = All23,colour = "All23"), size=1.2) + geom_line(aes(y = equal,colour = "equal"), size=1.2) + geom_line(aes(y = most12,colour = "most12"), size=1.2) + geom_line(aes(y = most23,colour = "most23"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("LTP_PP1.png", dpi = 320)
+
+
+ggplot(`Basal_Slots`, aes(Time)) + geom_line(aes(y = Slots_10,colour = "Slots_10"), size=1.2) + geom_line(aes(y = Slots_25,colour = "Slots_25"), size=1.2) + geom_line(aes(y = Slots_50,colour = "Slots_50"), size=1.2) + geom_line(aes(y = Slots_100,colour = "Slots_100"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("Basal_Slots.png", dpi = 320)
+
+
+ggplot(`LTP_Slots`, aes(Time)) + geom_line(aes(y = Slots_10,colour = "Slots_10"), size=1.2) + geom_line(aes(y = Slots_25,colour = "Slots_25"), size=1.2) + geom_line(aes(y = Slots_50,colour = "Slots_50"), size=1.2) + geom_line(aes(y = Slots_100,colour = "Slots_100"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+
+ggsave("LTP_Slots.png", dpi = 320)

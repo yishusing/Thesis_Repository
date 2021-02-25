@@ -1,0 +1,81 @@
+//Calcium Signalling Model
+//A control mechanism for Calcium's influence on kinase and phosphatase activity
+//Derived from AMPS, itself derived from data collated in DOQCS
+
+%agent: Ca(b)
+%agent: CaM(ck,calcium{c0 c2 c3 c4}) /*will need integrating with CaM in camkii model*/
+%agent: CaNAB(calcium{c0 c2 c4})		/*same as PP2B, will need integrating too*/
+
+%agent: cAMP()
+%agent: AC1()
+%agent: AC2()
+%agent: PDE()
+%agent: R2C2(cAMP{c0 c1 c2 c3 c4},C{c0 c1 c2}) /*PKA subunits with diff cAMP amounts (up to 4) bound. C ARE PKA.*/
+//good to note here: cAMP binds to the R subunits. Then C's can be released and phosphorylate things
+%agent: PKA_Inhibitor(b)
+
+%var: x 54000000/Theta
+%var: y 75000000/Theta
+
+%var: cAMP_synth 0.1
+%var: Ca_synth 	2
+%var: Ca_breakdown 2700000/Theta
+
+//Initialisation
+%init: 10	cAMP()
+%init: 30	R2C2(cAMP{c0},C{c2})
+%init: 15	PKA_Inhibitor(b)
+%init: 1586	CaM(calcium{c0})
+%init: 5	Ca()
+%init: 60	CaNAB(calcium{c0})
+//%init: 20	PKA(Active{a})
+
+
+//Observation
+%obs: Calcium_Levels	|Ca()|
+%obs: 'R2C2_total'	|R2C2()|
+%obs: 'cAMP_levels'	|cAMP()|
+%obs: 'Active_CaM'	|CaM(calcium{c4})|
+
+//Rules
+
+//cAMP binding to regulatory subunits (proto-PKA)
+R2C2(cAMP{c0},C{c2}),cAMP() <-> R2C2(cAMP{c1},C{c2}),. @ x,33
+R2C2(cAMP{c1},C{c2}),cAMP() <-> R2C2(cAMP{c2},C{c2}),. @ x,33
+R2C2(cAMP{c2},C{c2}),cAMP() <-> R2C2(cAMP{c3},C{c2}),. @ y,110
+R2C2(cAMP{c3},C{c2}),cAMP() <-> R2C2(cAMP{c4},C{c2}),. @ y,32.5
+
+//Activation of PKA
+R2C2(cAMP{c4},C{c2}),. <-> R2C2(cAMP{c4},C{c1}),PKA(Active{a}) @ 60,(18000000/Theta)
+R2C2(cAMP{c4},C{c1}),. <-> R2C2(cAMP{c4},C{c0}),PKA(Active{a}) @ 60,(18000000/Theta)
+
+//Control of PKA
+PKA(b[.],Active{a}),PKA_Inhibitor(b[.]) <-> PKA(b[1],Active{i}),PKA_Inhibitor(b[1]) @ (60000000/Theta),1
+
+
+//Ca binding to CAM
+Ca(),Ca(),CaM(calcium{c0}) <-> .,.,CaM(calcium{c2}) @ (720000000/Theta),72 
+Ca(),CaM(calcium{c2}) <-> .,CaM(calcium{c3}) @ (36000000/Theta),10
+Ca(),CaM(calcium{c3}) <-> .,CaM(calcium{c4}) @ (4650000/Theta),10
+
+//Ca binding to CaNAB (PP2B)
+//Slightly simplified- CaMCa4 with CaNABCa4 leads to PP2B(active)
+Ca(),Ca(),CaNAB(calcium{c0}) <-> .,.,CaNAB(calcium{c2}) @ (10008000000/Theta),1
+Ca(),Ca(),CaNAB(calcium{c2}) <-> .,.,CaNAB(calcium{c4}) @ (3600100/Theta),1
+CaM(calcium{c4}),CaNAB(calcium{c4}),. <-> .,.,PP2B(Active{a}) @ (599994000/Theta),1
+
+cAMP()- @ 6000000/Theta
+cAMP()+ @ cAMP_synth
+
+Ca()+ @ Ca_synth
+Ca()- @ Ca_breakdown
+
+//CaM(calcium{c4})- @ 27000000/Theta
+
+%mod: Calcium_Levels > 8 do $UPDATE Ca_breakdown 2700000000/Theta; repeat [true]
+%mod: Calcium_Levels < 2 do $UPDATE Ca_breakdown 2700000/Theta; repeat [true]
+
+%mod: Calcium_Levels > 8 do $UPDATE cAMP_synth 50; repeat [true]
+%mod: Calcium_Levels < 5 do $UPDATE cAMP_synth 0.5; repeat [true]
+
+%mod: alarm 100 do $ADD 3000 Ca();

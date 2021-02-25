@@ -1,0 +1,172 @@
+//GluA1 (K868) ubiquitination model 
+//GluA1 ubiquitination acts as an endocytic signal
+//GluA1 phosphorylation at Ser845 prevents subunit interaction with Nedd4 - preventing ubiquitination and inhibiting AMPAR downregulation
+//Amyloid-beta induces GluA1 ubiquitination --> targeted GluA1 phosphorylation provide a therapeuatic intervention in AD treatment
+
+
+//Ubiquitinating enzymes//
+
+%agent: E1(s{u0 u1}, E2)
+%agent: E2(E1, s{u0 u1}, Nedd4, RNF)
+%agent: Nedd4(Cdomain{Active Inactive},E2, s{u0 u1}, AMPAR)
+%agent: DUB (AMPAR)
+
+
+//AMPAR//
+
+//%agent: AMPAR_12(anchor{untethered tethered},open_state{basal small medium large},glutamate{g0 g1 g2 g3 g4}, S831{u p pp}, S845{u p pp}, K868{u0 u1 u2 u3 u4 u5}, K870{u0 u1 u2 u3 u4 u5}, K882 {u0 u1 u2 u3 u4 u5},DUB,Nedd4,RNF)
+
+
+//Initial Concentrations//
+
+%init: 180 E1()
+%init: 180 E2()
+%init: 18 Nedd4(Cdomain{Inactive},s{u0})
+%init: 18 DUB ()
+//%init: 1.8 AMPAR_12 ()
+
+
+
+
+//Variables//
+
+//%var: 'V' 3E-16 //litres, average dendritic spine volume
+%var: 'A' 6.022E14 
+%var: 'AV' 'A'*'V'
+
+%var: 'E1 activation rate' 0.01/'AV'
+%var: 'E1 deactivation rate' 0.1
+%var: 'E1 association rate' 0.01/'AV'
+%var: 'E1 dissociation rate' 0.1
+%var: 'E1 ub transfer rate' 0.2
+%var: 'E2 association rate' 0.01/'AV'
+%var: 'E2 dissociation rate' 0.1
+%var: 'E2 ub transfer rate' 0.2
+
+%var: 'E3 bind rate' 0.002/'AV'
+%var: 'E3 dissociation rate' 0.7
+%var: 'kub1' 0.02
+%var: 'kub2' 0.4
+%var: 'kub3' 0.4
+%var: 'kub4' 0.4
+%var: 'kub5' 0.4
+
+%var: 'DUB bind rate' 0.6/'AV'
+%var: 'DUB dissociation rate' 0.043
+%var: 'kdub' 0.054
+
+
+%var: 'ks' 0.08
+%var: 'kd' 0.01
+%var: 'kb' 0.0001
+
+%var: Nedd4_assoc	27777.59/Theta
+%var: Nedd4_dissoc	2
+%var: Nedd4_Activate	5
+
+//Observations//
+
+
+
+%obs: 'K868' |AMPAR_12(K868{u0})|
+%obs: 'K868_ub' |AMPAR_12(K868{u1})|
+%obs: 'K868_ub2' |AMPAR_12(K868{u2})|
+%obs: 'K868_ub3' |AMPAR_12(K868{u3})|
+%obs: 'K868_ub4' |AMPAR_12(K868{u4})|
+%obs: 'K868_ub5' |AMPAR_12(K868{u5})|
+
+
+
+
+//Rules//
+
+// AMPAR synthesis & degradation 
+//AMPAR_12(K868{u0}[.],K870{u0}[.],K882{u0}[.])+ @ 'ks'
+//AMPAR_12(K868{u0}[.],K870{u0}[.],K882{u0}[.])- @ 'kb'
+
+
+//E1 activates ubiquitin 
+E1(s{u0}) <-> E1(s{u1}) @ 'E1 activation rate','E1 deactivation rate'
+
+
+//Ub transfer from E1 to E2
+E1(s{u1},E2[.]), E2(E1[.],s{u0}) <-> E1(s{u1},E2[1]), E2(E1[1],s{u0}) @ 'E1 association rate','E1 dissociation rate'
+E1(s{u1/u0},E2[1/.]), E2(E1[1/.],s{u0/u1}) @ 'E1 ub transfer rate' //E2 accepts Ub from E1
+
+
+//Ub transfer from E2 to Nedd4
+E2(s{u1},Nedd4[.]), Nedd4(E2[.],s{u0}) <-> E2(s{u1},Nedd4[1]), Nedd4(E2[1],s{u0}) @ 'E2 association rate','E2 dissociation rate' //Nedd4 associates with E2
+E2(s{u1/u0},Nedd4[1/.]), Nedd4(E2[1/.],s{u0/u1}) @ 'E2 ub transfer rate' //Nedd4 accepts Ub from E2
+
+//Nedd4 Activation by Ca
+
+Nedd4(Cdomain{Inactive}[.]),CK(T286{p}[.]) <-> Nedd4(Cdomain{Inactive}[1]),CK(T286{p}[1]) @ Nedd4_assoc, Nedd4_dissoc
+Nedd4(Cdomain{Inactive/Active}[1/.]),CK(T286{p}[1/.]) @ Nedd4_Activate
+
+//K868 ubiquitination rules//
+
+//Nedd4 ubiquitinates K868
+Nedd4(Cdomain{Active},s{u1},AMPAR[.]), AMPAR_12(K868{u0},S845{u},Nedd4[.]) <-> Nedd4(Cdomain{Active},s{u1},AMPAR[1]), AMPAR_12(K868{u0},S845{u},Nedd4[1]) @ 'E3 bind rate','E3 dissociation rate' //Nedd4 associates with AMPAR K868
+Nedd4(Cdomain{Active},s{u1/u0},AMPAR[1/.]), AMPAR_12(K868{u0/u1},Nedd4[1/.]) @ 'kub1' //Nedd4 ubiquitinates AMPAR K868
+
+AMPAR_12(Anchor{endo},K868{u1}[.])- @ 'kb' //K868_ub degradation
+
+
+//K868_ub deubiquitination
+DUB(AMPAR[.]), AMPAR_12(K868{u1},DUB[.]) <-> DUB(AMPAR[1]), AMPAR_12(K868{u1},DUB[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with AMPAR-K868_ub
+DUB(AMPAR[1/.]), AMPAR_12(K868{u1/u0},DUB[1/.]) @ 'kdub' //DUB deubiquitinates AMPAR-K868_ub
+
+
+//Nedd4 ubiquitinates K868_ub
+Nedd4(Cdomain{Active},s{u1},AMPAR[.]), AMPAR_12(K868{u1},S845{u},Nedd4[.]) <-> Nedd4(Cdomain{Active},s{u1},AMPAR[1]), AMPAR_12(K868{u1},S845{u},Nedd4[1]) @ 'E3 bind rate','E3 dissociation rate' //Nedd4 associates with K868-ub
+Nedd4(Cdomain{Active},s{u1/u0},AMPAR[1/.]), AMPAR_12(K868{u1/u2},Nedd4[1/.]) @ 'kub2' //Nedd4 ubiquitinates K868_ub
+
+AMPAR_12(Anchor{endo},K868{u2}[.])- @ 'kb' //K868_ub2 degradation rate
+
+
+//K868_ub2 deubiquitination
+DUB(AMPAR[.]), AMPAR_12(K868{u2},DUB[.]) <-> DUB(AMPAR[1]), AMPAR_12(K868{u2},DUB[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with AMPAR-K868_ub2
+DUB(AMPAR[1/.]), AMPAR_12(K868{u2/u1},DUB[1/.]) @ 'kdub' //DUB deubiquitinates AMPAR-K868_ub2
+
+
+
+//Nedd4 ubiquitinates K868_ub2
+Nedd4(Cdomain{Active},s{u1},AMPAR[.]), AMPAR_12(K868{u2},S845{u},Nedd4[.]) <-> Nedd4(Cdomain{Active},s{u1},AMPAR[1]), AMPAR_12(K868{u2},S845{u},Nedd4[1]) @ 'E3 bind rate','E3 dissociation rate' //Nedd4 associates with K868_ub2
+Nedd4(Cdomain{Active},s{u1/u0},AMPAR[1/.]), AMPAR_12(K868{u2/u3},Nedd4[1/.]) @ 'kub3' //Nedd4 ubiquitinates K868_ub2
+
+AMPAR_12(Anchor{endo},K868{u3}[.])- @ 'kb' //K868_ub3 degradation rate
+
+
+//K868_ub3 deubiquitination
+DUB(AMPAR[.]), AMPAR_12(K868{u3},DUB[.]) <-> DUB(AMPAR[1]), AMPAR_12(K868{u3},DUB[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with AMPAR-K868_ub3
+DUB(AMPAR[1/.]), AMPAR_12(K868{u3/u2},DUB[1/.]) @ 'kdub' //DUB deubiquitinates AMPAR-K868_ub3
+
+
+
+//Nedd4 ubiquitinates K868_ub3
+Nedd4(Cdomain{Active},s{u1},AMPAR[.]), AMPAR_12(K868{u3},S845{u},Nedd4[.]) <-> Nedd4(Cdomain{Active},s{u1},AMPAR[1]), AMPAR_12(K868{u3},S845{u},Nedd4[1]) @ 'E3 bind rate','E3 dissociation rate' //Nedd4 associates with K868_ub3
+Nedd4(Cdomain{Active},s{u1/u0},AMPAR[1/.]), AMPAR_12(K868{u3/u4},Nedd4[1/.]) @ 'kub4' //Nedd4 ubiquitinates K868_ub3
+
+AMPAR_12(Anchor{endo},K868{u4}[.])- @ 'kb' //K868_ub4 degradation rate
+
+
+//K868_ub4 deubiquitination
+DUB(AMPAR[.]), AMPAR_12(K868{u4},DUB[.]) <-> DUB(AMPAR[1]), AMPAR_12(K868{u4},DUB[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with AMPAR-K868_ub4
+DUB(AMPAR[1/.]), AMPAR_12(K868{u4/u3},DUB[1/.]) @ 'kdub' //DUB deubiquitinates AMPAR-K868_ub4
+
+
+
+//Nedd4 ubiquitinates K868_ub4
+Nedd4(Cdomain{Active},s{u1},AMPAR[.]), AMPAR_12(K868{u4},S845{u},Nedd4[.]) <-> Nedd4(Cdomain{Active},s{u1},AMPAR[1]), AMPAR_12(K868{u4},S845{u},Nedd4[1]) @ 'E3 bind rate','E3 dissociation rate' //Nedd4 associates with K868_ub4
+Nedd4(Cdomain{Active},s{u1/u0},AMPAR[1/.]), AMPAR_12(K868{u4/u5},Nedd4[1/.]) @ 'kub5' //Nedd4 ubiquitinates K868_ub4
+
+AMPAR_12(Anchor{endo},K868{u5}[.])- @ 'kd' //K868_ub5 degradation rate
+
+
+//K868_ub5 deubiquitination
+DUB(AMPAR[.]), AMPAR_12(K868{u5},DUB[.]) <-> DUB(AMPAR[1]), AMPAR_12(K868{u5},DUB[1]) @ 'DUB bind rate','DUB dissociation rate' //DUB associates with AMPAR-K868_ub5
+DUB(AMPAR[1/.]), AMPAR_12(K868{u5/u4},DUB[1/.]) @ 'kdub' //DUB deubiquitinates AMPAR-K868_ub5
+
+//%mod: alarm 1000 do $STOP "K868.ka";
+//%mod: [true] do $DIN "AMPAR.json" [true];
+//%mod: [T]>3000 do $DIN "AMPAR.json" [false];

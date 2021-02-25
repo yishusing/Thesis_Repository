@@ -1,0 +1,15 @@
+
+
+LTP_Slot_10 <- read.csv("LTP_Slot_10.csv")
+LTP_Slot_25 <- read.csv("LTP_Slot_25.csv")
+LTP_Slot_50 <- read.csv("LTP_Slot_50.csv")
+LTP_Slot_100 <- read.csv("LTP_Slot_100.csv")
+
+
+LTP_Slots <- lapply(list(LTP_Slot_10,LTP_Slot_25,LTP_Slot_50,LTP_Slot_100), function(x) x[, c("Synaptic_12","Synaptic_23","Synaptic_receptors")])
+
+Syn_Receptors <- as.data.frame(
+LTP_Slots)
+
+
+write.csv(Syn_Receptors, "LTP_Slots.csv")

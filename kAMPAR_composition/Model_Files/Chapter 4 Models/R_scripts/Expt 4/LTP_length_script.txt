@@ -1,0 +1,13 @@
+
+LTP_1 <- read.csv("LTP_1.csv")
+LTP_2 <- read.csv("LTP_2.csv")
+LTP_5 <- read.csv("LTP_5.csv")
+LTP_10 <- read.csv("LTP_10.csv")
+
+LTP_length <- lapply(list(LTP_1,LTP_2,LTP_5,LTP_10), function(x) x[, c("Synaptic_12","Synaptic_23","Synaptic_receptors")])
+
+Syn_Receptors <- as.data.frame(
+LTP_length)
+
+
+write.csv(Syn_Receptors, "LTP_length.csv")

@@ -1,0 +1,1159 @@
+// "uuid" : "72102604"
+%def: "seed" "1029832085"
+%def: "dumpIfDeadlocked" "true"
+%def: "maxConsecutiveClash" "2"
+%def: "plotPeriod" "1" "t.u."
+%def: "outputFileName" "intialise.csv"
+
+%agent:
+  AMPAR_1(S831{u p pp ppp pppp} S845{u p pp ppp pppp} S818{u p pp ppp pppp}
+          Open{B S M L} Glu{g0 g1 g2 g3 g4} Anchor{endo X EZ PSD}
+          K868{u0 u1 u2 u3 u4 u5} DUB Nedd4)
+%agent:
+  AMPAR_12(S831{u p pp}[b.PP1 T286.CK] S845{u p pp}[b.PP1 b.PKA b.CaNAB]
+           S880{u p pp}[b.PP2A Calcium.PKC] Y876{u p pp}[b.SFK b.PTPMEG]
+           S818{u p pp}[b.PP2A Calcium.PKC] Open{B S M L} Glu{g0 g1 g2 g3 g4}
+           Anchor{endo X EZ PSD} K868{u0 u1 u2 u3 u4 u5}
+           K870{u0 u1 u2 u3 u4 u5} K882{u0 u1 u2 u3 u4 u5} DUB[AMPAR.DUB]
+           Nedd4[AMPAR.Nedd4] RNF[AMPAR.RNF] pick1[ampa.PICK1]
+           grip[ampa.GRIP] nsf)
+%agent:
+  AMPAR_23(S880{u p pp}[b.PP2A Calcium.PKC] Y876{u p pp}[b.SFK b.PTPMEG]
+           Open{B S M L} Glu{g0 g1 g2 g3 g4} Anchor{endo X EZ PSD}
+           K870{u0 u1 u2 u3 u4 u5} K882{u0 u1 u2 u3 u4 u5} DUB[AMPAR.DUB]
+           Nedd4 RNF[AMPAR.RNF] pick1[ampa.PICK1] grip[ampa.GRIP] nsf)
+%agent: Glutamate()
+%agent: PSD()
+%agent: PP1(b[S831.AMPAR_12 S845.AMPAR_12 Phos.I1 T286.CK])
+%agent: PKA(b[S845.AMPAR_12 b.PKA_Inhibitor] Active{i a}[Phos.I1])
+%agent: I1(Phos{u p}[b.PP1 Active.PKA b.PP2A b.CaNAB] b[b.PP2A b.CaNAB])
+%agent: PP2A(b[S880.AMPAR_12 S818.AMPAR_12 S880.AMPAR_23 Phos.I1 b.I1])
+%agent: Random()
+%agent: Ca(b)
+%agent: CaM(ck[cam.CK] calcium{c0 c2 c3 c4}[calcium.CaNAB])
+%agent: CaNAB(b[S845.AMPAR_12 Phos.I1 b.I1] calcium{c0 c2 c4}[calcium.CaM])
+%agent: cAMP()
+%agent: AC1()
+%agent: AC2()
+%agent: PDE()
+%agent: R2C2(cAMP{c0 c1 c2 c3 c4} C{c0 c1 c2})
+%agent: PKA_Inhibitor(b[b.PKA])
+%agent:
+  CK(a[b.CK] b[a.CK] c[d.CK] d[c.CK] cam[ck.CaM] nedd4
+     T286{u p pp}[S831.AMPAR_12 b.PP1 CK.RNF Cdomain.Nedd4] T305{u p pp}
+     T306{u p pp})
+%agent: PP(dp)
+%agent: GRIP(ampa[grip.AMPAR_12 grip.AMPAR_23])
+%agent: PICK1(ampa[pick1.AMPAR_12 pick1.AMPAR_23] pkc[pick1.PKC])
+%agent:
+  PKC(pick1[pkc.PICK1]
+      Calcium{c0 c1 c2 c3}[S880.AMPAR_12 S818.AMPAR_12 S880.AMPAR_23]
+      Location{Endo Membrane})
+%agent: NSF(ampa)
+%agent: SFK(b[Y876.AMPAR_12 Y876.AMPAR_23])
+%agent: PTPMEG(b[Y876.AMPAR_12 Y876.AMPAR_23])
+%agent:
+  RNF(CK{Active Inactive}[T286.CK] E2[RNF.E2]
+      AMPAR[RNF.AMPAR_12 RNF.AMPAR_23] s{u0 u1})
+%agent: E1(s{u0 u1} E2[E1.E2])
+%agent: E2(E1[E2.E1] s{u0 u1} Nedd4[E2.Nedd4] RNF[E2.RNF])
+%agent:
+  Nedd4(Cdomain{Active Inactive}[T286.CK] E2[Nedd4.E2] s{u0 u1}
+        AMPAR[Nedd4.AMPAR_12])
+%agent: DUB(AMPAR[DUB.AMPAR_12 DUB.AMPAR_23])
+%agent: GluA1(b)
+%agent: GluA2(b)
+%agent: GluA3(b)
+%agent: GluA1A1(b)
+%agent: GluA1A2(b)
+%agent: GluA2A3(b)
+%agent: Counter()
+%agent: G()
+%agent: N()
+%agent: P()
+%agent: Gb()
+%agent: Nb()
+%agent: Pb()
+%agent: Gc()
+%agent: Nc()
+%agent: Pc()
+
+%var:/*0*/ 'Gap' |G()|
+%var:/*1*/ 'Pulse_Number' |N()|
+%var:/*2*/ 'Pulse_Numberb' |Nb()|
+%var:/*3*/ 'Pulse_Numberc' |Nc()|
+%var:/*4*/ 'Pulse' |P()|
+%var:/*5*/ 'Gapb' |Gb()|
+%var:/*6*/ 'Pulseb' |Pb()|
+%var:/*7*/ 'Gapc' |Gc()|
+%var:/*8*/ 'Pulsec' |Pc()|
+%var:/*9*/ 'B0' |AMPAR_12(Open{B} Glu{g0} Anchor{PSD})|
+%var:/*10*/ 'B1' |AMPAR_12(Open{B} Glu{g1})|
+%var:/*11*/ 'B2' |AMPAR_12(Open{B} Glu{g2})|
+%var:/*12*/ 'B3' |AMPAR_12(Open{B} Glu{g3})|
+%var:/*13*/ 'B4' |AMPAR_12(Open{B} Glu{g4})|
+%var:/*14*/ 'S0' |AMPAR_12(Open{S} Glu{g0} Anchor{PSD})|
+%var:/*15*/ 'S1' |AMPAR_12(Open{S} Glu{g1})|
+%var:/*16*/ 'S2' |AMPAR_12(Open{S} Glu{g2})|
+%var:/*17*/ 'S3' |AMPAR_12(Open{S} Glu{g3})|
+%var:/*18*/ 'S4' |AMPAR_12(Open{S} Glu{g4})|
+%var:/*19*/ 'M0' |AMPAR_12(Open{M} Glu{g0} Anchor{PSD})|
+%var:/*20*/ 'M1' |AMPAR_12(Open{M} Glu{g1})|
+%var:/*21*/ 'M2' |AMPAR_12(Open{M} Glu{g2})|
+%var:/*22*/ 'M3' |AMPAR_12(Open{M} Glu{g3})|
+%var:/*23*/ 'M4' |AMPAR_12(Open{M} Glu{g4})|
+%var:/*24*/ 'L0' |AMPAR_12(Open{L} Glu{g0} Anchor{PSD})|
+%var:/*25*/ 'L1' |AMPAR_12(Open{L} Glu{g1})|
+%var:/*26*/ 'L2' |AMPAR_12(Open{L} Glu{g2})|
+%var:/*27*/ 'L3' |AMPAR_12(Open{L} Glu{g3})|
+%var:/*28*/ 'L4' |AMPAR_12(Open{L} Glu{g4})|
+%var:/*29*/ 'S0_p' |AMPAR_12(S845{p} Open{S} Glu{g0} Anchor{PSD})|
+%var:/*30*/ 'S1_p' |AMPAR_12(S845{p} Open{S} Glu{g1} Anchor{PSD})|
+%var:/*31*/ 'S2_p' |AMPAR_12(S845{p} Open{S} Glu{g2} Anchor{PSD})|
+%var:/*32*/ 'S3_p' |AMPAR_12(S845{p} Open{S} Glu{g3} Anchor{PSD})|
+%var:/*33*/ 'S4_p' |AMPAR_12(S845{p} Open{S} Glu{g4} Anchor{PSD})|
+%var:/*34*/ 'M0_p' |AMPAR_12(S845{p} Open{M} Glu{g0} Anchor{PSD})|
+%var:/*35*/ 'M1_p' |AMPAR_12(S845{p} Open{M} Glu{g1} Anchor{PSD})|
+%var:/*36*/ 'M2_p' |AMPAR_12(S845{p} Open{M} Glu{g2} Anchor{PSD})|
+%var:/*37*/ 'M3_p' |AMPAR_12(S845{p} Open{M} Glu{g3} Anchor{PSD})|
+%var:/*38*/ 'M4_p' |AMPAR_12(S845{p} Open{M} Glu{g4} Anchor{PSD})|
+%var:/*39*/ 'L0_p' |AMPAR_12(S845{p} Open{L} Glu{g0} Anchor{PSD})|
+%var:/*40*/ 'L1_p' |AMPAR_12(S845{p} Open{L} Glu{g1} Anchor{PSD})|
+%var:/*41*/ 'L2_p' |AMPAR_12(S845{p} Open{L} Glu{g2} Anchor{PSD})|
+%var:/*42*/ 'L3_p' |AMPAR_12(S845{p} Open{L} Glu{g3} Anchor{PSD})|
+%var:/*43*/ 'L4_p' |AMPAR_12(S845{p} Open{L} Glu{g4} Anchor{PSD})|
+%var:/*44*/ 'S0_pp' |AMPAR_12(S845{pp} Open{S} Glu{g0} Anchor{PSD})|
+%var:/*45*/ 'S1_pp' |AMPAR_12(S845{pp} Open{S} Glu{g1} Anchor{PSD})|
+%var:/*46*/ 'S2_pp' |AMPAR_12(S845{pp} Open{S} Glu{g2} Anchor{PSD})|
+%var:/*47*/ 'S3_pp' |AMPAR_12(S845{pp} Open{S} Glu{g3} Anchor{PSD})|
+%var:/*48*/ 'S4_pp' |AMPAR_12(S845{pp} Open{S} Glu{g4} Anchor{PSD})|
+%var:/*49*/ 'M0_pp' |AMPAR_12(S845{pp} Open{M} Glu{g0} Anchor{PSD})|
+%var:/*50*/ 'M1_pp' |AMPAR_12(S845{pp} Open{M} Glu{g1} Anchor{PSD})|
+%var:/*51*/ 'M2_pp' |AMPAR_12(S845{pp} Open{M} Glu{g2} Anchor{PSD})|
+%var:/*52*/ 'M3_pp' |AMPAR_12(S845{pp} Open{M} Glu{g3} Anchor{PSD})|
+%var:/*53*/ 'M4_pp' |AMPAR_12(S845{pp} Open{M} Glu{g4} Anchor{PSD})|
+%var:/*54*/ 'L0_pp' |AMPAR_12(S845{pp} Open{L} Glu{g0} Anchor{PSD})|
+%var:/*55*/ 'L1_pp' |AMPAR_12(S845{pp} Open{L} Glu{g1} Anchor{PSD})|
+%var:/*56*/ 'L2_pp' |AMPAR_12(S845{pp} Open{L} Glu{g2} Anchor{PSD})|
+%var:/*57*/ 'L3_pp' |AMPAR_12(S845{pp} Open{L} Glu{g3} Anchor{PSD})|
+%var:/*58*/ 'L4_pp' |AMPAR_12(S845{pp} Open{L} Glu{g4} Anchor{PSD})|
+%var:/*59*/ 'Glu_Trigger' |Random()|
+%var:/*60*/ 'Glutamate_level' |Glutamate()|
+%var:/*61*/ 'CaGlu' ((((((((((((((0.015 * S1) + (0.06 * S2)) + (0.105 * S3)) + (0.15 * S4)) + (0.03 * M1)) + (0.12 * M2)) + (0.21 * M3)) + (0.3 * M4)) + (0.045 * L1)) + (0.18 * L2)) + (0.315 * L3)) + (0.45 * L4)) + (1.5 * ((((((((((((0.015 * S1_p) + (0.06 * S2_p)) + (0.105 * S3_p)) + (0.15 * S4_p)) + (0.03 * M1_p)) + (0.12 * M2_p)) + (0.21 * M3_p)) + (0.3 * M4_p)) + (0.045 * L1_p)) + (0.18 * L2_p)) + (0.315 * L3_p)) + (0.45 * L4_p)))) + (2 * ((((((((((((0.015 * S1_pp) + (0.06 * S2_pp)) + (0.105 * S3_pp)) + (0.15 * S4_pp)) + (0.03 * M1_pp)) + (0.12 * M2_pp)) + (0.21 * M3_pp)) + (0.3 * M4_pp)) + (0.045 * L1_pp)) + (0.18 * L2_pp)) + (0.315 * L3_pp)) + (0.45 * L4_pp))))
+%var:/*62*/ 'S831_P' |AMPAR_12(S831{p} Anchor{PSD})|
+%var:/*63*/ 'S831_PP' |AMPAR_12(S831{pp} Anchor{PSD})|
+%var:/*64*/ 'S831_u' |AMPAR_12(S831{u} Anchor{PSD})|
+%var:/*65*/ 'S845_P' |AMPAR_12(S845{p} Anchor{PSD})|
+%var:/*66*/ 'S845_PP' |AMPAR_12(S845{pp} Anchor{PSD})|
+%var:/*67*/ 'S845_u' |AMPAR_12(S845{u} Anchor{PSD})|
+%var:/*68*/ 'S818_u' |AMPAR_12(S818{u} Anchor{PSD})|
+%var:/*69*/ 'S818_p' |AMPAR_12(S818{p} Anchor{PSD})|
+%var:/*70*/ 'S818_pp' |AMPAR_12(S818{pp} Anchor{PSD})|
+%var:/*71*/ 'I1_P' |I1(Phos{p})|
+%var:/*72*/ 'I1_u' |I1(Phos{u})|
+%var:/*73*/ 'PKA_a' |PKA(Active{a})|
+%var:/*74*/ 'PKA_i' |PKA(Active{i})|
+%var:/*75*/ 'Conductance_S845_measure' ((S845_u + (1.5 * S845_P)) + (2 * S845_PP))
+%var:/*76*/ 'Conductance_S831_measure' (((3 * |AMPAR_12(S831{u} Anchor{PSD})|) + (4 * |AMPAR_12(S831{p} Anchor{PSD})|)) + (8 * |AMPAR_12(S831{pp} Anchor{PSD})|))
+%var:/*77*/ 'Slots' |PSD()|
+%var:/*78*/ 'Synaptic_12' |AMPAR_12(Anchor{PSD})|
+%var:/*79*/ 'Synaptic_23' |AMPAR_23(Anchor{PSD})|
+%var:/*80*/ 'Synaptic_receptors' (Synaptic_12 + Synaptic_23)
+%var:/*81*/ 'PP2B' |CaM(calcium{c4}[1]), CaNAB(calcium{c4}[1])|
+%var:/*82*/ 'Calcium_Levels' |Ca()|
+%var:/*83*/ 'R2C2_total' |R2C2()|
+%var:/*84*/ 'cAMP_levels' |cAMP()|
+%var:/*85*/ 'Active_CaM' |CaM(calcium{c4})|
+%var:/*86*/ 'Phos_CK_subunits' |CK(T286{p})|
+%var:/*87*/ 'Phos_CK_hexamers' (|CK(a[1] b[2] T286{p}), CK(a[2] b[3] T286{p}), CK(a[3] b[4] T286{p}), CK(a[4] b[5] T286{p}), CK(a[5] b[6] T286{p}), CK(a[6] b[1] T286{p})| / 6)
+%var:/*88*/ 'Free_PP' |PP1(b[.])|
+%var:/*89*/ 'CaM_CaMKII_C4' |CaM(ck[1] calcium{c4}), CK(cam[1])|
+%var:/*90*/ 'CaMKII_CaM' |CaM(ck[1]), CK(cam[1])|
+%var:/*91*/ 'CaM_CaMKII_all' |CaM(ck[1]), CK(cam[1])|
+%var:/*92*/ 'GRIP_level' |GRIP(ampa[.])|
+%var:/*93*/ 'PICK1_level' |PICK1(ampa[.] pkc[.])|
+%var:/*94*/ 'actPKC_level' |PKC(Calcium{c3})|
+%var:/*95*/ 'PKC_membrane' |PKC(Calcium{c3} Location{Membrane})|
+%var:/*96*/ 'PKC_endo' |PKC(Calcium{c3} Location{Endo})|
+%var:/*97*/ 'PKC_PICK1' |PICK1(pkc[1]), PKC(pick1[1] Calcium{c3})|
+%var:/*98*/ 'PKC_PICK1_AMPAR' |AMPAR_12(S880{u}[1] Y876{u} pick1[2] grip[.]), PICK1(ampa[2] pkc[3]), PKC(pick1[3] Calcium{c3}[1])|
+%var:/*99*/ 'PKC_AMPAR' |AMPAR_12(S880{u}[1] Y876{u}), PKC(pick1[.] Calcium{c3}[1])|
+%var:/*100*/ 'AMPA_S880_membrane' ((|AMPAR_12(S880{p} Anchor{PSD})| + |AMPAR_12(S880{p} Anchor{X})|) + |AMPAR_12(S880{p} Anchor{EZ})|)
+%var:/*101*/ 'AMPA_Y876_membrane' ((|AMPAR_12(Y876{p} Anchor{PSD})| + |AMPAR_12(Y876{p} Anchor{X})|) + |AMPAR_12(Y876{p} Anchor{EZ})|)
+%var:/*102*/ 'AMPA_PSD' |AMPAR_12(Anchor{PSD})|
+%var:/*103*/ 'AMPA_mPSD' |AMPAR_12(Anchor{PSD} grip[.])|
+%var:/*104*/ 'AMPA_mX' |AMPAR_12(Anchor{X} grip[.])|
+%var:/*105*/ 'AMPA_mEZ' |AMPAR_12(Anchor{EZ} grip[.])|
+%var:/*106*/ 'AMPA_X' |AMPAR_12(Anchor{X})|
+%var:/*107*/ 'AMPA_EZ' |AMPAR_12(Anchor{EZ})|
+%var:/*108*/ 'AMPA_endo' |AMPAR_12(Anchor{endo})|
+%var:/*109*/ 'AMPA_membrane' ((AMPA_PSD + AMPA_X) + AMPA_EZ)
+%var:/*110*/ 'AMPA_mobile' ((AMPA_mPSD + AMPA_mX) + AMPA_mEZ)
+%var:/*111*/ 'K868' |AMPAR_12(K868{u0})|
+%var:/*112*/ 'K868_ub' |AMPAR_12(K868{u1})|
+%var:/*113*/ 'K868_ub2' |AMPAR_12(K868{u2})|
+%var:/*114*/ 'K868_ub3' |AMPAR_12(K868{u3})|
+%var:/*115*/ 'K868_ub4' |AMPAR_12(K868{u4})|
+%var:/*116*/ 'K868_ub5' |AMPAR_12(K868{u5})|
+%var:/*117*/ '12K870_ub' |AMPAR_12(K870{u1})|
+%var:/*118*/ '12K870_ub2' |AMPAR_12(K870{u2})|
+%var:/*119*/ '12K870_ub3' |AMPAR_12(K870{u3})|
+%var:/*120*/ '12K870_ub4' |AMPAR_12(K870{u4})|
+%var:/*121*/ '12K870_ub5' |AMPAR_12(K870{u5})|
+%var:/*122*/ '23K870_ub' |AMPAR_23(K870{u1})|
+%var:/*123*/ '23K870_ub2' |AMPAR_23(K870{u2})|
+%var:/*124*/ '23K870_ub3' |AMPAR_23(K870{u3})|
+%var:/*125*/ '23K870_ub4' |AMPAR_23(K870{u4})|
+%var:/*126*/ '23K870_ub5' |AMPAR_23(K870{u5})|
+%var:/*127*/ '12K882_ub' |AMPAR_12(K882{u1})|
+%var:/*128*/ '12K882_ub2' |AMPAR_12(K882{u2})|
+%var:/*129*/ '12K882_ub3' |AMPAR_12(K882{u3})|
+%var:/*130*/ '12K882_ub4' |AMPAR_12(K882{u4})|
+%var:/*131*/ '12K882_ub5' |AMPAR_12(K882{u5})|
+%var:/*132*/ '23K882_ub' |AMPAR_23(K882{u1})|
+%var:/*133*/ '23K882_ub2' |AMPAR_23(K882{u2})|
+%var:/*134*/ '23K882_ub3' |AMPAR_23(K882{u3})|
+%var:/*135*/ '23K882_ub4' |AMPAR_23(K882{u4})|
+%var:/*136*/ '23K882_ub5' |AMPAR_23(K882{u5})|
+%var:/*137*/ 'AMPAR1' |AMPAR_1()|
+%var:/*138*/ 'AMPAR12' |AMPAR_12()|
+%var:/*139*/ 'AMPAR23' |AMPAR_23()|
+%var:/*140*/ 'slot_degen' 0
+%var:/*141*/ 'NA' 6.022e+023
+%var:/*142*/ 'V' 1e-016
+%var:/*143*/ 'V_PSD' 1e-017
+%var:/*144*/ 'Theta' (NA * V)
+%var:/*145*/ 'Theta_PSD' (NA * V_PSD)
+%var:/*146*/ 'Ubq' 0.02
+%var:/*147*/ 'Tag' 0.005
+%var:/*148*/ 'PSD_removal' 0
+%var:/*149*/ 'PKA_Inhib' (53.9995 / Theta)
+%var:/*150*/ 'Activate_PKA' (5000000 / Theta)
+%var:/*151*/ 'Inhibit_PKA' 0
+%var:/*152*/ 'Glu_Remove' (600000000000 / Theta)
+%var:/*153*/ 'Glu_Release' 0
+%var:/*154*/ 'Random_In' (50000000 / Theta)
+%var:/*155*/ 'Random_Out' (45000000000 / Theta)
+%var:/*156*/ 'endo' 0.01
+%var:/*157*/ 'breakdown' 0.01
+%var:/*158*/ 'Bkoff' 4495
+%var:/*159*/ 'Bkon' (5000000 / Theta)
+%var:/*160*/ 'BSc' 0.0601
+%var:/*161*/ 'p' 0.5
+%var:/*162*/ 'BSk4' 300000
+%var:/*163*/ 'BSk3' (BSk4 * (BSc ^ p))
+%var:/*164*/ 'BSk2' (BSk3 * (BSc ^ p))
+%var:/*165*/ 'BSk1' (BSk2 * (BSc ^ p))
+%var:/*166*/ 'BSk0' (BSk1 * (BSc ^ p))
+%var:/*167*/ 'Skoff' 270.4
+%var:/*168*/ 'Skon' (5000000 / Theta)
+%var:/*169*/ 'SMc' 0.0616
+%var:/*170*/ 'SBk4' 860
+%var:/*171*/ 'SBk3' (SBk4 / (BSc ^ p))
+%var:/*172*/ 'SBk2' (SBk3 / (BSc ^ p))
+%var:/*173*/ 'SBk1' (SBk2 / (BSc ^ p))
+%var:/*174*/ 'SBk0' (SBk1 / (BSc ^ p))
+%var:/*175*/ 'SMk4' 20000
+%var:/*176*/ 'SMk3' (SMk4 * (SMc ^ p))
+%var:/*177*/ 'SMk2' (SMk3 * (SMc ^ p))
+%var:/*178*/ 'SMk1' (SMk2 * (SMc ^ p))
+%var:/*179*/ 'SMk0' (SMk1 * (SMc ^ p))
+%var:/*180*/ 'Mkoff' 16.65
+%var:/*181*/ 'Mkon' (5000000 / Theta)
+%var:/*182*/ 'MLc' 0.069
+%var:/*183*/ 'MSk4' 145
+%var:/*184*/ 'MSk3' (MSk4 / (SMc ^ p))
+%var:/*185*/ 'MSk2' (MSk3 / (SMc ^ p))
+%var:/*186*/ 'MSk1' (MSk2 / (SMc ^ p))
+%var:/*187*/ 'MSk0' (MSk1 / (SMc ^ p))
+%var:/*188*/ 'MLk4' 50000
+%var:/*189*/ 'MLk3' (MLk4 * (MLc ^ p))
+%var:/*190*/ 'MLk2' (MLk3 * (MLc ^ p))
+%var:/*191*/ 'MLk1' (MLk2 * (MLc ^ p))
+%var:/*192*/ 'MLk0' (MLk1 * (MLc ^ p))
+%var:/*193*/ 'Lkoff' 1.149
+%var:/*194*/ 'Lkon' (5000000 / Theta)
+%var:/*195*/ 'LMk4' 691
+%var:/*196*/ 'LMk3' (LMk4 / (MLc ^ p))
+%var:/*197*/ 'LMk2' (LMk3 / (MLc ^ p))
+%var:/*198*/ 'LMk1' (LMk2 / (MLc ^ p))
+%var:/*199*/ 'LMk0' (LMk1 / (MLc ^ p))
+%var:/*200*/ 'pp1_s831_k1' (874978.13 / Theta)
+%var:/*201*/ 'pp1_s831_k2' 1.4
+%var:/*202*/ 'pp1_s831_k3' 0.35
+%var:/*203*/ 'pp1_s845_k1' (874979.8 / Theta)
+%var:/*204*/ 'pp1_s845_k2' 0.68
+%var:/*205*/ 'pp1_s845_k3' 0.17
+%var:/*206*/ 'pka_k1' (3999888 / Theta)
+%var:/*207*/ 'pka_k2' 24
+%var:/*208*/ 'pka_k3' 6
+%var:/*209*/ 'camkii_k1' (27777.59 / Theta)
+%var:/*210*/ 'camkii_k2' 2
+%var:/*211*/ 'camkii_k3' 0.5
+%var:/*212*/ 'pp2b_k1' (2011825.51 / Theta)
+%var:/*213*/ 'pp2b_k2' 8
+%var:/*214*/ 'pp2b_k3' 2
+%var:/*215*/ 'PKA_I1_k1' (6000000 / Theta)
+%var:/*216*/ 'PKA_I1_k2' 36
+%var:/*217*/ 'PKA_I1_k3' 9
+%var:/*218*/ 'PP2A_I1_k1' (625391 / Theta)
+%var:/*219*/ 'PP2A_I1_k2' 8
+%var:/*220*/ 'PP2A_I1_k3' 2
+%var:/*221*/ 'PP2A_PP1_I1_k1' (625391 / Theta)
+%var:/*222*/ 'PP2A_PP1_I1_k2' 8
+%var:/*223*/ 'PP2A_PP1_I1_k3' 2
+%var:/*224*/ 'PP2B_I1_k1' (34200 / Theta)
+%var:/*225*/ 'PP2B_I1_k2' 0.14
+%var:/*226*/ 'PP2B_I1_k3' 0.03
+%var:/*227*/ 'PP2B_PP1_I1_k1' (34200 / Theta)
+%var:/*228*/ 'PP2B_PP1_I1_k2' 0.14
+%var:/*229*/ 'PP2B_PP1_I1_k3' 0.03
+%var:/*230*/ 'Basal_12' 66
+%var:/*231*/ 'Basal_23' 19
+%var:/*232*/ 'X_12' 12
+%var:/*233*/ 'X_23' 3
+%var:/*234*/ 'Glu' 0
+%var:/*235*/ 'PKA' 0
+%var:/*236*/ 'PP1' 108
+%var:/*237*/ 'PSD_slots' 0
+%var:/*238*/ 'x' (54000000 / Theta)
+%var:/*239*/ 'y' (75000000 / Theta)
+%var:/*240*/ 'cAMP_synth' 0.5
+%var:/*241*/ 'cAMP_breakdown' (50000000 / Theta)
+%var:/*242*/ 'Ca_synth' 200
+%var:/*243*/ 'Ca_breakdown' (2700000000 / Theta)
+%var:/*244*/ 'CaM_binding' 0.0697
+%var:/*245*/ 'CaM_unbinding' 0.126
+%var:/*246*/ 'ampar_grip_on' (5500000 / Theta)
+%var:/*247*/ 'ampar_grip_off' 0.3
+%var:/*248*/ 'ampar_grip_offPS' 70
+%var:/*249*/ 'ampar_pick_on' (700000 / Theta)
+%var:/*250*/ 'ampar_pick_off' 5
+%var:/*251*/ 'ampar_pick_onstar' (28000000 / Theta)
+%var:/*252*/ 'grip_pick_on' (10000000 / Theta)
+%var:/*253*/ 'grip_pick_off' 5
+%var:/*254*/ 'ansf_on' (1000000 / Theta)
+%var:/*255*/ 'ansf_off' 5
+%var:/*256*/ 'diff_psd_x' 0.05
+%var:/*257*/ 'diff_x_psd' 0.065
+%var:/*258*/ 'diff_x_ez' 0.05
+%var:/*259*/ 'diff_ez_x' 0.0065
+%var:/*260*/ 'ampa_endo' 0.03
+%var:/*261*/ 'ampa_exo' 0.045
+%var:/*262*/ 'pkc_act' 0
+%var:/*263*/ 'pkc_deact' 0.5
+%var:/*264*/ 'pick_pkc_on' (6000000 / Theta)
+%var:/*265*/ 'pick_pkc_off' 1
+%var:/*266*/ 'pkc_k1' (7057057 / Theta)
+%var:/*267*/ 'pkc_k2' 18.8
+%var:/*268*/ 'pkc_k3' 4.7
+%var:/*269*/ 'pkc_s818' (186507 / Theta)
+%var:/*270*/ 's880_pp2a_k1' (384615 / Theta)
+%var:/*271*/ 's880_pp2a_k2' 2.4
+%var:/*272*/ 's880_pp2a_k3' 0.6
+%var:/*273*/ 'sfk_k1' (14285714 / Theta)
+%var:/*274*/ 'sfk_k2' 40
+%var:/*275*/ 'sfk_k3' 10
+%var:/*276*/ 'ptpmeg_k1' (3525641 / Theta)
+%var:/*277*/ 'ptpmeg_k2' 22
+%var:/*278*/ 'ptpmeg_k3' 5.5
+%var:/*279*/ 'pkc_to_membrane' 420
+%var:/*280*/ 'pkc_to_endo' 8400
+%var:/*281*/ 'pkc_to_endo_ca' 4200
+%var:/*282*/ 'pkc_to_endo_2ca' 0.017
+%var:/*283*/ 'pkc_to_endo_3ca' 0.0017
+%var:/*284*/ 'pkc_23ca' (45450000 / Theta)
+%var:/*285*/ 'pkc_1ca' (1111000000 / Theta)
+%var:/*286*/ 'pkc_ca_off' 1000
+%var:/*287*/ 'pkc_ca_off_2' 2
+%var:/*288*/ 'pkc_ca_off_3' 0.12
+%var:/*289*/ 'GRIP' 1330
+%var:/*290*/ 'PICK1' 80
+%var:/*291*/ 'PKC' 40
+%var:/*292*/ 'SFK' 40
+%var:/*293*/ 'NSF' 133
+%var:/*294*/ 'PTPMEG' 133
+%var:/*295*/ 'PP2A' 67
+%var:/*296*/ 'RNFCK_assoc' (27777.59 / Theta)
+%var:/*297*/ 'RNFCK_dissoc' 2
+%var:/*298*/ 'RNF_Activate' 0.5
+%var:/*299*/ 'A' 6.022e+014
+%var:/*300*/ 'AV' (A * V)
+%var:/*301*/ 'E1 activation rate' (0.01 / AV)
+%var:/*302*/ 'E1 deactivation rate' 0.1
+%var:/*303*/ 'E1 association rate' (0.01 / AV)
+%var:/*304*/ 'E1 dissociation rate' 0.1
+%var:/*305*/ 'E1 ub transfer rate' 0.2
+%var:/*306*/ 'E2 association rate' (0.01 / AV)
+%var:/*307*/ 'E2 dissociation rate' 0.1
+%var:/*308*/ 'E2 ub transfer rate' 0.2
+%var:/*309*/ 'E3 bind rate' (0.002 / AV)
+%var:/*310*/ 'E3 dissociation rate' 0.7
+%var:/*311*/ 'kub1' 0.002
+%var:/*312*/ 'kub2' 0.04
+%var:/*313*/ 'kub3' 0.04
+%var:/*314*/ 'kub4' 0.04
+%var:/*315*/ 'kub5' 0.04
+%var:/*316*/ 'DUB bind rate' (0.6 / AV)
+%var:/*317*/ 'DUB dissociation rate' 0.043
+%var:/*318*/ 'kdub' 0.054
+%var:/*319*/ 'ks' 0.08
+%var:/*320*/ 'kd' 0.01
+%var:/*321*/ 'kb' 0.0001
+%var:/*322*/ 'Nedd4_assoc' (27777.59 / Theta)
+%var:/*323*/ 'Nedd4_dissoc' 2
+%var:/*324*/ 'Nedd4_Activate' 5
+%plot: [T]
+%plot: Gap
+%plot: Pulse_Number
+%plot: Pulse_Numberb
+%plot: Pulse_Numberc
+%plot: Pulse
+%plot: Gapb
+%plot: Pulseb
+%plot: Gapc
+%plot: Pulsec
+%plot: B0
+%plot: B1
+%plot: B2
+%plot: B3
+%plot: B4
+%plot: S0
+%plot: S1
+%plot: S2
+%plot: S3
+%plot: S4
+%plot: M0
+%plot: M1
+%plot: M2
+%plot: M3
+%plot: M4
+%plot: L0
+%plot: L1
+%plot: L2
+%plot: L3
+%plot: L4
+%plot: S0_p
+%plot: S1_p
+%plot: S2_p
+%plot: S3_p
+%plot: S4_p
+%plot: M0_p
+%plot: M1_p
+%plot: M2_p
+%plot: M3_p
+%plot: M4_p
+%plot: L0_p
+%plot: L1_p
+%plot: L2_p
+%plot: L3_p
+%plot: L4_p
+%plot: S0_pp
+%plot: S1_pp
+%plot: S2_pp
+%plot: S3_pp
+%plot: S4_pp
+%plot: M0_pp
+%plot: M1_pp
+%plot: M2_pp
+%plot: M3_pp
+%plot: M4_pp
+%plot: L0_pp
+%plot: L1_pp
+%plot: L2_pp
+%plot: L3_pp
+%plot: L4_pp
+%plot: Glu_Trigger
+%plot: Glutamate_level
+%plot: CaGlu
+%plot: S831_P
+%plot: S831_PP
+%plot: S831_u
+%plot: S845_P
+%plot: S845_PP
+%plot: S845_u
+%plot: S818_u
+%plot: S818_p
+%plot: S818_pp
+%plot: I1_P
+%plot: I1_u
+%plot: PKA_a
+%plot: PKA_i
+%plot: Conductance_S845_measure
+%plot: Conductance_S831_measure
+%plot: Slots
+%plot: Synaptic_12
+%plot: Synaptic_23
+%plot: Synaptic_receptors
+%plot: PP2B
+%plot: Calcium_Levels
+%plot: R2C2_total
+%plot: cAMP_levels
+%plot: Active_CaM
+%plot: Phos_CK_subunits
+%plot: Phos_CK_hexamers
+%plot: Free_PP
+%plot: CaM_CaMKII_C4
+%plot: CaMKII_CaM
+%plot: CaM_CaMKII_all
+%plot: GRIP_level
+%plot: PICK1_level
+%plot: actPKC_level
+%plot: PKC_membrane
+%plot: PKC_endo
+%plot: PKC_PICK1
+%plot: PKC_PICK1_AMPAR
+%plot: PKC_AMPAR
+%plot: AMPA_S880_membrane
+%plot: AMPA_Y876_membrane
+%plot: AMPA_PSD
+%plot: AMPA_mPSD
+%plot: AMPA_mX
+%plot: AMPA_mEZ
+%plot: AMPA_X
+%plot: AMPA_EZ
+%plot: AMPA_endo
+%plot: AMPA_membrane
+%plot: AMPA_mobile
+%plot: K868
+%plot: K868_ub
+%plot: K868_ub2
+%plot: K868_ub3
+%plot: K868_ub4
+%plot: K868_ub5
+%plot: 12K870_ub
+%plot: 12K870_ub2
+%plot: 12K870_ub3
+%plot: 12K870_ub4
+%plot: 12K870_ub5
+%plot: 23K870_ub
+%plot: 23K870_ub2
+%plot: 23K870_ub3
+%plot: 23K870_ub4
+%plot: 23K870_ub5
+%plot: 12K882_ub
+%plot: 12K882_ub2
+%plot: 12K882_ub3
+%plot: 12K882_ub4
+%plot: 12K882_ub5
+%plot: 23K882_ub
+%plot: 23K882_ub2
+%plot: 23K882_ub3
+%plot: 23K882_ub4
+%plot: 23K882_ub5
+%plot: AMPAR1
+%plot: AMPAR12
+%plot: AMPAR23
+
+PSD()- @ slot_degen
+AMPAR_12(Open{B/S}[#] Glu{g0}[#]) @ BSk0
+AMPAR_12(Open{S/B}[#] Glu{g0}[#]) @ SBk0
+AMPAR_12(Open{B/S}[#] Glu{g1}[#]) @ BSk1
+AMPAR_12(Open{S/B}[#] Glu{g1}[#]) @ SBk1
+AMPAR_12(Open{B/S}[#] Glu{g2}[#]) @ BSk2
+AMPAR_12(Open{S/B}[#] Glu{g2}[#]) @ SBk2
+AMPAR_12(Open{B/S}[#] Glu{g3}[#]) @ BSk3
+AMPAR_12(Open{S/B}[#] Glu{g3}[#]) @ SBk3
+AMPAR_12(Open{B/S}[#] Glu{g4}[#]) @ BSk4
+AMPAR_12(Open{S/B}[#] Glu{g4}[#]) @ SBk4
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g0}[#]) @ (1.5 * BSk0)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g0}[#]) @ SBk0
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g1}[#]) @ (1.5 * BSk1)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g1}[#]) @ SBk1
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g2}[#]) @ (1.5 * BSk2)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g2}[#]) @ SBk2
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g3}[#]) @ (1.5 * BSk3)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g3}[#]) @ SBk3
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g4}[#]) @ (1.5 * BSk4)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g4}[#]) @ SBk4
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g0}[#]) @ (2 * BSk0)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g0}[#]) @ SBk0
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g1}[#]) @ (2 * BSk1)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g1}[#]) @ SBk1
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g2}[#]) @ (2 * BSk2)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g2}[#]) @ SBk2
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g3}[#]) @ (2 * BSk3)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g3}[#]) @ SBk3
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g4}[#]) @ (2 * BSk4)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g4}[#]) @ SBk4
+AMPAR_12(Open{S/M}[#] Glu{g0}[#]) @ SMk0
+AMPAR_12(Open{M/S}[#] Glu{g0}[#]) @ MSk0
+AMPAR_12(Open{S/M}[#] Glu{g1}[#]) @ SMk1
+AMPAR_12(Open{M/S}[#] Glu{g1}[#]) @ MSk1
+AMPAR_12(Open{S/M}[#] Glu{g2}[#]) @ SMk2
+AMPAR_12(Open{M/S}[#] Glu{g2}[#]) @ MSk2
+AMPAR_12(Open{S/M}[#] Glu{g3}[#]) @ SMk3
+AMPAR_12(Open{M/S}[#] Glu{g3}[#]) @ MSk3
+AMPAR_12(Open{S/M}[#] Glu{g4}[#]) @ SMk4
+AMPAR_12(Open{M/S}[#] Glu{g4}[#]) @ MSk4
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g0}[#]) @ (1.5 * SMk0)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g0}[#]) @ MSk0
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g1}[#]) @ (1.5 * SMk1)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g1}[#]) @ MSk1
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g2}[#]) @ (1.5 * SMk2)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g2}[#]) @ MSk2
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g3}[#]) @ (1.5 * SMk3)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g3}[#]) @ MSk3
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g4}[#]) @ (1.5 * SMk4)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g4}[#]) @ MSk4
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g0}[#]) @ (2 * SMk0)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g0}[#]) @ MSk0
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g1}[#]) @ (2 * SMk1)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g1}[#]) @ MSk1
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g2}[#]) @ (2 * SMk2)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g2}[#]) @ MSk2
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g3}[#]) @ (2 * SMk3)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g3}[#]) @ MSk3
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g4}[#]) @ (2 * SMk4)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g4}[#]) @ MSk4
+AMPAR_12(Open{M/L}[#] Glu{g0}[#]) @ MLk0
+AMPAR_12(Open{L/M}[#] Glu{g0}[#]) @ LMk0
+AMPAR_12(Open{M/L}[#] Glu{g1}[#]) @ MLk1
+AMPAR_12(Open{L/M}[#] Glu{g1}[#]) @ LMk1
+AMPAR_12(Open{M/L}[#] Glu{g2}[#]) @ MLk2
+AMPAR_12(Open{L/M}[#] Glu{g2}[#]) @ LMk2
+AMPAR_12(Open{M/L}[#] Glu{g3}[#]) @ MLk3
+AMPAR_12(Open{L/M}[#] Glu{g3}[#]) @ LMk3
+AMPAR_12(Open{M/L}[#] Glu{g4}[#]) @ MLk4
+AMPAR_12(Open{L/M}[#] Glu{g4}[#]) @ LMk4
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g0}[#]) @ (1.5 * MLk0)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g0}[#]) @ LMk0
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g1}[#]) @ (1.5 * MLk1)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g1}[#]) @ LMk1
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g2}[#]) @ (1.5 * MLk2)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g2}[#]) @ LMk2
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g3}[#]) @ (1.5 * MLk3)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g3}[#]) @ LMk3
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g4}[#]) @ (1.5 * MLk4)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g4}[#]) @ LMk4
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g0}[#]) @ (2 * MLk0)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g0}[#]) @ LMk0
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g1}[#]) @ (2 * MLk1)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g1}[#]) @ LMk1
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g2}[#]) @ (2 * MLk2)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g2}[#]) @ LMk2
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g3}[#]) @ (2 * MLk3)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g3}[#]) @ LMk3
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g4}[#]) @ (2 * MLk4)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g4}[#]) @ LMk4
+AMPAR_12(S831{p}[#] S845{u}[#] S818{u}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ diff_x_psd
+AMPAR_12(S831{pp}[#] S845{u}[#] S818{u}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (2 * diff_x_psd)
+AMPAR_12(S831{u}[#] S845{u}[#] S818{p}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ diff_x_psd
+AMPAR_12(S831{u}[#] S845{u}[#] S818{pp}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (2 * diff_x_psd)
+AMPAR_12(S831{u}[#] S845{p}[#] S818{u}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ diff_x_psd
+AMPAR_12(S831{u}[#] S845{pp}[#] S818{u}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (2 * diff_x_psd)
+AMPAR_12(S831{p}[#] S845{u}[#] S818{p}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (2 * diff_x_psd)
+AMPAR_12(S831{pp}[#] S845{u}[#] S818{p}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (3 * diff_x_psd)
+AMPAR_12(S831{p}[#] S845{u}[#] S818{pp}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (3 * diff_x_psd)
+AMPAR_12(S831{pp}[#] S845{u}[#] S818{pp}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (4 * diff_x_psd)
+AMPAR_12(S831{u}[#] S845{p}[#] S818{u}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ diff_x_psd
+AMPAR_12(S831{p}[#] S845{p}[#] S818{u}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (2 * diff_x_psd)
+AMPAR_12(S831{pp}[#] S845{p}[#] S818{u}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (3 * diff_x_psd)
+AMPAR_12(S831{u}[#] S845{pp}[#] S818{u}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (2 * diff_x_psd)
+AMPAR_12(S831{p}[#] S845{pp}[#] S818{u}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (3 * diff_x_psd)
+AMPAR_12(S831{pp}[#] S845{pp}[#] S818{u}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (4 * diff_x_psd)
+AMPAR_12(S831{u}[#] S845{p}[#] S818{p}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (2 * diff_x_psd)
+AMPAR_12(S831{u}[#] S845{pp}[#] S818{pp}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (4 * diff_x_psd)
+AMPAR_12(S831{p}[#] S845{p}[#] S818{p}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (3 * diff_x_psd)
+AMPAR_12(S831{p}[#] S845{pp}[#] S818{pp}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (3 * diff_x_psd)
+AMPAR_12(S831{pp}[#] S845{p}[#] S818{p}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (4 * diff_x_psd)
+AMPAR_12(S831{pp}[#] S845{pp}[#] S818{pp}[#] Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ (5 * diff_x_psd)
+AMPAR_23(Open{B}[#] Glu{g0}[#] Anchor{X/PSD}[#] pick1[#] grip[.]), PSD()- @ diff_x_psd
+AMPAR_12(Open{B}[#] Glu{g0/g1}[#] Anchor{PSD}[#]), Glutamate()- @ (4 * Bkon)
+AMPAR_12(Open{B}[#] Glu{g1/g0}[#] Anchor{PSD}[#]), Glutamate()+ @ Bkoff
+AMPAR_12(Open{B}[#] Glu{g1/g2}[#] Anchor{PSD}[#]), Glutamate()- @ (3 * Bkon)
+AMPAR_12(Open{B}[#] Glu{g2/g1}[#] Anchor{PSD}[#]), Glutamate()+ @ (2 * Bkoff)
+AMPAR_12(Open{B}[#] Glu{g2/g3}[#] Anchor{PSD}[#]), Glutamate()- @ (2 * Bkon)
+AMPAR_12(Open{B}[#] Glu{g3/g2}[#] Anchor{PSD}[#]), Glutamate()+ @ (3 * Bkoff)
+AMPAR_12(Open{B}[#] Glu{g3/g4}[#] Anchor{PSD}[#]), Glutamate()- @ Bkon
+AMPAR_12(Open{B}[#] Glu{g4/g3}[#] Anchor{PSD}[#]), Glutamate()+ @ (4 * Bkoff)
+AMPAR_12(Open{S}[#] Glu{g0/g1}[#] Anchor{PSD}[#]), Glutamate()- @ (4 * Skon)
+AMPAR_12(Open{S}[#] Glu{g1/g0}[#] Anchor{PSD}[#]), Glutamate()+ @ Skoff
+AMPAR_12(Open{S}[#] Glu{g1/g2}[#] Anchor{PSD}[#]), Glutamate()- @ (3 * Skon)
+AMPAR_12(Open{S}[#] Glu{g2/g1}[#] Anchor{PSD}[#]), Glutamate()+ @ (2 * Skoff)
+AMPAR_12(Open{S}[#] Glu{g2/g3}[#] Anchor{PSD}[#]), Glutamate()- @ (2 * Skon)
+AMPAR_12(Open{S}[#] Glu{g3/g2}[#] Anchor{PSD}[#]), Glutamate()+ @ (3 * Skoff)
+AMPAR_12(Open{S}[#] Glu{g3/g4}[#] Anchor{PSD}[#]), Glutamate()- @ Skon
+AMPAR_12(Open{S}[#] Glu{g4/g3}[#] Anchor{PSD}[#]), Glutamate()+ @ (4 * Skoff)
+AMPAR_12(Open{M}[#] Glu{g0/g1}[#] Anchor{PSD}[#]), Glutamate()- @ (4 * Mkon)
+AMPAR_12(Open{M}[#] Glu{g1/g0}[#] Anchor{PSD}[#]), Glutamate()+ @ Mkoff
+AMPAR_12(Open{M}[#] Glu{g1/g2}[#] Anchor{PSD}[#]), Glutamate()- @ (3 * Mkon)
+AMPAR_12(Open{M}[#] Glu{g2/g1}[#] Anchor{PSD}[#]), Glutamate()+ @ (2 * Mkoff)
+AMPAR_12(Open{M}[#] Glu{g2/g3}[#] Anchor{PSD}[#]), Glutamate()- @ (2 * Mkon)
+AMPAR_12(Open{M}[#] Glu{g3/g2}[#] Anchor{PSD}[#]), Glutamate()+ @ (3 * Mkoff)
+AMPAR_12(Open{M}[#] Glu{g3/g4}[#] Anchor{PSD}[#]), Glutamate()- @ Mkon
+AMPAR_12(Open{M}[#] Glu{g4/g3}[#] Anchor{PSD}[#]), Glutamate()+ @ (4 * Mkoff)
+AMPAR_12(Open{L}[#] Glu{g0/g1}[#] Anchor{PSD}[#]), Glutamate()- @ (4 * Lkon)
+AMPAR_12(Open{L}[#] Glu{g1/g0}[#] Anchor{PSD}[#]), Glutamate()+ @ Lkoff
+AMPAR_12(Open{L}[#] Glu{g1/g2}[#] Anchor{PSD}[#]), Glutamate()- @ (3 * Lkon)
+AMPAR_12(Open{L}[#] Glu{g2/g1}[#] Anchor{PSD}[#]), Glutamate()+ @ (2 * Lkoff)
+AMPAR_12(Open{L}[#] Glu{g2/g3}[#] Anchor{PSD}[#]), Glutamate()- @ (2 * Lkon)
+AMPAR_12(Open{L}[#] Glu{g3/g2}[#] Anchor{PSD}[#]), Glutamate()+ @ (3 * Lkoff)
+AMPAR_12(Open{L}[#] Glu{g3/g4}[#] Anchor{PSD}[#]), Glutamate()- @ Lkon
+AMPAR_12(Open{L}[#] Glu{g4/g3}[#] Anchor{PSD}[#]), Glutamate()+ @ (4 * Lkoff)
+AMPAR_12(S845{p}[./1]), PP1(b[./1]) @ pp1_s845_k1
+AMPAR_12(S845{p}[1/.]), PP1(b[1/.]) @ pp1_s845_k2
+AMPAR_12(S845{p/u}[1/.]), PP1(b[1/.]) @ pp1_s845_k3
+AMPAR_12(S845{pp}[./1]), PP1(b[./1]) @ pp1_s845_k1
+AMPAR_12(S845{pp}[1/.]), PP1(b[1/.]) @ pp1_s845_k2
+AMPAR_12(S845{pp/p}[1/.]), PP1(b[1/.]) @ pp1_s845_k3
+AMPAR_12(S831{p}[./1]), PP1(b[./1]) @ pp1_s831_k1
+AMPAR_12(S831{p}[1/.]), PP1(b[1/.]) @ pp1_s831_k2
+AMPAR_12(S831{p/u}[1/.]), PP1(b[1/.]) @ pp1_s831_k3
+AMPAR_12(S831{pp}[./1]), PP1(b[./1]) @ pp1_s831_k1
+AMPAR_12(S831{pp}[1/.]), PP1(b[1/.]) @ pp1_s831_k2
+AMPAR_12(S831{pp/p}[1/.]), PP1(b[1/.]) @ pp1_s831_k3
+AMPAR_12(S845{u}[./1]), PKA(b[./1] Active{a}[#]) @ pka_k1
+AMPAR_12(S845{u}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k2
+AMPAR_12(S845{u/p}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k3
+AMPAR_12(S845{p}[./1]), PKA(b[./1] Active{a}[#]) @ pka_k1
+AMPAR_12(S845{p}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k2
+AMPAR_12(S845{p/pp}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k3
+AMPAR_12(S831{u}[./1]), CK(T286{p}[./1]) @ camkii_k1
+AMPAR_12(S831{u}[1/.]), CK(T286{p}[1/.]) @ camkii_k2
+AMPAR_12(S831{u/p}[1/.]), CK(T286{p}[1/.]) @ camkii_k3
+AMPAR_12(S831{p}[./1]), CK(T286{p}[./1]) @ camkii_k1
+AMPAR_12(S831{p}[1/.]), CK(T286{p}[1/.]) @ camkii_k2
+AMPAR_12(S831{p/pp}[1/.]), CK(T286{p}[1/.]) @ camkii_k3
+AMPAR_12(S845{p}[./2]), CaM(calcium{c4}[1]), CaNAB(b[./2] calcium{c4}[1]) @ pp2b_k1
+AMPAR_12(S845{p}[2/.]), CaM(calcium{c4}[1]), CaNAB(b[2/.] calcium{c4}[1]) @ pp2b_k2
+AMPAR_12(S845{p/u}[2/.]), CaM(calcium{c4}[1]), CaNAB(b[2/.] calcium{c4}[1]) @ pp2b_k3
+AMPAR_12(S845{pp}[./2]), CaM(calcium{c4}[1]), CaNAB(b[./2] calcium{c4}[1]) @ pp2b_k1
+AMPAR_12(S845{pp}[2/.]), CaM(calcium{c4}[1]), CaNAB(b[2/.] calcium{c4}[1]) @ pp2b_k2
+AMPAR_12(S845{pp/p}[2/.]), CaM(calcium{c4}[1]), CaNAB(b[2/.] calcium{c4}[1]) @ pp2b_k3
+AMPAR_12(S818{u}[./1]), PKC(pick1[.] Calcium{c3}[./1]) @ pkc_s818
+AMPAR_12(S818{u}[1/.]), PKC(pick1[.] Calcium{c3}[1/.]) @ pkc_k2
+AMPAR_12(S818{u/p}[1/.]), PKC(pick1[.] Calcium{c3}[1/.]) @ pkc_k3
+AMPAR_12(S818{p}[./1]), PKC(pick1[.] Calcium{c3}[./1]) @ pkc_k1
+AMPAR_12(S818{p}[1/.]), PKC(pick1[.] Calcium{c3}[1/.]) @ pkc_k2
+AMPAR_12(S818{p/pp}[1/.]), PKC(pick1[.] Calcium{c3}[1/.]) @ pkc_k3
+AMPAR_12(S818{p}[./1]), PP2A(b[./1]) @ s880_pp2a_k1
+AMPAR_12(S818{p}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k2
+AMPAR_12(S818{p/u}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k3
+AMPAR_12(S818{pp}[./1]), PP2A(b[./1]) @ s880_pp2a_k1
+AMPAR_12(S818{pp}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k2
+AMPAR_12(S818{pp/p}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k3
+PP1(b[1/.]), I1(Phos{u}[1/.]) @ 0.1
+PP1(b[./1]), I1(Phos{p}[./1]) @ (449980000 / Theta)
+PP1(b[1/.]), I1(Phos{p}[1/.]) @ 0.1
+I1(Phos{p}[./2]), PP2A(b[./2]) @ PP2A_I1_k1
+I1(Phos{p}[2/.]), PP2A(b[2/.]) @ PP2A_I1_k2
+I1(Phos{p/u}[2/.]), PP2A(b[2/.]) @ PP2A_I1_k3
+PP1(b[1]), I1(Phos{p}[1] b[./3]), PP2A(b[./3]) @ PP2A_PP1_I1_k1
+PP1(b[1]), I1(Phos{p}[1] b[3/.]), PP2A(b[3/.]) @ PP2A_PP1_I1_k2
+PP1(b[1]), I1(Phos{p/u}[1] b[3/.]), PP2A(b[3/.]) @ PP2A_PP1_I1_k3
+I1(Phos{u}[./1]), PKA(Active{a}[./1]) @ PKA_I1_k1
+I1(Phos{u}[1/.]), PKA(Active{a}[1/.]) @ PKA_I1_k2
+I1(Phos{u/p}[1/.]), PKA(Active{a}[1/.]) @ PKA_I1_k3
+I1(Phos{p}[./4]), CaM(calcium{c4}[1]), CaNAB(b[./4] calcium{c4}[1]) @ PP2B_I1_k1
+I1(Phos{p}[4/.]), CaM(calcium{c4}[1]), CaNAB(b[4/.] calcium{c4}[1]) @ PP2B_I1_k2
+I1(Phos{p/u}[4/.]), CaM(calcium{c4}[1]), CaNAB(b[4/.] calcium{c4}[1]) @ PP2B_I1_k3
+PP1(b[1]), I1(Phos{p}[1] b[./5]), CaM(calcium{c4}[2]), CaNAB(b[./5] calcium{c4}[2]) @ PP2B_PP1_I1_k1
+PP1(b[1]), I1(Phos{p}[1] b[5/.]), CaM(calcium{c4}[2]), CaNAB(b[5/.] calcium{c4}[2]) @ PP2B_PP1_I1_k2
+PP1(b[1]), I1(Phos{p/u}[1] b[5/.]), CaM(calcium{c4}[2]), CaNAB(b[5/.] calcium{c4}[2]) @ PP2B_PP1_I1_k3
+Random()+ @ Random_In
+Random()- @ Random_Out
+Glutamate()+ @ Glu_Release
+Glutamate()- @ Glu_Remove
+R2C2(cAMP{c0/c1}[#] C{c2}[#]), cAMP()- @ x
+R2C2(cAMP{c1/c0}[#] C{c2}[#]), cAMP()+ @ 33
+R2C2(cAMP{c1/c2}[#] C{c2}[#]), cAMP()- @ x
+R2C2(cAMP{c2/c1}[#] C{c2}[#]), cAMP()+ @ 33
+R2C2(cAMP{c2/c3}[#] C{c2}[#]), cAMP()- @ y
+R2C2(cAMP{c3/c2}[#] C{c2}[#]), cAMP()+ @ 110
+R2C2(cAMP{c3/c4}[#] C{c2}[#]), cAMP()- @ y
+R2C2(cAMP{c4/c3}[#] C{c2}[#]), cAMP()+ @ 32.5
+R2C2(cAMP{c4}[#] C{c2/c1}[#]), PKA(b[.] Active{a}[.])+ @ 60
+R2C2(cAMP{c4}[#] C{c1/c2}[#]), PKA(b[#] Active{a}[#])- @ (18000000 / Theta)
+R2C2(cAMP{c4}[#] C{c1/c0}[#]), PKA(b[.] Active{a}[.])+ @ 60
+R2C2(cAMP{c4}[#] C{c0/c1}[#]), PKA(b[#] Active{a}[#])- @ (18000000 / Theta)
+PKA(b[./1] Active{a/i}[#]), PKA_Inhibitor(b[./1]) @ (60000000 / Theta)
+PKA(b[1/.] Active{i/a}[#]), PKA_Inhibitor(b[1/.]) @ 1
+Ca(b[#])-, Ca(b[#])-, CaM(calcium{c0/c2}[#]) @ (720000000 / Theta)
+CaM(calcium{c2/c0}[#]), Ca(b[.])+, Ca(b[.])+ @ 72
+Ca(b[#])-, CaM(calcium{c2/c3}[#]) @ (36000000 / Theta)
+CaM(calcium{c3/c2}[#]), Ca(b[.])+ @ 10
+Ca(b[#])-, CaM(calcium{c3/c4}[#]) @ (4650000 / Theta)
+CaM(calcium{c4/c3}[#]), Ca(b[.])+ @ 10
+Ca(b[#])-, Ca(b[#])-, CaNAB(calcium{c0/c2}[#]) @ (10008000000 / Theta)
+CaNAB(calcium{c2/c0}[#]), Ca(b[.])+, Ca(b[.])+ @ 1
+Ca(b[#])-, Ca(b[#])-, CaNAB(calcium{c2/c4}[#]) @ (3600100 / Theta)
+CaNAB(calcium{c4/c2}[#]), Ca(b[.])+, Ca(b[.])+ @ 1
+CaM(calcium{c4}[./1]), CaNAB(calcium{c4}[./1]) @ (599994000 / Theta)
+CaM(calcium{c4}[1/.]), CaNAB(calcium{c4}[1/.]) @ 1
+cAMP()- @ cAMP_breakdown
+cAMP()+ @ cAMP_synth
+Ca(b[.])+ @ Ca_synth
+Ca(b[#])- @ Ca_breakdown
+CaM(ck[./1] calcium{c4}[#]), CK(cam[./1]) @ CaM_binding
+CaM(ck[1/.] calcium{c4}[#]), CK(cam[1/.]) @ CaM_unbinding
+CaM(ck[1/.]), CK(cam[1/.]) @ CaM_unbinding
+CaM(ck[1] calcium{c4}[#]), CK(b[2] T286{p}[#]), CK(a[2] cam[1] T286{u/p}[#]) @ 30
+CaM(ck[1] calcium{c4}[#]), CaM(ck[2] calcium{c4}[#]), CK(b[3] cam[1] T286{u}[#]), CK(a[3] cam[2] T286{u/p}[#]) @ 30
+CK(cam[.] T286{p}[./1]), PP1(b[./1]) @ (343000. / Theta)
+CK(cam[.] T286{p}[1/.]), PP1(b[1/.]) @ 1.4
+CK(cam[.] T286{p/u}[1/.]), PP1(b[1/.]) @ 0.35
+AMPAR_12(S880{u}[#] Anchor{PSD}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_12(S880{u}[#] Anchor{PSD}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_off
+AMPAR_12(S880{u}[#] Anchor{X}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_12(S880{u}[#] Anchor{X}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_off
+AMPAR_23(S880{u}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_23(S880{u}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_off
+AMPAR_12(S880{p}[#] Anchor{PSD}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_12(S880{p}[#] Anchor{PSD}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_offPS
+AMPAR_12(S880{p}[#] Anchor{X}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_12(S880{p}[#] Anchor{X}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_offPS
+AMPAR_23(S880{p}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_23(S880{p}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_offPS
+AMPAR_12(pick1[./1] grip[.] nsf[.]), PICK1(ampa[./1]) @ ampar_pick_on
+AMPAR_12(pick1[1/.] grip[.] nsf[.]), PICK1(ampa[1/.]) @ ampar_pick_off
+AMPAR_23(pick1[./1] grip[.] nsf[.]), PICK1(ampa[./1]) @ ampar_pick_on
+AMPAR_23(pick1[1/.] grip[.] nsf[.]), PICK1(ampa[1/.]) @ ampar_pick_off
+AMPAR_12(pick1[./2] grip[.] nsf[.]), PICK1(ampa[./2] pkc[1]), PKC(pick1[1] Calcium{c3}[#]) @ ampar_pick_onstar
+AMPAR_12(pick1[2/.] grip[.] nsf[.]), PICK1(ampa[2/.] pkc[1]), PKC(pick1[1] Calcium{c3}[#]) @ ampar_pick_off
+AMPAR_23(pick1[./2] grip[.] nsf[.]), PICK1(ampa[./2] pkc[1]), PKC(pick1[1] Calcium{c3}[#]) @ ampar_pick_onstar
+AMPAR_23(pick1[2/.] grip[.] nsf[.]), PICK1(ampa[2/.] pkc[1]), PKC(pick1[1] Calcium{c3}[#]) @ ampar_pick_off
+AMPAR_12(pick1[./2] grip[1] nsf[.]), GRIP(ampa[1]), PICK1(ampa[./2]) @ grip_pick_on
+AMPAR_12(pick1[2/.] grip[1] nsf[.]), GRIP(ampa[1]), PICK1(ampa[2/.]) @ grip_pick_off
+AMPAR_23(pick1[./2] grip[1] nsf[.]), GRIP(ampa[1]), PICK1(ampa[./2]) @ grip_pick_on
+AMPAR_23(pick1[2/.] grip[1] nsf[.]), GRIP(ampa[1]), PICK1(ampa[2/.]) @ grip_pick_off
+AMPAR_12(pick1[2/.] grip[1/.] nsf[.]), GRIP(ampa[1/.]), PICK1(ampa[2/.]) @ ampar_grip_off
+AMPAR_23(pick1[2/.] grip[1/.] nsf[.]), GRIP(ampa[1/.]), PICK1(ampa[2/.]) @ ampar_grip_off
+AMPAR_12(Anchor{X}[#] nsf[1/.]), NSF(ampa[1/.]) @ ansf_off
+AMPAR_23(Anchor{X}[#] nsf[1/.]), NSF(ampa[1/.]) @ ansf_off
+AMPAR_12(Anchor{PSD}[#] nsf[1/.]), NSF(ampa[1/.]) @ ansf_off
+AMPAR_23(Anchor{PSD}[#] nsf[1/.]), NSF(ampa[1/.]) @ ansf_off
+AMPAR_12(S831{u}[#] S845{u}[#] S818{u}[#] Glu{g0}[#] Anchor{PSD/X}[#] grip[.] nsf[.]), PSD()+ @ diff_psd_x
+AMPAR_23(Anchor{PSD/X}[#] grip[.] nsf[.]), PSD()+ @ diff_psd_x
+AMPAR_12(S845{p}[#] Anchor{endo/X}[#] pick1[.] grip[.] nsf[1/.]), NSF(ampa[1/.]) @ ampa_exo
+AMPAR_23(Anchor{endo/X}[#] pick1[.] grip[.] nsf[1/.]), NSF(ampa[1/.]) @ ampa_exo
+AMPAR_12(S845{u}[#] Anchor{X/endo}[#] pick1[1/.] grip[.] nsf[.]), PICK1(ampa[1/.]) @ ampa_endo
+AMPAR_23(Anchor{X/endo}[#] pick1[1] grip[.] nsf[.]), PICK1(ampa[1]) @ ampa_endo
+PKC(Calcium{c0}[#] Location{Endo/Membrane}[#]) @ pkc_to_membrane
+PKC(Calcium{c0}[#] Location{Membrane/Endo}[#]) @ pkc_to_endo
+PKC(Calcium{c1}[#] Location{Endo/Membrane}[#]) @ pkc_to_membrane
+PKC(Calcium{c1}[#] Location{Membrane/Endo}[#]) @ pkc_to_endo_ca
+PKC(Calcium{c2}[#] Location{Endo/Membrane}[#]) @ pkc_to_membrane
+PKC(Calcium{c2}[#] Location{Membrane/Endo}[#]) @ pkc_to_endo_2ca
+PKC(Calcium{c3}[#] Location{Endo/Membrane}[#]) @ pkc_to_membrane
+PKC(Calcium{c3}[#] Location{Membrane/Endo}[#]) @ pkc_to_endo_3ca
+PKC(Calcium{c0/c1}[#] Location{Endo}[#]), Ca(b[#])- @ pkc_1ca
+PKC(Calcium{c1/c0}[#] Location{Endo}[#]), Ca(b[.])+ @ pkc_ca_off
+PKC(Calcium{c1/c2}[#] Location{Endo}[#]), Ca(b[#])- @ pkc_23ca
+PKC(Calcium{c2/c1}[#] Location{Endo}[#]), Ca(b[.])+ @ pkc_ca_off
+PKC(Calcium{c2/c3}[#] Location{Endo}[#]), Ca(b[#])- @ pkc_23ca
+PKC(Calcium{c3/c2}[#] Location{Endo}[#]), Ca(b[.])+ @ pkc_ca_off
+PKC(Calcium{c0/c1}[#] Location{Membrane}[#]), Ca(b[#])- @ pkc_1ca
+PKC(Calcium{c1/c0}[#] Location{Membrane}[#]), Ca(b[.])+ @ pkc_ca_off_3
+PKC(Calcium{c1/c2}[#] Location{Membrane}[#]), Ca(b[#])- @ pkc_23ca
+PKC(Calcium{c2/c1}[#] Location{Membrane}[#]), Ca(b[.])+ @ pkc_ca_off_2
+PKC(Calcium{c2/c3}[#] Location{Membrane}[#]), Ca(b[#])- @ pkc_23ca
+PKC(Calcium{c3/c2}[#] Location{Membrane}[#]), Ca(b[.])+ @ pkc_ca_off_2
+PKC(pick1[./1] Calcium{c3}[#]), PICK1(pkc[./1]) @ pick_pkc_on
+PKC(pick1[1/.] Calcium{c3}[#]), PICK1(pkc[1/.]) @ pick_pkc_off
+AMPAR_12(S880{u}[./3] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[./3] Location{Membrane}[#]) @ pkc_k1
+AMPAR_12(S880{u}[3/.] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_12(S880{u/p}[3/.] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_12(S880{u}[./1] Y876{u}[#] Anchor{PSD}[#]), PKC(pick1[.] Calcium{c3}[./1] Location{Membrane}[#]) @ pkc_k1
+AMPAR_12(S880{u}[1/.] Y876{u}[#] Anchor{PSD}[#]), PKC(pick1[.] Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_12(S880{u/p}[1/.] Y876{u}[#] Anchor{PSD}[#]), PKC(pick1[.] Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_23(S880{u}[./3] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[./3] Location{Membrane}[#]) @ pkc_k1
+AMPAR_23(S880{u}[3/.] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_23(S880{u/p}[3/.] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_23(S880{u}[./1] Y876{u}[#] Anchor{PSD}[#]), PKC(Calcium{c3}[./1] Location{Membrane}[#]) @ pkc_k1
+AMPAR_23(S880{u}[1/.] Y876{u}[#] Anchor{PSD}[#]), PKC(Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_23(S880{u/p}[1/.] Y876{u}[#] Anchor{PSD}[#]), PKC(Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_12(S880{u}[./3] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[./3] Location{Membrane}[#]) @ pkc_k1
+AMPAR_12(S880{u}[3/.] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_12(S880{u/p}[3/.] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_12(S880{u}[./1] Y876{u}[#] Anchor{X}[#]), PKC(pick1[.] Calcium{c3}[./1] Location{Membrane}[#]) @ pkc_k1
+AMPAR_12(S880{u}[1/.] Y876{u}[#] Anchor{X}[#]), PKC(pick1[.] Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_12(S880{u/p}[1/.] Y876{u}[#] Anchor{X}[#]), PKC(pick1[.] Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_23(S880{u}[./3] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[./3] Location{Membrane}[#]) @ pkc_k1
+AMPAR_23(S880{u}[3/.] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_23(S880{u/p}[3/.] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_23(S880{u}[./1] Y876{u}[#] Anchor{X}[#]), PKC(Calcium{c3}[./1] Location{Membrane}[#]) @ pkc_k1
+AMPAR_23(S880{u}[1/.] Y876{u}[#] Anchor{X}[#]), PKC(Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_23(S880{u/p}[1/.] Y876{u}[#] Anchor{X}[#]), PKC(Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_12(S880{p}[./1]), PP2A(b[./1]) @ s880_pp2a_k1
+AMPAR_12(S880{p}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k2
+AMPAR_12(S880{p/u}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k3
+AMPAR_23(S880{p}[./1]), PP2A(b[./1]) @ s880_pp2a_k1
+AMPAR_23(S880{p}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k2
+AMPAR_23(S880{p/u}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k3
+AMPAR_12(S880{u}[#] Y876{u}[./1]), SFK(b[./1]) @ sfk_k1
+AMPAR_12(S880{u}[#] Y876{u}[1/.]), SFK(b[1/.]) @ sfk_k2
+AMPAR_12(S880{u}[#] Y876{u/p}[1/.]), SFK(b[1/.]) @ sfk_k3
+AMPAR_23(Y876{u}[./1]), SFK(b[./1]) @ sfk_k1
+AMPAR_23(Y876{u}[1/.]), SFK(b[1/.]) @ sfk_k2
+AMPAR_23(Y876{u/p}[1/.]), SFK(b[1/.]) @ sfk_k3
+AMPAR_12(Y876{p}[./1]), PTPMEG(b[./1]) @ ptpmeg_k1
+AMPAR_12(Y876{p}[1/.]), PTPMEG(b[1/.]) @ ptpmeg_k2
+AMPAR_12(Y876{p/u}[1/.]), PTPMEG(b[1/.]) @ ptpmeg_k3
+AMPAR_23(Y876{p}[./1]), PTPMEG(b[./1]) @ ptpmeg_k1
+AMPAR_23(Y876{p}[1/.]), PTPMEG(b[1/.]) @ ptpmeg_k2
+AMPAR_23(Y876{p/u}[1/.]), PTPMEG(b[1/.]) @ ptpmeg_k3
+RNF(CK{Inactive}[./1] s{u0}[#]), CK(T286{p}[./1]) @ RNFCK_assoc
+RNF(CK{Inactive}[1/.] s{u0}[#]), CK(T286{p}[1/.]) @ RNFCK_dissoc
+RNF(CK{Inactive/Active}[1/.] s{u0}[#]), CK(T286{p}[1/.]) @ RNF_Activate
+E2(s{u1}[#] RNF[./1]), RNF(E2[./1] s{u0}[#]) @ 'E2 association rate'
+E2(s{u1}[#] RNF[1/.]), RNF(E2[1/.] s{u0}[#]) @ 'E2 dissociation rate'
+E2(s{u1/u0}[#] RNF[1/.]), RNF(E2[1/.] s{u0/u1}[#]) @ 'E2 ub transfer rate'
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K870{u0}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K870{u0}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K870{u0/u1}[#] RNF[1/.]) @ kub1
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K870{u0}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K870{u0}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K870{u0/u1}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{u1}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{u1}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K870{u1}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K870{u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K870{u1/u0}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K870{u1}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K870{u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K870{u1/u0}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_12(K870{u1}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_12(K870{u1}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K870{u1/u2}[#] RNF[1/.]) @ kub1
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_23(K870{u1}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_23(K870{u1}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K870{u1/u2}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{u2}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{u2}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K870{u2}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K870{u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K870{u2/u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K870{u2}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K870{u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K870{u2/u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_12(K870{u2}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_12(K870{u2}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K870{u2/u3}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{u3}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_23(K870{u2}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_23(K870{u2}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K870{u2/u3}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{u3}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K870{u3}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K870{u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K870{u3/u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K870{u3}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K870{u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K870{u3/u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_12(K870{u3}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_12(K870{u3}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K870{u3/u4}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{u4}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_23(K870{u3}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_23(K870{u3}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K870{u3/u4}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{u4}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K870{u4}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K870{u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K870{u4/u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K870{u4}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K870{u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K870{u4/u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_12(K870{u4}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_12(K870{u4}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K870{u4/u5}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{u5}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_23(K870{u4}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_23(K870{u4}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K870{u4/u5}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{u5}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K870{u5}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K870{u5}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K870{u5/u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K870{u5}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K870{u5}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K870{u5/u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+E1(s{u0/u1}[#]) @ 'E1 activation rate'
+E1(s{u1/u0}[#]) @ 'E1 deactivation rate'
+E1(s{u1}[#] E2[./1]), E2(E1[./1] s{u0}[#]) @ 'E1 association rate'
+E1(s{u1}[#] E2[1/.]), E2(E1[1/.] s{u0}[#]) @ 'E1 dissociation rate'
+E1(s{u1/u0}[#] E2[1/.]), E2(E1[1/.] s{u0/u1}[#]) @ 'E1 ub transfer rate'
+E2(s{u1}[#] Nedd4[./1]), Nedd4(E2[./1] s{u0}[#]) @ 'E2 association rate'
+E2(s{u1}[#] Nedd4[1/.]), Nedd4(E2[1/.] s{u0}[#]) @ 'E2 dissociation rate'
+E2(s{u1/u0}[#] Nedd4[1/.]), Nedd4(E2[1/.] s{u0/u1}[#]) @ 'E2 ub transfer rate'
+Nedd4(Cdomain{Inactive}[./1]), CK(T286{p}[./1]) @ Nedd4_assoc
+Nedd4(Cdomain{Inactive}[1/.]), CK(T286{p}[1/.]) @ Nedd4_dissoc
+Nedd4(Cdomain{Inactive/Active}[1/.]), CK(T286{p}[1/.]) @ Nedd4_Activate
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[./1]), AMPAR_12(S845{u}[#] K868{u0}[#] Nedd4[./1]) @ 'E3 bind rate'
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[1/.]), AMPAR_12(S845{u}[#] K868{u0}[#] Nedd4[1/.]) @ 'E3 dissociation rate'
+Nedd4(Cdomain{Active}[#] s{u1/u0}[#] AMPAR[1/.]), AMPAR_12(K868{u0/u1}[#] Nedd4[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{u1}[.] K870{#}[#] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+DUB(AMPAR[./1]), AMPAR_12(K868{u1}[#] DUB[./1]) @ 'DUB bind rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u1}[#] DUB[1/.]) @ 'DUB dissociation rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u1/u0}[#] DUB[1/.]) @ kdub
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[./1]), AMPAR_12(S845{u}[#] K868{u1}[#] Nedd4[./1]) @ 'E3 bind rate'
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[1/.]), AMPAR_12(S845{u}[#] K868{u1}[#] Nedd4[1/.]) @ 'E3 dissociation rate'
+Nedd4(Cdomain{Active}[#] s{u1/u0}[#] AMPAR[1/.]), AMPAR_12(K868{u1/u2}[#] Nedd4[1/.]) @ kub2
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{u2}[.] K870{#}[#] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+DUB(AMPAR[./1]), AMPAR_12(K868{u2}[#] DUB[./1]) @ 'DUB bind rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u2}[#] DUB[1/.]) @ 'DUB dissociation rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u2/u1}[#] DUB[1/.]) @ kdub
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[./1]), AMPAR_12(S845{u}[#] K868{u2}[#] Nedd4[./1]) @ 'E3 bind rate'
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[1/.]), AMPAR_12(S845{u}[#] K868{u2}[#] Nedd4[1/.]) @ 'E3 dissociation rate'
+Nedd4(Cdomain{Active}[#] s{u1/u0}[#] AMPAR[1/.]), AMPAR_12(K868{u2/u3}[#] Nedd4[1/.]) @ kub3
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{u3}[.] K870{#}[#] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+DUB(AMPAR[./1]), AMPAR_12(K868{u3}[#] DUB[./1]) @ 'DUB bind rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u3}[#] DUB[1/.]) @ 'DUB dissociation rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u3/u2}[#] DUB[1/.]) @ kdub
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[./1]), AMPAR_12(S845{u}[#] K868{u3}[#] Nedd4[./1]) @ 'E3 bind rate'
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[1/.]), AMPAR_12(S845{u}[#] K868{u3}[#] Nedd4[1/.]) @ 'E3 dissociation rate'
+Nedd4(Cdomain{Active}[#] s{u1/u0}[#] AMPAR[1/.]), AMPAR_12(K868{u3/u4}[#] Nedd4[1/.]) @ kub4
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{u4}[.] K870{#}[#] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+DUB(AMPAR[./1]), AMPAR_12(K868{u4}[#] DUB[./1]) @ 'DUB bind rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u4}[#] DUB[1/.]) @ 'DUB dissociation rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u4/u3}[#] DUB[1/.]) @ kdub
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[./1]), AMPAR_12(S845{u}[#] K868{u4}[#] Nedd4[./1]) @ 'E3 bind rate'
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[1/.]), AMPAR_12(S845{u}[#] K868{u4}[#] Nedd4[1/.]) @ 'E3 dissociation rate'
+Nedd4(Cdomain{Active}[#] s{u1/u0}[#] AMPAR[1/.]), AMPAR_12(K868{u4/u5}[#] Nedd4[1/.]) @ kub5
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{u5}[.] K870{#}[#] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kd
+DUB(AMPAR[./1]), AMPAR_12(K868{u5}[#] DUB[./1]) @ 'DUB bind rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u5}[#] DUB[1/.]) @ 'DUB dissociation rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u5/u4}[#] DUB[1/.]) @ kdub
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K882{u0}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K882{u0}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K882{u0/u1}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{#}[#] K882{u1}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K882{u0}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K882{u0}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K882{u0/u1}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{#}[#] K882{u1}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K882{u1}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K882{u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K882{u1/u0}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K882{u1}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K882{u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K882{u1/u0}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K882{u1}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K882{u1}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K882{u1/u2}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{#}[#] K882{u2}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K882{u1}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K882{u1}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K882{u1/u2}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{#}[#] K882{u2}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K882{u2}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K882{u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K882{u2/u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K882{u2}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K882{u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K882{u2/u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K882{u2}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K882{u2}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K882{u2/u3}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{#}[#] K882{u3}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K882{u2}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K882{u2}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K882{u2/u3}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{#}[#] K882{u3}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K882{u3}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K882{u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K882{u3/u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K882{u3}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K882{u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K882{u3/u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K882{u3}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K882{u3}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K882{u3/u4}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{#}[#] K882{u4}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K882{u3}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K882{u3}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K882{u3/u4}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{#}[#] K882{u4}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K882{u4}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K882{u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K882{u4/u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K882{u4}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K882{u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K882{u4/u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K882{u4}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K882{u4}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K882{u4/u5}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{#}[#] K882{u5}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kd
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K882{u4}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K882{u4}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K882{u4/u5}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{#}[#] K882{u5}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kd
+AMPAR_12(K882{u5}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K882{u5}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K882{u5/u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+GluA1(b[.])+ @ (1000 / Theta)
+GluA2(b[.])+ @ (1000 / Theta)
+GluA3(b[.])+ @ (1000 / Theta)
+GluA1(b[.])-, GluA1(b[.])-, GluA1A1(b[.])+ @ 1
+GluA1(b[.])-, GluA2(b[.])-, GluA1A2(b[.])+ @ 1
+GluA2(b[.])-, GluA3(b[.])-, GluA2A3(b[.])+ @ 1
+GluA1A1(b[#])-, GluA1A1(b[#])-, AMPAR_1(S831{u}[.] S845{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K868{u0}[.] DUB[.] Nedd4[.])+ @ (1 / Theta)
+GluA1A2(b[#])-, GluA1A2(b[#])-, AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])+ @ (3 / Theta)
+GluA2A3(b[#])-, GluA2A3(b[#])-, AMPAR_23(S880{u}[.] Y876{u}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])+ @ (3 / Theta)
+
+/*0*/%mod: (Calcium_Levels > 10) do $UPDATE cAMP_synth 20; repeat [true]
+/*1*/%mod: (Calcium_Levels < 5) do $UPDATE cAMP_synth 0.5; repeat [true]
+/*2*/%mod: alarm 0.01 [true] do $APPLY (10 * CaGlu) Ca(b[.])+; repeat [true]
+/*3*/%mod: (Glu_Trigger > 0) do $UPDATE Glu_Release (1500000000000000 / Theta); repeat [true]
+/*4*/%mod: (Glu_Trigger = 0) do $UPDATE Glu_Release 0; repeat [true]
+/*5*/%mod: alarm 0.001 (Glu_Release = (3000000000000000 / Theta)) do $APPLY 1 Counter()+; repeat [true]
+/*6*/%mod: alarm 300 ([T] > 0) do $SNAPSHOT "steady_state_300"; repeat [false]
+/*7*/%mod: alarm 500 ([T] > 0) do $SNAPSHOT "steady_state_500"; repeat [false]
+/*8*/%mod: alarm 1000 ([T] > 0) do $SNAPSHOT "steady_state_1000"; repeat [false]
+/*9*/%mod: (Phos_CK_subunits > 100) do $APPLY 10 PSD()+; repeat [false]
+/*10*/%mod: (Phos_CK_subunits > 200) do $APPLY 10 PSD()+; repeat [false]
+/*11*/%mod: (Phos_CK_subunits > 300) do $APPLY 10 PSD()+; repeat [false]
+/*12*/%mod: (Phos_CK_subunits > 400) do $APPLY 10 PSD()+; repeat [false]
+/*13*/%mod: (Phos_CK_subunits > 500) do $APPLY 10 PSD()+; repeat [false]
+/*14*/%mod: (Phos_CK_subunits > 600) do $APPLY 10 PSD()+; repeat [false]
+/*15*/%mod: (Phos_CK_subunits < 100) do $UPDATE slot_degen 0.05; repeat [true]
+/*16*/%mod: (Phos_CK_subunits > 500) do $UPDATE slot_degen 0; repeat [true]
+
+%init: Basal_12 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])
+%init: Basal_23 AMPAR_23(S880{u}[.] Y876{u}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])
+%init: X_12 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])
+%init: X_23 AMPAR_23(S880{u}[.] Y876{u}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])
+%init: 12 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{PSD}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])
+%init: 3 AMPAR_23(S880{u}[.] Y876{u}[.] Open{B}[.] Glu{g0}[.] Anchor{PSD}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])
+%init: Glu Glutamate()
+%init: 0 Random()
+%init: PP1 PP1(b[.])
+%init: 67 PP2A(b[.])
+%init: 108 I1(Phos{u}[.] b[.])
+%init: PKA PKA(b[.] Active{i}[.])
+%init: PSD_slots PSD()
+%init: 10 cAMP()
+%init: 30 R2C2(cAMP{c0}[.] C{c2}[.])
+%init: 15 PKA_Inhibitor(b[.])
+%init: 1586 CaM(ck[.] calcium{c0}[.])
+%init: 5 Ca(b[.])
+%init: 60 CaNAB(b[.] calcium{c0}[.])
+%init: 500 CK(a[6] b[1] c[7] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[1] b[2] c[9] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[2] b[3] c[11] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[4] c[13] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[5] c[15] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[6] c[18] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[8] c[.] d[7] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[8] b[10] c[.] d[9] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[10] b[12] c[.] d[11] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[12] b[14] c[.] d[13] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[14] b[16] c[.] d[15] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[16] b[17] c[.] d[18] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: GRIP GRIP(ampa[.])
+%init: PICK1 PICK1(ampa[.] pkc[.])
+%init: PKC PKC(pick1[.] Calcium{c0}[.] Location{Endo}[.])
+%init: NSF NSF(ampa[.])
+%init: SFK SFK(b[.])
+%init: PTPMEG PTPMEG(b[.])
+%init: PP2A PP2A(b[.])
+%init: 18 RNF(CK{Inactive}[.] E2[.] AMPAR[.] s{u0}[.])
+%init: 180 E1(s{u0}[.] E2[.])
+%init: 180 E2(E1[.] s{u0}[.] Nedd4[.] RNF[.])
+%init: 18 Nedd4(Cdomain{Inactive}[.] E2[.] s{u0}[.] AMPAR[.])
+%init: 18 DUB(AMPAR[.])
+%init: 500 GluA1(b[.]), GluA2(b[.])
+%init: 200 GluA3(b[.])
+%init: 0 GluA1A1(b[.]), GluA1A2(b[.]), GluA2A3(b[.])
+%init: 0 Counter()
+%init: 0 G()
+%init: 0 N()
+%init: 0 P()
+%init: 0 Gb()
+%init: 0 Nb()
+%init: 0 Pb()
+%init: 0 Gc()
+%init: 0 Nc()
+%init: 0 Pc()
+
+%mod: [E] = 215054227 do $STOP;

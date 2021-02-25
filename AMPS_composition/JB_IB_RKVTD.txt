@@ -1,0 +1,108 @@
+library(readxl)
+library(ggplot2)
+library(viridis)
+
+data <- read_excel("JB_collate.xlsx", sheet = "MAPK")
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = LTP, colour = "10 μM"), size=1.2) + geom_line(aes(y = Basal,colour = "0.08 μM"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("MAPK_LTP.png", dpi = 320)
+
+
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = LTD_1,colour = "1 μM"), size=1.2) + geom_line(aes(y = LTD_0.2,colour = "0.2 μM"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("MAPK_LTD.png", dpi = 320)
+
+
+data <- read_excel("JB_collate.xlsx", sheet = "AKT")
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = LTP,colour = "10 μM"), size=1.2) + geom_line(aes(y = Basal,colour = "0.08 μM"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("AKT_LTP.png", dpi = 320)
+
+
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = LTD_1,colour = "1 μM"), size=1.2) + geom_line(aes(y = LTD_0.2,colour = "0.2 μM"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("AKT_LTD.png", dpi = 320)
+
+
+
+data <- read_excel("JB_collate.xlsx", sheet = "CaMKIII")
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = LTP,colour = "10 μM"), size=1.2) + geom_line(aes(y = Basal,colour = "0.08 μM"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("CaMKIII_LTP.png", dpi = 320)
+
+
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = LTD_1,colour = "1 μM"), size=1.2) + geom_line(aes(y = LTD_0.2,colour = "0.2 μM"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("CaMKIII_LTD.png", dpi = 320)
+
+
+
+
+data <- read_excel("JB_collate.xlsx", sheet = "Protein")
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = LTP,colour = "10 μM"), size=1.2) + geom_line(aes(y = Basal,colour = "0.08 μM"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("Protein_LTP.png", dpi = 320)
+
+
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = LTD_1,colour = "1 μM"), size=1.2) + geom_line(aes(y = LTD_0.2,colour = "0.2 μM"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("Protein_LTD.png", dpi = 320)
+
+
+
+
+//FOR LOG SCALE
++ scale_y_continuous(trans='log10') +
+
+//FOR Y INTERCEPT
++ geom_hline(yintercept=12, linetype="dashed", color = "red", size = 1.5) +
+
+//FOR FIXED Y AXIS SCALE
+
++ expand_limits(y=c(0, 75)) + 
+
+//FOR FIXED X AXIS SCALE
++ expand_limits(x=c(0, 2000)) + 
+
+
+ggsave("name.png", dpi = 320)
+
+
+
+//rkvtd
+
+
+data <- read_excel("rktvd_W0.xlsx")
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = pAkt,colour = "pAkt"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + xlim(0, 2000) +  labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("AktWnt.png", dpi = 320)
+
+
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = pERK,colour = "pERK"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("ERKWnt.png", dpi = 320)
+
+
+
+
+data <- read_excel("rktvd_30000.xlsx")
+
+
+ggplot(`data`, aes(Time)) + geom_line(aes(y = TCFBCatenin0,colour = "W=0"), size=1.2) + geom_line(aes(y = TCFBCatenin1,colour = "W=1"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "μM", colour = "") + theme(axis.text=element_text(size=18), axis.title=element_text(size=18,face='bold'), legend.text=element_text(size=18))
+
+ggsave("TCFBCatW.png", dpi = 320)
+
+
+
+
+

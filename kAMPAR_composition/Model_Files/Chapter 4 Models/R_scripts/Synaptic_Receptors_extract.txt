@@ -1,0 +1,20 @@
+library(writexl)
+
+Receptors_Protocols <- lapply(list(average_ctheta, average_stheta, average_theta, average_delta, average_HFS, average_weakLTP, average_LFS, average_LFSPP50, average_LFSPP200), function(x) x$Synaptic_receptors)
+
+Syn_Receptors <- as.data.frame(Receptors_Protocols)
+
+write_xlsx(Syn_Receptors, "temp.xlsx")
+
+
+///ALT
+
+library(readxl)
+file.list <- list.files(pattern='*.xlsx')
+df.list <- lapply(file.list, read_excel)
+
+Receptors_Protocols <- lapply((df.list), function(x) x$Synaptic_receptors)
+
+Syn_Receptors <- as.data.frame(Receptors_Protocols)
+
+write_xlsx(Syn_Receptors, "temp.xlsx")

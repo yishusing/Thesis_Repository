@@ -1,0 +1,62 @@
+// "Agents" (proteins)
+%agent: CK(a,b,c,d,cam,T286{u p pp})       /*# CaMKII monomer*/
+%agent: CaM(ck)       /*CaM (we could imagine that it is already bound to Ca)*/
+%agent: PP(dp)        /*Phosphatase (for dephosphorylation)*/
+//agent: CKdead(a,b,c,d,cam,pp)        /*Mutant CamKII monomer- no kinase activity*/
+
+// Initial numbers
+
+// Set up CaMKII hexamer (half no. of uni- and bi-directional models)
+%init: 50 CK(a[1],b[2],c[13]), CK(a[2],b[3],c[14]), CK(a[3],b[4],c[15]), CK(a[4],b[5],c[16]), CK(a[5],b[6],c[17]), CK(a[6],b[1],c[18]),CK(a[7],b[8],d[13]), CK(a[8],b[9],d[14]), CK(a[9],b[10],d[15]), CK(a[10],b[11],d[16]), CK(a[11],b[12],d[17]), CK(a[12],b[7],d[18])
+//%init: 10 CKdead(a[1],b[2],c[13]), CK(a[2],b[3],c[14]), CK(a[3],b[4],c[15]), CK(a[4],b[5],c[16]), CK(a[5],b[6],c[17]), CK(a[6],b[1],c[18]),CK(a[7],b[8],d[13]), CK(a[8],b[9],d[14]), CK(a[9],b[10],d[15]), CK(a[10],b[11],d[16]), CK(a[11],b[12],d[17]), CKdead(a[12],b[7],d[18])
+
+// Set up free CaM molecules
+%init: 2000 CaM(ck)
+// Set up Phosphatase molecules
+%init: 1000 PP(dp)
+
+%var: CaM_binding 0.139488542
+%var: CaM_unbinding 0.126
+
+// Rules
+// Binding of CaM to CaMKII
+CaM(ck[.]), CK(cam[.]) <->  CaM(ck[1]), CK(cam[1]) @ CaM_binding,CaM_unbinding
+
+//Autophosphorylation of CaMKII by neighbouring unit
+CaM(ck[1]), CK(b[2],T286{p}), CK(cam[1],a[2],T286{u}) ->  CaM(ck[1]), CK(b[2],T286{p}), CK(cam[1],a[2],T286{p}) @ 30 /*Ca2+/Calmodulin bound/not bound, P*/
+
+CaM(ck[1]), CaM(ck[2]), CK(cam[1],b[3],T286{u}), CK(cam[2],a[3],T286{u}) -> CaM(ck[1]), CaM(ck[2]), CK(cam[1],b[3],T286{u}), CK(cam[2],a[3],T286{p})  @ 30 /*Calmodulin bound, not P*/
+
+//Interhexamer autophosphorylation (one way)
+CaM(ck[1]), CK(c[2],T286{p}), CK(cam[1],d[2],T286{u}) ->  CaM(ck[1]), CK(c[2],T286{p}), CK(cam[1],d[2],T286{p}) @ 20 /*Calmodulin bound/not bound, P*/
+
+CaM(ck[1]), CaM(ck[2]), CK(cam[1],c[3],T286{u}), CK(cam[2],d[3],T286{u}) -> CaM(ck[1]), CaM(ck[2]), CK(cam[1],c[3],T286{u}), CK(cam[2],d[3],T286{p})  @ 20 /*Calmodulin bound, not P*/
+
+//Interhexamer autophosphorylation (both ways)
+CaM(ck[1]), CK(d[2],T286{p}), CK(cam[1],c[2],T286{u}) ->  CaM(ck[1]), CK(d[2],T286{p}), CK(cam[1],c[2],T286{p}) @ 20 /*Ca2+/Calmodulin bound/not bound, P*/
+
+CaM(ck[1]), CaM(ck[2]), CK(cam[1],d[3],T286{u}), CK(cam[2],c[3],T286{u}) -> CaM(ck[1]), CaM(ck[2]), CK(cam[1],d[3],T286{u}), CK(cam[2],c[3],T286{p})  @ 20 /*Calmodulin bound, not P*/
+
+//Bidirectional autophosphorylation 
+//CaM(ck[1]), CK(a[2],T286{p}), CK(cam[1],b[2],T286{u}) ->  CaM(ck[1]), CK(a[2],T286{p}), CK(cam[1],b[2],T286{p}) @ 30 /*Ca2+/Calmodulin bound/not bound, P */
+
+//CaM(ck[1]), CaM(ck[2]), CK(cam[1],a[3],T286{u}), CK(cam[2],b[3],T286{u}) -> CaM(ck[1]), CaM(ck[2]), CK(cam[1],a[3],T286{u}), CK(cam[2],b[3],T286{p})  @ 30 /*Calmodulin bound, not P*/
+
+
+// 1: Activated CaMKII binds to PP
+CK(T286{pp}[.]), PP1(b[.]) <-> CK(T286{pp}[1]), PP1(b[1]) @ 50/3011, 50
+CK(T286{p}[.]), PP1(b[.]) <-> CK(T286{p}[1]), PP1(b[1]) @ 50/3011, 50
+
+// 2: PP dephosphorylates CaMKII
+CK(T286{p}[1]), PP1(b[1]) -> CK(T286{u}[.]), PP1(b[.]) @ 1 /* shouldnt this be pp -> p, p->u?*/
+//CK(T286{pp}[1]), PP(dp[1]) -> CK(T286{pp}[.]), PP(dp[.]) @ 1
+
+// Observations
+%obs: Free_CaM |CaM(ck)|
+%obs: Phos_CK_subunits |CK(T286{p})|
+%obs: Phos_CK_hexamers |CK(a[1],b[2],T286{p}), CK(a[2],b[3],T286{p}), CK(a[3],b[4],T286{p}), CK(a[4],b[5],T286{p}), CK(a[5],b[6],T286{p}), CK(a[6],b[1],T286{p})|/6
+%obs: Free_PP |PP1(b[.])|
+
+//%mod: [T] = 0.15 do $UPDATE CaM_binding 0;
+//%mod: [T]>0.15 do $DEL |CaM(ck)| CaM(ck);
+

@@ -1,0 +1,11 @@
+library(readxl)
+library(ggplot2)
+library(viridis)
+
+
+Merged <- read_excel("Membrane_Merged.xlsx", sheet = "Merged")
+
+
+ggplot(`Merged`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.2) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.2) + geom_line(aes(y = Delta,colour = "Delta"), size=1.2)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.2) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.2) + geom_line(aes(y = LFS,colour = "LFS"), size=1.2) + geom_line(aes(y = LFSPP200,colour = "LFSPP200"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red", size = 1.5) + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'))
+
+ggsave("Merged.png", dpi = 320)

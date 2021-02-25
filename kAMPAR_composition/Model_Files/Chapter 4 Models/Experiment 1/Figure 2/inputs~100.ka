@@ -1,0 +1,394 @@
+// "uuid" : "742759570"
+%def: "seed" "62236706"
+%def: "dumpIfDeadlocked" "true"
+%def: "maxConsecutiveClash" "2"
+%def: "plotPeriod" "1e-05" "t.u."
+%def: "outputFileName" "Conductance.out"
+
+%agent:
+  AMPAR_12(S831{u p pp}[b.PP1 T286.CK] S845{u p pp}[b.PP1 b.PP2B b.PKA]
+           S880{u p pp} Y876{u p pp} Open{B S M L} Glu{g0 g1 g2 g3 g4})
+%agent: AMPAR_23(S880{u p pp} Y876{u p pp} Open{B S M L} Glu{g0 g1 g2 g3 g4})
+%agent: AMPAR_Pool()
+%agent: Glutamate()
+%agent: PP1(b[S831.AMPAR_12 S845.AMPAR_12 Phos.I1 T286.CK])
+%agent: PP2B(b[S845.AMPAR_12 b.I1] Active{i a}[Phos.I1])
+%agent: PKA(b[S845.AMPAR_12] Active{i a}[Phos.I1])
+%agent: PKA_Inhibitor(b)
+%agent: I1(Phos{u p}[b.PP1 Active.PP2B Active.PKA b.PP2A] b[b.PP2B b.PP2A])
+%agent: Ca()
+%agent: PP2A(b[Phos.I1 b.I1])
+%agent:
+  CK(a[b.CK] b[a.CK] c[d.CK] d[c.CK] cam[ck.CaM]
+     T286{u p pp}[S831.AMPAR_12 b.PP1])
+%agent: CaM(ck[cam.CK])
+%agent: PP(dp)
+
+%var:/*0*/ 'NA' 6.022e+23
+%var:/*1*/ 'V' 1e-16
+%var:/*2*/ 'Bkoff' 4495
+%var:/*3*/ 'Bkon' (5000000 / 60220000)
+%var:/*4*/ 'BSc' 0.0601
+%var:/*5*/ 'p' 0.5
+%var:/*6*/ 'BSk4' 300000
+%var:/*7*/ 'BSk3' (BSk4 * (BSc ^ p))
+%var:/*8*/ 'BSk2' (BSk3 * (BSc ^ p))
+%var:/*9*/ 'BSk1' (BSk2 * (BSc ^ p))
+%var:/*10*/ 'BSk0' (BSk1 * (BSc ^ p))
+%var:/*11*/ 'Skoff' 270.4
+%var:/*12*/ 'Skon' (5000000 / 60220000)
+%var:/*13*/ 'SMc' 0.0616
+%var:/*14*/ 'SBk4' 860
+%var:/*15*/ 'SBk3' (SBk4 / (BSc ^ p))
+%var:/*16*/ 'SBk2' (SBk3 / (BSc ^ p))
+%var:/*17*/ 'SBk1' (SBk2 / (BSc ^ p))
+%var:/*18*/ 'SBk0' (SBk1 / (BSc ^ p))
+%var:/*19*/ 'SMk4' 20000
+%var:/*20*/ 'SMk3' (SMk4 * (SMc ^ p))
+%var:/*21*/ 'SMk2' (SMk3 * (SMc ^ p))
+%var:/*22*/ 'SMk1' (SMk2 * (SMc ^ p))
+%var:/*23*/ 'SMk0' (SMk1 * (SMc ^ p))
+%var:/*24*/ 'Mkoff' 16.65
+%var:/*25*/ 'Mkon' (5000000 / 60220000)
+%var:/*26*/ 'MLc' 0.069
+%var:/*27*/ 'MSk4' 145
+%var:/*28*/ 'MSk3' (MSk4 / (SMc ^ p))
+%var:/*29*/ 'MSk2' (MSk3 / (SMc ^ p))
+%var:/*30*/ 'MSk1' (MSk2 / (SMc ^ p))
+%var:/*31*/ 'MSk0' (MSk1 / (SMc ^ p))
+%var:/*32*/ 'MLk4' 50000
+%var:/*33*/ 'MLk3' (MLk4 * (MLc ^ p))
+%var:/*34*/ 'MLk2' (MLk3 * (MLc ^ p))
+%var:/*35*/ 'MLk1' (MLk2 * (MLc ^ p))
+%var:/*36*/ 'MLk0' (MLk1 * (MLc ^ p))
+%var:/*37*/ 'Lkoff' 1.149
+%var:/*38*/ 'Lkon' (5000000 / 60220000)
+%var:/*39*/ 'LMk4' 691
+%var:/*40*/ 'LMk3' (LMk4 / (MLc ^ p))
+%var:/*41*/ 'LMk2' (LMk3 / (MLc ^ p))
+%var:/*42*/ 'LMk1' (LMk2 / (MLc ^ p))
+%var:/*43*/ 'LMk0' (LMk1 / (MLc ^ p))
+%var:/*44*/ 'pp1_s831_k1' (874978.13 / 60220000)
+%var:/*45*/ 'pp1_s831_k2' 1.4
+%var:/*46*/ 'pp1_s831_k3' 0.35
+%var:/*47*/ 'pp1_s845_k1' (874979.8 / 60220000)
+%var:/*48*/ 'pp1_s845_k2' 0.68
+%var:/*49*/ 'pp1_s845_k3' 0.17
+%var:/*50*/ 'pka_k1' (3999888 / 60220000)
+%var:/*51*/ 'pka_k2' 24
+%var:/*52*/ 'pka_k3' 6
+%var:/*53*/ 'camkii_k1' (27777.59 / 60220000)
+%var:/*54*/ 'camkii_k2' 2
+%var:/*55*/ 'camkii_k3' 0.5
+%var:/*56*/ 'pp2b_k1' (2011825.51 / 60220000)
+%var:/*57*/ 'pp2b_k2' 8
+%var:/*58*/ 'pp2b_k3' 2
+%var:/*59*/ 'PKA_I1_k1' (6000000 / 60220000)
+%var:/*60*/ 'PKA_I1_k2' 36
+%var:/*61*/ 'PKA_I1_k3' 9
+%var:/*62*/ 'PP2A_I1_k1' (3832259 / 60220000)
+%var:/*63*/ 'PP2A_I1_k2' 24
+%var:/*64*/ 'PP2A_I1_k3' 6
+%var:/*65*/ 'PP2A_PP1_I1_k1' (3832259 / 60220000)
+%var:/*66*/ 'PP2A_PP1_I1_k2' 24
+%var:/*67*/ 'PP2A_PP1_I1_k3' 6
+%var:/*68*/ 'PP2B_I1_k1' (34200 / 60220000)
+%var:/*69*/ 'PP2B_I1_k2' 0.14
+%var:/*70*/ 'PP2B_I1_k3' 0.03
+%var:/*71*/ 'PP2B_PP1_I1_k1' (34200 / 60220000)
+%var:/*72*/ 'PP2B_PP1_I1_k2' 0.14
+%var:/*73*/ 'PP2B_PP1_I1_k3' 0.03
+%var:/*74*/ 'Basal_12' (8.302693916e-07 * 60220000)
+%var:/*75*/ 'Glu' 0
+%var:/*76*/ 'PKA' 0
+%var:/*77*/ 'PP1' (3.5e-06 * 60220000)
+%var:/*78*/ 'Ca' (8e-08 * 60220000)
+%var:/*79*/ 'B0' |AMPAR_12(Open{B} Glu{g0})|
+%var:/*80*/ 'B1' |AMPAR_12(Open{B} Glu{g1})|
+%var:/*81*/ 'B2' |AMPAR_12(Open{B} Glu{g2})|
+%var:/*82*/ 'B3' |AMPAR_12(Open{B} Glu{g3})|
+%var:/*83*/ 'B4' |AMPAR_12(Open{B} Glu{g4})|
+%var:/*84*/ 'S0' |AMPAR_12(Open{S} Glu{g0})|
+%var:/*85*/ 'S1' |AMPAR_12(Open{S} Glu{g1})|
+%var:/*86*/ 'S2' |AMPAR_12(Open{S} Glu{g2})|
+%var:/*87*/ 'S3' |AMPAR_12(Open{S} Glu{g3})|
+%var:/*88*/ 'S4' |AMPAR_12(Open{S} Glu{g4})|
+%var:/*89*/ 'M0' |AMPAR_12(Open{M} Glu{g0})|
+%var:/*90*/ 'M1' |AMPAR_12(Open{M} Glu{g1})|
+%var:/*91*/ 'M2' |AMPAR_12(Open{M} Glu{g2})|
+%var:/*92*/ 'M3' |AMPAR_12(Open{M} Glu{g3})|
+%var:/*93*/ 'M4' |AMPAR_12(Open{M} Glu{g4})|
+%var:/*94*/ 'L0' |AMPAR_12(Open{L} Glu{g0})|
+%var:/*95*/ 'L1' |AMPAR_12(Open{L} Glu{g1})|
+%var:/*96*/ 'L2' |AMPAR_12(Open{L} Glu{g2})|
+%var:/*97*/ 'L3' |AMPAR_12(Open{L} Glu{g3})|
+%var:/*98*/ 'L4' |AMPAR_12(Open{L} Glu{g4})|
+%var:/*99*/ 'S831_P' |AMPAR_12(S831{p})|
+%var:/*100*/ 'S831_PP' |AMPAR_12(S831{pp})|
+%var:/*101*/ 'S831_u' |AMPAR_12(S831{u})|
+%var:/*102*/ 'S845_P' |AMPAR_12(S845{p})|
+%var:/*103*/ 'S845_PP' |AMPAR_12(S845{pp})|
+%var:/*104*/ 'S845_u' |AMPAR_12(S845{u})|
+%var:/*105*/ 'I1_P' |I1(Phos{p})|
+%var:/*106*/ 'I1_u' |I1(Phos{u})|
+%var:/*107*/ 'PKA_a' |PKA(Active{a})|
+%var:/*108*/ 'PKA_i' |PKA(Active{i})|
+%var:/*109*/ 'PKA_killer' |PKA_Inhibitor()|
+%var:/*110*/ 'Glutamate_level' |Glutamate()|
+%var:/*111*/ 'Conductance' ((S831_u + (1.5 * S831_P)) + (2 * S831_PP))
+%var:/*112*/ 'CaM_binding' 0.139488542
+%var:/*113*/ 'CaM_unbinding' 0.126
+%var:/*114*/ 'Free_CaM' |CaM()|
+%var:/*115*/ 'Phos_CK_subunits' |CK(T286{p})|
+%var:/*116*/ 'Phos_CK_hexamers' (|CK(a[1] b[2] T286{p}), CK(a[2] b[3] T286{p}), CK(a[3] b[4] T286{p}), CK(a[4] b[5] T286{p}), CK(a[5] b[6] T286{p}), CK(a[6] b[1] T286{p})| / 6)
+%var:/*117*/ 'Free_PP' |PP1(b[.])|
+%plot: [T]
+%plot: B0
+%plot: B1
+%plot: B2
+%plot: B3
+%plot: B4
+%plot: S0
+%plot: S1
+%plot: S2
+%plot: S3
+%plot: S4
+%plot: M0
+%plot: M1
+%plot: M2
+%plot: M3
+%plot: M4
+%plot: L0
+%plot: L1
+%plot: L2
+%plot: L3
+%plot: L4
+%plot: S831_P
+%plot: S831_PP
+%plot: S831_u
+%plot: S845_P
+%plot: S845_PP
+%plot: S845_u
+%plot: I1_P
+%plot: I1_u
+%plot: PKA_a
+%plot: PKA_i
+%plot: PKA_killer
+%plot: Glutamate_level
+%plot: Conductance
+%plot: Free_CaM
+%plot: Phos_CK_subunits
+%plot: Phos_CK_hexamers
+%plot: Free_PP
+
+PKA(b[.] Active{a}[.])+ @ (1000000 / 60220000)
+PKA(b[#] Active{a}[#])- @ 0
+Glutamate()- @ (100000000 / 60220000)
+AMPAR_12(Open{B/S}[#] Glu{g0}[#]) @ BSk0
+AMPAR_12(Open{S/B}[#] Glu{g0}[#]) @ SBk0
+AMPAR_12(Open{B/S}[#] Glu{g1}[#]) @ BSk1
+AMPAR_12(Open{S/B}[#] Glu{g1}[#]) @ SBk1
+AMPAR_12(Open{B/S}[#] Glu{g2}[#]) @ BSk2
+AMPAR_12(Open{S/B}[#] Glu{g2}[#]) @ SBk2
+AMPAR_12(Open{B/S}[#] Glu{g3}[#]) @ BSk3
+AMPAR_12(Open{S/B}[#] Glu{g3}[#]) @ SBk3
+AMPAR_12(Open{B/S}[#] Glu{g4}[#]) @ BSk4
+AMPAR_12(Open{S/B}[#] Glu{g4}[#]) @ SBk4
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g0}[#]) @ (1.5 * BSk0)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g0}[#]) @ SBk0
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g1}[#]) @ (1.5 * BSk1)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g1}[#]) @ SBk1
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g2}[#]) @ (1.5 * BSk2)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g2}[#]) @ SBk2
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g3}[#]) @ (1.5 * BSk3)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g3}[#]) @ SBk3
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g4}[#]) @ (1.5 * BSk4)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g4}[#]) @ SBk4
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g0}[#]) @ (2 * BSk0)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g0}[#]) @ SBk0
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g1}[#]) @ (2 * BSk1)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g1}[#]) @ SBk1
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g2}[#]) @ (2 * BSk2)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g2}[#]) @ SBk2
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g3}[#]) @ (2 * BSk3)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g3}[#]) @ SBk3
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g4}[#]) @ (2 * BSk4)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g4}[#]) @ SBk4
+AMPAR_12(Open{S/M}[#] Glu{g0}[#]) @ SMk0
+AMPAR_12(Open{M/S}[#] Glu{g0}[#]) @ MSk0
+AMPAR_12(Open{S/M}[#] Glu{g1}[#]) @ SMk1
+AMPAR_12(Open{M/S}[#] Glu{g1}[#]) @ MSk1
+AMPAR_12(Open{S/M}[#] Glu{g2}[#]) @ SMk2
+AMPAR_12(Open{M/S}[#] Glu{g2}[#]) @ MSk2
+AMPAR_12(Open{S/M}[#] Glu{g3}[#]) @ SMk3
+AMPAR_12(Open{M/S}[#] Glu{g3}[#]) @ MSk3
+AMPAR_12(Open{S/M}[#] Glu{g4}[#]) @ SMk4
+AMPAR_12(Open{M/S}[#] Glu{g4}[#]) @ MSk4
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g0}[#]) @ (1.5 * SMk0)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g0}[#]) @ MSk0
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g1}[#]) @ (1.5 * SMk1)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g1}[#]) @ MSk1
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g2}[#]) @ (1.5 * SMk2)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g2}[#]) @ MSk2
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g3}[#]) @ (1.5 * SMk3)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g3}[#]) @ MSk3
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g4}[#]) @ (1.5 * SMk4)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g4}[#]) @ MSk4
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g0}[#]) @ (2 * SMk0)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g0}[#]) @ MSk0
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g1}[#]) @ (2 * SMk1)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g1}[#]) @ MSk1
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g2}[#]) @ (2 * SMk2)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g2}[#]) @ MSk2
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g3}[#]) @ (2 * SMk3)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g3}[#]) @ MSk3
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g4}[#]) @ (2 * SMk4)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g4}[#]) @ MSk4
+AMPAR_12(Open{M/L}[#] Glu{g0}[#]) @ MLk0
+AMPAR_12(Open{L/M}[#] Glu{g0}[#]) @ LMk0
+AMPAR_12(Open{M/L}[#] Glu{g1}[#]) @ MLk1
+AMPAR_12(Open{L/M}[#] Glu{g1}[#]) @ LMk1
+AMPAR_12(Open{M/L}[#] Glu{g2}[#]) @ MLk2
+AMPAR_12(Open{L/M}[#] Glu{g2}[#]) @ LMk2
+AMPAR_12(Open{M/L}[#] Glu{g3}[#]) @ MLk3
+AMPAR_12(Open{L/M}[#] Glu{g3}[#]) @ LMk3
+AMPAR_12(Open{M/L}[#] Glu{g4}[#]) @ MLk4
+AMPAR_12(Open{L/M}[#] Glu{g4}[#]) @ LMk4
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g0}[#]) @ (1.5 * MLk0)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g0}[#]) @ LMk0
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g1}[#]) @ (1.5 * MLk1)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g1}[#]) @ LMk1
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g2}[#]) @ (1.5 * MLk2)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g2}[#]) @ LMk2
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g3}[#]) @ (1.5 * MLk3)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g3}[#]) @ LMk3
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g4}[#]) @ (1.5 * MLk4)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g4}[#]) @ LMk4
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g0}[#]) @ (2 * MLk0)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g0}[#]) @ LMk0
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g1}[#]) @ (2 * MLk1)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g1}[#]) @ LMk1
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g2}[#]) @ (2 * MLk2)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g2}[#]) @ LMk2
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g3}[#]) @ (2 * MLk3)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g3}[#]) @ LMk3
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g4}[#]) @ (2 * MLk4)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g4}[#]) @ LMk4
+AMPAR_12(Open{B}[#] Glu{g0/g1}[#]), Glutamate()- @ (4 * Bkon)
+AMPAR_12(Open{B}[#] Glu{g1/g0}[#]), Glutamate()+ @ Bkoff
+AMPAR_12(Open{B}[#] Glu{g1/g2}[#]), Glutamate()- @ (3 * Bkon)
+AMPAR_12(Open{B}[#] Glu{g2/g1}[#]), Glutamate()+ @ (2 * Bkoff)
+AMPAR_12(Open{B}[#] Glu{g2/g3}[#]), Glutamate()- @ (2 * Bkon)
+AMPAR_12(Open{B}[#] Glu{g3/g2}[#]), Glutamate()+ @ (3 * Bkoff)
+AMPAR_12(Open{B}[#] Glu{g3/g4}[#]), Glutamate()- @ Bkon
+AMPAR_12(Open{B}[#] Glu{g4/g3}[#]), Glutamate()+ @ (4 * Bkoff)
+AMPAR_12(Open{S}[#] Glu{g0/g1}[#]), Glutamate()- @ (4 * Skon)
+AMPAR_12(Open{S}[#] Glu{g1/g0}[#]), Glutamate()+ @ Skoff
+AMPAR_12(Open{S}[#] Glu{g1/g2}[#]), Glutamate()- @ (3 * Skon)
+AMPAR_12(Open{S}[#] Glu{g2/g1}[#]), Glutamate()+ @ (2 * Skoff)
+AMPAR_12(Open{S}[#] Glu{g2/g3}[#]), Glutamate()- @ (2 * Skon)
+AMPAR_12(Open{S}[#] Glu{g3/g2}[#]), Glutamate()+ @ (3 * Skoff)
+AMPAR_12(Open{S}[#] Glu{g3/g4}[#]), Glutamate()- @ Skon
+AMPAR_12(Open{S}[#] Glu{g4/g3}[#]), Glutamate()+ @ (4 * Skoff)
+AMPAR_12(Open{M}[#] Glu{g0/g1}[#]), Glutamate()- @ (4 * Mkon)
+AMPAR_12(Open{M}[#] Glu{g1/g0}[#]), Glutamate()+ @ Mkoff
+AMPAR_12(Open{M}[#] Glu{g1/g2}[#]), Glutamate()- @ (3 * Mkon)
+AMPAR_12(Open{M}[#] Glu{g2/g1}[#]), Glutamate()+ @ (2 * Mkoff)
+AMPAR_12(Open{M}[#] Glu{g2/g3}[#]), Glutamate()- @ (2 * Mkon)
+AMPAR_12(Open{M}[#] Glu{g3/g2}[#]), Glutamate()+ @ (3 * Mkoff)
+AMPAR_12(Open{M}[#] Glu{g3/g4}[#]), Glutamate()- @ Mkon
+AMPAR_12(Open{M}[#] Glu{g4/g3}[#]), Glutamate()+ @ (4 * Mkoff)
+AMPAR_12(Open{L}[#] Glu{g0/g1}[#]), Glutamate()- @ (4 * Lkon)
+AMPAR_12(Open{L}[#] Glu{g1/g0}[#]), Glutamate()+ @ Lkoff
+AMPAR_12(Open{L}[#] Glu{g1/g2}[#]), Glutamate()- @ (3 * Lkon)
+AMPAR_12(Open{L}[#] Glu{g2/g1}[#]), Glutamate()+ @ (2 * Lkoff)
+AMPAR_12(Open{L}[#] Glu{g2/g3}[#]), Glutamate()- @ (2 * Lkon)
+AMPAR_12(Open{L}[#] Glu{g3/g2}[#]), Glutamate()+ @ (3 * Lkoff)
+AMPAR_12(Open{L}[#] Glu{g3/g4}[#]), Glutamate()- @ Lkon
+AMPAR_12(Open{L}[#] Glu{g4/g3}[#]), Glutamate()+ @ (4 * Lkoff)
+AMPAR_12(S845{p}[./1]), PP1(b[./1]) @ pp1_s845_k1
+AMPAR_12(S845{p}[1/.]), PP1(b[1/.]) @ pp1_s845_k2
+AMPAR_12(S845{p/u}[1/.]), PP1(b[1/.]) @ pp1_s845_k3
+AMPAR_12(S845{pp}[./1]), PP1(b[./1]) @ pp1_s845_k1
+AMPAR_12(S845{pp}[1/.]), PP1(b[1/.]) @ pp1_s845_k2
+AMPAR_12(S845{pp/u}[1/.]), PP1(b[1/.]) @ pp1_s845_k3
+AMPAR_12(S831{p}[./1]), PP1(b[./1]) @ pp1_s831_k1
+AMPAR_12(S831{p}[1/.]), PP1(b[1/.]) @ pp1_s831_k2
+AMPAR_12(S831{p/u}[1/.]), PP1(b[1/.]) @ pp1_s831_k3
+AMPAR_12(S831{pp}[./1]), PP1(b[./1]) @ pp1_s831_k1
+AMPAR_12(S831{pp}[1/.]), PP1(b[1/.]) @ pp1_s831_k2
+AMPAR_12(S831{pp/u}[1/.]), PP1(b[1/.]) @ pp1_s831_k3
+AMPAR_12(S845{u}[./1]), PKA(b[./1] Active{a}[#]) @ pka_k1
+AMPAR_12(S845{u}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k2
+AMPAR_12(S845{u/p}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k3
+AMPAR_12(S845{p}[./1]), PKA(b[./1] Active{a}[#]) @ pka_k1
+AMPAR_12(S845{p}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k2
+AMPAR_12(S845{p/pp}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k3
+AMPAR_12(S831{u}[./1]), CK(T286{p}[./1]) @ camkii_k1
+AMPAR_12(S831{u}[1/.]), CK(T286{p}[1/.]) @ camkii_k2
+AMPAR_12(S831{u/p}[1/.]), CK(T286{p}[1/.]) @ camkii_k3
+AMPAR_12(S831{p}[./1]), CK(T286{p}[./1]) @ camkii_k1
+AMPAR_12(S831{p}[1/.]), CK(T286{p}[1/.]) @ camkii_k2
+AMPAR_12(S831{p/pp}[1/.]), CK(T286{p}[1/.]) @ camkii_k3
+AMPAR_12(S845{p}[./1]), PP2B(b[./1] Active{a}[#]) @ pp2b_k1
+AMPAR_12(S845{p}[1/.]), PP2B(b[1/.] Active{a}[#]) @ pp2b_k2
+AMPAR_12(S845{p/u}[1/.]), PP2B(b[1/.] Active{a}[#]) @ pp2b_k3
+PP1(b[./1]), I1(Phos{u}[./1]) @ 0
+PP1(b[1/.]), I1(Phos{u}[1/.]) @ 0.1
+PP1(b[./1]), I1(Phos{p}[./1]) @ (49.998 / 60220000)
+PP1(b[1/.]), I1(Phos{p}[1/.]) @ 0.01
+I1(Phos{p}[./2]), PP2A(b[./2]) @ PP2A_I1_k1
+I1(Phos{p}[2/.]), PP2A(b[2/.]) @ PP2A_I1_k2
+I1(Phos{p/u}[2/.]), PP2A(b[2/.]) @ PP2A_I1_k3
+PP1(b[1]), I1(Phos{p}[1] b[./3]), PP2A(b[./3]) @ PP2A_PP1_I1_k1
+PP1(b[1]), I1(Phos{p}[1] b[3/.]), PP2A(b[3/.]) @ PP2A_PP1_I1_k2
+PP1(b[1]), I1(Phos{p/u}[1] b[3/.]), PP2A(b[3/.]) @ PP2A_PP1_I1_k3
+PKA_Inhibitor(b[#])-, PKA(Active{a/i}[#]) @ (53999500 / 60220000)
+PKA(Active{i/a}[#]), PKA_Inhibitor(b[.])+ @ 0.9
+I1(Phos{u}[./1]), PKA(Active{a}[./1]) @ PKA_I1_k1
+I1(Phos{u}[1/.]), PKA(Active{a}[1/.]) @ PKA_I1_k2
+I1(Phos{u/p}[1/.]), PKA(Active{a}[1/.]) @ PKA_I1_k3
+PP2B(Active{i/a}[#]), CaM() @ (1666 / 60220000)
+PP2B(Active{a/i}[#]), CaM() @ 10
+I1(Phos{p}[./4]), PP2B(Active{a}[./4]) @ PP2B_I1_k1
+I1(Phos{p}[4/.]), PP2B(Active{a}[4/.]) @ PP2B_I1_k2
+I1(Phos{p/u}[4/.]), PP2B(Active{a}[4/.]) @ PP2B_I1_k3
+PP1(b[1]), I1(Phos{p}[1] b[./5]), PP2B(b[./5] Active{a}[#]) @ PP2B_PP1_I1_k1
+PP1(b[1]), I1(Phos{p}[1] b[5/.]), PP2B(b[5/.] Active{a}[#]) @ PP2B_PP1_I1_k2
+PP1(b[1]), I1(Phos{p/u}[1] b[5/.]), PP2B(b[5/.] Active{a}[#]) @ PP2B_PP1_I1_k3
+CaM(ck[./1]), CK(cam[./1]) @ CaM_binding
+CaM(ck[1/.]), CK(cam[1/.]) @ CaM_unbinding
+CaM(ck[1]), CK(b[2] T286{p}[#]), CK(a[2] cam[1] T286{u/p}[#]) @ 30
+CaM(ck[1]), CaM(ck[2]), CK(b[3] cam[1] T286{u}[#]), CK(a[3] cam[2] T286{u/p}[#]) @ 30
+CaM(ck[1]), CK(c[2] T286{p}[#]), CK(d[2] cam[1] T286{u/p}[#]) @ 20
+CaM(ck[1]), CaM(ck[2]), CK(c[3] cam[1] T286{u}[#]), CK(d[3] cam[2] T286{u/p}[#]) @ 20
+CaM(ck[1]), CK(d[2] T286{p}[#]), CK(c[2] cam[1] T286{u/p}[#]) @ 20
+CaM(ck[1]), CaM(ck[2]), CK(d[3] cam[1] T286{u}[#]), CK(c[3] cam[2] T286{u/p}[#]) @ 20
+CK(T286{pp}[./1]), PP1(b[./1]) @ (50 / 3011)
+CK(T286{pp}[1/.]), PP1(b[1/.]) @ 50
+CK(T286{p}[./1]), PP1(b[./1]) @ (50 / 3011)
+CK(T286{p}[1/.]), PP1(b[1/.]) @ 50
+CK(T286{p/u}[1/.]), PP1(b[1/.]) @ 1
+
+/*0*/%mod: alarm 50 ([T] > 0) do $APPLY (0.0008302693916 * 60220000) Glutamate()+; repeat [false]
+/*1*/%mod: alarm 49 ([T] > 0) do $SNAPSHOT "conductance.ka"; repeat [false]
+/*2*/%mod: (Glutamate_level > 40000) do $UPDATE camkii_k1 (camkii_k1 * 5); repeat [false]
+/*3*/%mod: (Glutamate_level > 40000) do $UPDATE camkii_k3 (camkii_k3 * 5); repeat [false]
+/*4*/%mod: (Glutamate_level < 40000) do $UPDATE camkii_k3 camkii_k3; repeat [false]
+/*5*/%mod: (Glutamate_level < 40000) do $UPDATE camkii_k1 camkii_k1; repeat [false]
+
+%init: Basal_12 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] Open{B}[.] Glu{g0}[.])
+%init: Glu Glutamate()
+%init: 0 AMPAR_Pool()
+%init: PP1 PP1(b[.])
+%init: (1e-06 * 60220000) PP2B(b[.] Active{i}[.])
+%init: (2.592592593e-07 * 60220000) PKA_Inhibitor(b[.])
+%init: (1.11111e-06 * 60220000) PP2A(b[.])
+%init: (8e-06 * 60220000) I1(Phos{u}[.] b[.])
+%init: PKA PKA(b[.] Active{a}[.])
+%init: Ca Ca()
+%init: 50 CK(a[6] b[1] c[7] d[.] cam[.] T286{u}[.]), CK(a[1] b[2] c[9] d[.] cam[.] T286{u}[.]), CK(a[2] b[3] c[11] d[.] cam[.] T286{u}[.]), CK(a[3] b[4] c[13] d[.] cam[.] T286{u}[.]), CK(a[4] b[5] c[15] d[.] cam[.] T286{u}[.]), CK(a[5] b[6] c[18] d[.] cam[.] T286{u}[.]), CK(a[17] b[8] c[.] d[7] cam[.] T286{u}[.]), CK(a[8] b[10] c[.] d[9] cam[.] T286{u}[.]), CK(a[10] b[12] c[.] d[11] cam[.] T286{u}[.]), CK(a[12] b[14] c[.] d[13] cam[.] T286{u}[.]), CK(a[14] b[16] c[.] d[15] cam[.] T286{u}[.]), CK(a[16] b[17] c[.] d[18] cam[.] T286{u}[.])
+%init: 2000 CaM(ck[.])
+%init: 1000 PP(dp[.])
+
+%mod: [E] = 6853225 do $STOP;

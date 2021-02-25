@@ -1,0 +1,507 @@
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_S831.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_S845.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_S818.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_880876.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_I1.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_PKA.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_CK.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_Slots.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_PP1.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_CaM.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_ampar.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_k868.png", dpi = 320)
+
+ggplot(`average_ctheta`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_ctheta_Ca.png", dpi = 320)
+
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_S831.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_S845.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_S818.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_880876.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_I1.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_PKA.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_CK.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_Slots.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_PP1.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_CaM.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_ampar.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_k868.png", dpi = 320)
+
+ggplot(`average_stheta`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_stheta_Ca.png", dpi = 320)
+
+
+
+
+
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_S831.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_S845.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_S818.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_880876.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_I1.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_PKA.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_CK.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_Slots.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_PP1.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_CaM.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_ampar.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_k868.png", dpi = 320)
+
+ggplot(`average_theta`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_theta_Ca.png", dpi = 320)
+
+
+
+
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_S831.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_S845.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_S818.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_880876.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_I1.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_PKA.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_CK.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_Slots.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_PP1.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_CaM.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_ampar.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_k868.png", dpi = 320)
+
+ggplot(`average_delta`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_delta_Ca.png", dpi = 320)
+
+
+
+
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_S831.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_S845.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_S818.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_880876.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_I1.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_PKA.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_CK.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_Slots.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_PP1.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_CaM.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_ampar.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_k868.png", dpi = 320)
+
+ggplot(`average_weakLTP`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_weakLTP_Ca.png", dpi = 320)
+
+
+
+
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_S831.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_S845.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_S818.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_880876.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_I1.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_PKA.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_CK.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_Slots.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_PP1.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_CaM.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_ampar.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_k868.png", dpi = 320)
+
+ggplot(`average_HFS`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_HFS_Ca.png", dpi = 320)
+
+
+
+
+
+
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_S831.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_S845.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_S818.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_880876.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_I1.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_PKA.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_CK.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_Slots.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_PP1.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_CaM.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_ampar.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_k868.png", dpi = 320)
+
+ggplot(`average_LFS`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFS_Ca.png", dpi = 320)
+
+
+
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_S831.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_S845.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_S818.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_880876.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_I1.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_PKA.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_CK.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_Slots.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_PP1.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_CaM.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_ampar.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_k868.png", dpi = 320)
+
+ggplot(`average_LFSPP50`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP50_Ca.png", dpi = 320)
+
+
+
+
+
+
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = S831_u,colour = "S831_u")) + geom_line(aes(y = S831_P, colour ="S831_P")) + geom_line(aes(y = S831_PP, colour ="S831_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_S831.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = S845_u,colour = "S845_u")) + geom_line(aes(y = S845_P, colour ="S845_P")) + geom_line(aes(y = S845_PP, colour ="S845_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_S845.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = S818_u,colour = "S818_u")) + geom_line(aes(y = S818_p, colour ="S818_p")) + geom_line(aes(y = S818_pp, colour ="S818_pp")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 75)) + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_S818.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = AMPA_S880,colour = "AMPA_S880")) + geom_line(aes(y = AMPA_Y876, colour ="AMPA_Y876")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_880876.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = I1_P,colour = "I1_P")) + geom_line(aes(y = I1_u, colour ="I1_u")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_I1.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = PKA_a,colour = "PKA_a")) + geom_line(aes(y = PKA_i, colour ="PKA_i")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_PKA.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = PP2B,colour = "PP2B")) + geom_line(aes(y = Phos_CK_subunits, colour ="Phos_CK_subunits")) + geom_line(aes(y = Phos_CK_hexamers, colour ="Phos_CK_hexamers")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_CK.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = Slots,colour = "Slots")) + geom_line(aes(y = Synaptic_12,colour = "Synaptic_12")) + geom_line(aes(y = Synaptic_23,colour = "Synaptic_23")) + geom_line(aes(y = Synaptic_receptors,colour = "Synaptic_receptors")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_Slots.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = Free_PP,colour = "Free_PP")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_PP1.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = CaM_CaMKII_C4,colour = "CaM_CaMKII_C4")) + geom_line(aes(y = CaMKII_CaM,colour = "CaM_CaMKII")) + geom_line(aes(y = Active_CaM,colour = "Active_CaM")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_CaM.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = AMPAR1,colour = "AMPAR1")) + geom_line(aes(y = AMPAR12,colour = "AMPAR12")) + geom_line(aes(y = AMPAR23,colour = "AMPAR23")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_ampar.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = K868_ub, colour= "K868_ub")) + geom_line(aes(y = K868_ub2,colour = "K868_ub2")) + geom_line(aes(y = K868_ub3,colour = "K868_ub3")) + geom_line(aes(y = K868_ub4,colour = "K868_ub4")) + geom_line(aes(y = K868_ub5,colour = "K868_ub5")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_k868.png", dpi = 320)
+
+ggplot(`average_LFSPP200`, aes(T)) + geom_line(aes(y = Calcium_Levels,colour = "Calcium_Levels")) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("average_LFSPP200_Ca.png", dpi = 320)
+
+
+
+
+
+

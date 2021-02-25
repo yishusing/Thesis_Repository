@@ -1,0 +1,55 @@
+library(readxl)
+library(ggplot2)
+library(viridis)
+Slot <- read_excel("Membrane_train.xlsx", sheet = "Slots")
+Exocytosis <- read_excel("Membrane_train.xlsx", sheet = "Exocytosis")
+All_nec <- read_excel("Membrane_train.xlsx", sheet = "All_nec")
+All_suff <- read_excel("Membrane_train.xlsx", sheet = "All_suff")
+CaMKII <- read_excel("Membrane_train.xlsx", sheet = "CaMKII")
+PKA <- read_excel("Membrane_train.xlsx", sheet = "PKA")
+PKC <- read_excel("Membrane_train.xlsx", sheet = "PKC")
+
+
+
+ggplot(`Slot`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta")) + geom_line(aes(y = sTheta,colour = "sTheta")) + geom_line(aes(y = Theta,colour = "Theta")) + geom_line(aes(y = Delta,colour = "Delta"))+ geom_line(aes(y = HFS,colour = "HFS")) + geom_line(aes(y = weakLTP,colour = "weakLTP")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("Slot.png", dpi = 320)
+
+
+
+ggplot(`Exocytosis`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta")) + geom_line(aes(y = sTheta,colour = "sTheta")) + geom_line(aes(y = Theta,colour = "Theta")) + geom_line(aes(y = Delta,colour = "Delta"))+ geom_line(aes(y = HFS,colour = "HFS")) + geom_line(aes(y = weakLTP,colour = "weakLTP")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("Exocytosis.png", dpi = 320)
+
+
+
+ggplot(`All_nec`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta")) + geom_line(aes(y = sTheta,colour = "sTheta")) + geom_line(aes(y = Theta,colour = "Theta")) + geom_line(aes(y = Delta,colour = "Delta"))+ geom_line(aes(y = HFS,colour = "HFS")) + geom_line(aes(y = weakLTP,colour = "weakLTP")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("All_nec.png", dpi = 320)
+
+
+
+ggplot(`All_suff`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta")) + geom_line(aes(y = sTheta,colour = "sTheta")) + geom_line(aes(y = Theta,colour = "Theta")) + geom_line(aes(y = Delta,colour = "Delta"))+ geom_line(aes(y = HFS,colour = "HFS")) + geom_line(aes(y = weakLTP,colour = "weakLTP")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("All_suff.png", dpi = 320)
+
+
+
+ggplot(`CaMKII`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta")) + geom_line(aes(y = sTheta,colour = "sTheta")) + geom_line(aes(y = Theta,colour = "Theta")) + geom_line(aes(y = Delta,colour = "Delta"))+ geom_line(aes(y = HFS,colour = "HFS")) + geom_line(aes(y = weakLTP,colour = "weakLTP")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("CaMKII.png", dpi = 320)
+
+
+
+
+ggplot(`PKA`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta")) + geom_line(aes(y = sTheta,colour = "sTheta")) + geom_line(aes(y = Theta,colour = "Theta")) + geom_line(aes(y = Delta,colour = "Delta"))+ geom_line(aes(y = HFS,colour = "HFS")) + geom_line(aes(y = weakLTP,colour = "weakLTP")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("PKA.png", dpi = 320)
+
+
+
+
+
+ggplot(`PKC`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta")) + geom_line(aes(y = sTheta,colour = "sTheta")) + geom_line(aes(y = Theta,colour = "Theta")) + geom_line(aes(y = Delta,colour = "Delta"))+ geom_line(aes(y = HFS,colour = "HFS")) + geom_line(aes(y = weakLTP,colour = "weakLTP")) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + geom_hline(yintercept=12, linetype="dashed", color = "red") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("PKC.png", dpi = 320)

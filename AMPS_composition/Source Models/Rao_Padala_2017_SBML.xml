@@ -1,0 +1,1702 @@
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model id="ERKAktWnt">
+    <listOfCompartments>
+      <compartment metaid="metaid_0" sboTerm="SBO:0000410" id="default" size="1" constant="false"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species metaid="metaid_1" id="APC" compartment="default" initialConcentration="96.602" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_2" id="APCAxin" compartment="default" initialConcentration="0.0015" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_3" id="APCAxinGSK3B" compartment="default" initialConcentration="0.0076" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_4" id="APCBCatenin" compartment="default" initialConcentration="3.4392" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_5" id="Akt" compartment="default" initialConcentration="200" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_6" id="Axin" compartment="default" initialConcentration="0.0008" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_7" id="BCatenin" compartment="default" initialConcentration="42.722" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_8" id="BRaf" compartment="default" initialConcentration="200" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_9" id="C3G" compartment="default" initialConcentration="500" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_10" id="Dsha" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_11" id="Dshi" compartment="default" initialConcentration="100" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_12" id="EGF" compartment="default" initialConcentration="600" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_13" id="ERK" compartment="default" initialConcentration="260" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_14" id="GSK3B" compartment="default" initialConcentration="49.137" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_15" id="MEK" compartment="default" initialConcentration="680" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_16" id="P90Rsk" compartment="default" initialConcentration="60" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_17" id="PI3K" compartment="default" initialConcentration="100" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_18" id="PIP2" compartment="default" initialConcentration="700" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_19" id="PIP3" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_20" id="PKCD" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_21" id="PP2A" compartment="default" initialConcentration="240" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_22" id="PTEN" compartment="default" initialConcentration="270" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_23" id="RKIP" compartment="default" initialConcentration="20.909" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_24" id="Raf1" compartment="default" initialConcentration="100" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_25" id="RafPPtase" compartment="default" initialConcentration="60" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_26" id="Rap1" compartment="default" initialConcentration="200" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_27" id="Rap1Gap" compartment="default" initialConcentration="12" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_28" id="Ras" compartment="default" initialConcentration="100" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_29" id="RasGap" compartment="default" initialConcentration="100" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_30" id="SOS" compartment="default" initialConcentration="100" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_31" id="TCF" compartment="default" initialConcentration="6.1879" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_32" id="TCFBCatenin" compartment="default" initialConcentration="8.8121" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_33" id="X" compartment="default" initialConcentration="10.263" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_34" id="bEGFR" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_35" id="dEGFR" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_36" id="fEGFR" compartment="default" initialConcentration="300" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_37" id="null" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species metaid="metaid_38" id="pAPCpAxinGSK3B" compartment="default" initialConcentration="0.0153" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_39" id="pAPCpAxinGSK3BBCatenin" compartment="default" initialConcentration="0.002" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_40" id="pAPCpAxinGSK3BpBCatenin" compartment="default" initialConcentration="0.002" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_41" id="pAkt" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_42" id="pBCatenin" compartment="default" initialConcentration="0.9881" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_43" id="pBRaf" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_44" id="pC3G" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_45" id="pEGFR" compartment="default" initialConcentration="0.05" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species metaid="metaid_46" id="pERK" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_47" id="pGSK3B" compartment="default" initialConcentration="0.85544" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_48" id="pMEK" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_49" id="pP90Rsk" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_50" id="pPI3K" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_51" id="pRKIP" compartment="default" initialConcentration="0.8619" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_52" id="pRaf1" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_53" id="pRap1" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_54" id="pRas" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species metaid="metaid_55" id="pSOS" compartment="default" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter metaid="metaid_56" id="Kcat10a" value="0.12633" constant="false"/>
+      <parameter metaid="metaid_57" id="Kcat10b" value="15.1212" constant="false"/>
+      <parameter metaid="metaid_58" id="Kcat11a" value="185.76" constant="false"/>
+      <parameter metaid="metaid_59" id="Kcat12" value="2.8324" constant="false"/>
+      <parameter metaid="metaid_60" id="Kcat13" value="9.8537" constant="false"/>
+      <parameter metaid="metaid_61" id="Kcat14" value="8.8912" constant="false"/>
+      <parameter metaid="metaid_62" id="Kcat16a" value="0.8841" constant="false"/>
+      <parameter metaid="metaid_63" id="Kcat16b" value="0.8841" constant="false"/>
+      <parameter metaid="metaid_64" id="Kcat17a" value="0.12633" constant="false"/>
+      <parameter metaid="metaid_65" id="Kcat17b" value="15.1212" constant="false"/>
+      <parameter metaid="metaid_66" id="Kcat18b" value="0.02137" constant="false"/>
+      <parameter metaid="metaid_67" id="Kcat19a" value="10.6737" constant="false"/>
+      <parameter metaid="metaid_68" id="Kcat19b" value="0.07711" constant="false"/>
+      <parameter metaid="metaid_69" id="Kcat20" value="4" constant="false"/>
+      <parameter metaid="metaid_70" id="Kcat21" value="5.5" constant="false"/>
+      <parameter metaid="metaid_71" id="Kcat22a" value="0.33" constant="false"/>
+      <parameter metaid="metaid_72" id="Kcat22b" value="48.667" constant="false"/>
+      <parameter metaid="metaid_73" id="Kcat23a" value="694.73" constant="false"/>
+      <parameter metaid="metaid_74" id="Kcat24" value="32.344" constant="false"/>
+      <parameter metaid="metaid_75" id="Kcat25" value="1509.4" constant="false"/>
+      <parameter metaid="metaid_76" id="Kcat27a" value="0.002" constant="false"/>
+      <parameter metaid="metaid_77" id="Kcat27b" value="0.04596" constant="false"/>
+      <parameter metaid="metaid_78" id="Kcat27d" value="0.01541" constant="false"/>
+      <parameter metaid="metaid_79" id="Kcat6b" value="1611.97" constant="false"/>
+      <parameter metaid="metaid_80" id="Kcat7" value="32.644" constant="false"/>
+      <parameter metaid="metaid_81" id="Kcat8b" value="1509.36" constant="false"/>
+      <parameter metaid="metaid_82" id="Kcat9a" value="0.884096" constant="false"/>
+      <parameter metaid="metaid_83" id="Km10a" value="1061.7" constant="false"/>
+      <parameter metaid="metaid_84" id="Km10b" value="119355" constant="false"/>
+      <parameter metaid="metaid_85" id="Km11a" value="4768400" constant="false"/>
+      <parameter metaid="metaid_86" id="Km12" value="518750" constant="false"/>
+      <parameter metaid="metaid_87" id="Km13" value="1007300" constant="false"/>
+      <parameter metaid="metaid_88" id="Km14" value="3496500" constant="false"/>
+      <parameter metaid="metaid_89" id="Km16a" value="62645" constant="false"/>
+      <parameter metaid="metaid_90" id="Km16b" value="62464.6" constant="false"/>
+      <parameter metaid="metaid_91" id="Km17a" value="1061.71" constant="false"/>
+      <parameter metaid="metaid_92" id="Km17b" value="119355" constant="false"/>
+      <parameter metaid="metaid_93" id="Km18b" value="763523" constant="false"/>
+      <parameter metaid="metaid_94" id="Km19a" value="184912" constant="false"/>
+      <parameter metaid="metaid_95" id="Km19b" value="272056" constant="false"/>
+      <parameter metaid="metaid_96" id="Km20" value="4" constant="false"/>
+      <parameter metaid="metaid_97" id="Km21" value="0.08" constant="false"/>
+      <parameter metaid="metaid_98" id="Km22a" value="100" constant="false"/>
+      <parameter metaid="metaid_99" id="Km22b" value="100" constant="false"/>
+      <parameter metaid="metaid_100" id="Km23a" value="6086100" constant="false"/>
+      <parameter metaid="metaid_101" id="Km24" value="35954.3" constant="false"/>
+      <parameter metaid="metaid_102" id="Km25" value="1432400" constant="false"/>
+      <parameter metaid="metaid_103" id="Km39" value="15" constant="false"/>
+      <parameter metaid="metaid_104" id="Km6b" value="896896" constant="false"/>
+      <parameter metaid="metaid_105" id="Km7" value="35954.3" constant="false"/>
+      <parameter metaid="metaid_106" id="Km8b" value="1432410" constant="false"/>
+      <parameter metaid="metaid_107" id="Km9a" value="62464.6" constant="false"/>
+      <parameter metaid="metaid_108" id="Km9b" value="15" constant="false"/>
+      <parameter metaid="metaid_109" id="V1" value="100" constant="false"/>
+      <parameter metaid="metaid_110" id="V15b" value="4" constant="false"/>
+      <parameter metaid="metaid_111" id="V26a" value="0.00154" constant="false"/>
+      <parameter metaid="metaid_112" id="V37b" value="0.00705" constant="false"/>
+      <parameter metaid="metaid_113" id="V8a" value="0.0717" constant="false"/>
+      <parameter metaid="metaid_114" id="W" value="0" constant="false"/>
+      <parameter metaid="metaid_115" id="defaultcompartment" value="1" constant="false"/>
+      <parameter metaid="metaid_116" id="k11b1" value="1.1167e-05" constant="false"/>
+      <parameter metaid="metaid_117" id="k11b2" value="120" constant="false"/>
+      <parameter metaid="metaid_118" id="k15a" value="1.3" constant="false"/>
+      <parameter metaid="metaid_119" id="k15c" value="0.00193" constant="false"/>
+      <parameter metaid="metaid_120" id="k18a" value="0.005" constant="false"/>
+      <parameter metaid="metaid_121" id="k19c" value="0.005" constant="false"/>
+      <parameter metaid="metaid_122" id="k21" value="2.18503e-05" constant="false"/>
+      <parameter metaid="metaid_123" id="k22" value="0.121008" constant="false"/>
+      <parameter metaid="metaid_124" id="k23b" value="2.5" constant="false"/>
+      <parameter metaid="metaid_125" id="k26a" value="20" constant="false"/>
+      <parameter metaid="metaid_126" id="k26b" value="0.000385" constant="false"/>
+      <parameter metaid="metaid_127" id="k27c" value="0.00015" constant="false"/>
+      <parameter metaid="metaid_128" id="k28" value="0.003" constant="false"/>
+      <parameter metaid="metaid_129" id="k29" value="0.003" constant="false"/>
+      <parameter metaid="metaid_130" id="k3" value="0.00125" constant="false"/>
+      <parameter metaid="metaid_131" id="k30" value="0.000833" constant="false"/>
+      <parameter metaid="metaid_132" id="k311" value="0.001515" constant="false"/>
+      <parameter metaid="metaid_133" id="k312" value="0.01515" constant="false"/>
+      <parameter metaid="metaid_134" id="k32a" value="0.00445" constant="false"/>
+      <parameter metaid="metaid_135" id="k32b" value="0.002217" constant="false"/>
+      <parameter metaid="metaid_136" id="k33a1" value="0.01667" constant="false"/>
+      <parameter metaid="metaid_137" id="k33a2" value="0.8333" constant="false"/>
+      <parameter metaid="metaid_138" id="k33b" value="0.002783" constant="false"/>
+      <parameter metaid="metaid_139" id="k33c1" value="1.37e-06" constant="false"/>
+      <parameter metaid="metaid_140" id="k33c2" value="1.667e-08" constant="false"/>
+      <parameter metaid="metaid_141" id="k341" value="0.01667" constant="false"/>
+      <parameter metaid="metaid_142" id="k342" value="2" constant="false"/>
+      <parameter metaid="metaid_143" id="k35" value="3.433" constant="false"/>
+      <parameter metaid="metaid_144" id="k36" value="3.433" constant="false"/>
+      <parameter metaid="metaid_145" id="k37a1" value="0.01667" constant="false"/>
+      <parameter metaid="metaid_146" id="k37a2" value="20" constant="false"/>
+      <parameter metaid="metaid_147" id="k37c" value="4.283e-06" constant="false"/>
+      <parameter metaid="metaid_148" id="k381" value="0.01667" constant="false"/>
+      <parameter metaid="metaid_149" id="k382" value="0.5" constant="false"/>
+      <parameter metaid="metaid_150" id="k39" value="0.01" constant="false"/>
+      <parameter metaid="metaid_151" id="k4" value="0.2" constant="false"/>
+      <parameter metaid="metaid_152" id="k40" value="0.00025" constant="false"/>
+      <parameter metaid="metaid_153" id="k41" value="0.00695" constant="false"/>
+      <parameter metaid="metaid_154" id="k51" value="0.003465" constant="false"/>
+      <parameter metaid="metaid_155" id="k52" value="3.85e-05" constant="false"/>
+      <parameter metaid="metaid_156" id="k53" value="0.00028833" constant="false"/>
+      <parameter metaid="metaid_157" id="k54" value="1.5" constant="false"/>
+      <parameter metaid="metaid_158" id="k6a" value="2.5" constant="false"/>
+      <parameter metaid="metaid_159" id="k9b" value="0.025" constant="false"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction metaid="metaid_162" id="v1" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_160" species="pEGFR" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_161" species="fEGFR" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> V1 </ci>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_167" id="v10a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_163" species="RafPPtase" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_164" species="pRaf1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_165" species="RafPPtase" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_166" species="Raf1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat10a </ci>
+                <ci> RafPPtase </ci>
+                <ci> pRaf1 </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> pRaf1 </ci>
+                <ci> Km10a </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_172" id="v10b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_168" species="pAkt" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_169" species="pRaf1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_170" species="pAkt" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_171" species="Raf1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat10b </ci>
+                <ci> pAkt </ci>
+                <ci> pRaf1 </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> pRaf1 </ci>
+                <ci> Km10b </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_177" id="v11a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_173" species="pBRaf" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_174" species="MEK" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_175" species="pBRaf" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_176" species="pMEK" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat11a </ci>
+                <ci> pBRaf </ci>
+                <ci> MEK </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> MEK </ci>
+                <ci> Km11a </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_185" id="v11b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_178" species="pRKIP" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_179" species="pRaf1" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_180" species="MEK" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_181" species="pRKIP" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_182" species="pRaf1" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_183" species="pMEK" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference metaid="metaid_184" species="RKIP"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> k11b1 </ci>
+                <ci> pRaf1 </ci>
+                <ci> MEK </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <power/>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <minus/>
+                      <ci> RKIP </ci>
+                      <ci> pRKIP </ci>
+                    </apply>
+                    <ci> k11b2 </ci>
+                  </apply>
+                  <cn type="integer"> 2 </cn>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_190" id="v12" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_186" species="pMEK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_187" species="PP2A" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_188" species="MEK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_189" species="PP2A" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat12 </ci>
+                <ci> PP2A </ci>
+                <ci> pMEK </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> pMEK </ci>
+                <ci> Km12 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_195" id="v13" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_191" species="pMEK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_192" species="ERK" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_193" species="pMEK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_194" species="pERK" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat13 </ci>
+                <ci> pMEK </ci>
+                <ci> ERK </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> ERK </ci>
+                <ci> Km13 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_200" id="v14" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_196" species="pERK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_197" species="PP2A" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_198" species="ERK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_199" species="PP2A" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat14 </ci>
+                <ci> PP2A </ci>
+                <ci> pERK </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> pERK </ci>
+                <ci> Km14 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_205" id="v15a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_201" species="pERK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_202" species="RKIP" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_203" species="pERK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_204" species="pRKIP" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k15a </ci>
+              <ci> pERK </ci>
+              <apply>
+                <minus/>
+                <ci> RKIP </ci>
+                <ci> pRKIP </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_208" id="v15b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_206" species="pRKIP" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_207" species="RKIP" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> V15b </ci>
+              <ci> pRKIP </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_211" id="v15c" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_209" species="RKIP" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_210" species="null" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k15c </ci>
+              <ci> RKIP </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_216" id="v16a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_212" species="pRas" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_213" species="BRaf" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_214" species="pRas" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_215" species="pBRaf" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat16a </ci>
+                <ci> pRas </ci>
+                <ci> BRaf </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> BRaf </ci>
+                <ci> Km16a </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_221" id="v16b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_217" species="pRap1" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_218" species="BRaf" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_219" species="pRap1" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_220" species="pBRaf" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat16b </ci>
+                <ci> pRap1 </ci>
+                <ci> BRaf </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> BRaf </ci>
+                <ci> Km16b </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_226" id="v17a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_222" species="RafPPtase" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_223" species="pBRaf" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_224" species="RafPPtase" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_225" species="BRaf" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat17a </ci>
+                <ci> RafPPtase </ci>
+                <ci> pBRaf </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> pBRaf </ci>
+                <ci> Km17a </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_231" id="v17b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_227" species="pAkt" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_228" species="pBRaf" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_229" species="pAkt" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_230" species="BRaf" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat17b </ci>
+                <ci> pAkt </ci>
+                <ci> pBRaf </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> pBRaf </ci>
+                <ci> Km17b </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_234" id="v18a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_232" species="pP90Rsk" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_233" species="P90Rsk" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k18a </ci>
+              <ci> pP90Rsk </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_239" id="v18b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_235" species="pERK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_236" species="P90Rsk" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_237" species="pERK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_238" species="pP90Rsk" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat18b </ci>
+                <ci> pERK </ci>
+                <ci> P90Rsk </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> P90Rsk </ci>
+                <ci> Km18b </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_244" id="v19a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_240" species="bEGFR" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_241" species="PI3K" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_242" species="bEGFR" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_243" species="pPI3K" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat19a </ci>
+                <ci> bEGFR </ci>
+                <ci> PI3K </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> PI3K </ci>
+                <ci> Km19a </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_248" id="v19b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_245" species="PI3K" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_246" species="pPI3K" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference metaid="metaid_247" species="pRas"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat19b </ci>
+                <ci> pRas </ci>
+                <ci> PI3K </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> PI3K </ci>
+                <ci> Km19b </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_251" id="v19c" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_249" species="pPI3K" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_250" species="PI3K" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k19c </ci>
+              <ci> pPI3K </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_255" id="v2" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_252" species="fEGFR" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_253" species="EGF" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_254" species="bEGFR" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> k21 </ci>
+                <ci> EGF </ci>
+                <ci> fEGFR </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> k22 </ci>
+                <ci> bEGFR </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_260" id="v20" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_256" species="pPI3K" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_257" species="PIP2" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_258" species="pPI3K" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_259" species="PIP3" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat20 </ci>
+                <ci> pPI3K </ci>
+                <ci> PIP2 </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> PIP2 </ci>
+                <ci> Km20 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_265" id="v21" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_261" species="PTEN" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_262" species="PIP3" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_263" species="PTEN" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_264" species="PIP2" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat21 </ci>
+                <ci> PTEN </ci>
+                <ci> PIP3 </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> PIP3 </ci>
+                <ci> Km21 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_270" id="v22a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_266" species="PIP3" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_267" species="Akt" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_268" species="PIP3" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_269" species="pAkt" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat22a </ci>
+                <ci> PIP3 </ci>
+                <ci> Akt </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> Akt </ci>
+                <ci> Km22a </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_273" id="v22b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_271" species="pAkt" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_272" species="Akt" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat22b </ci>
+                <ci> pAkt </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> Km22b </ci>
+                <ci> pAkt </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_278" id="v23a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_274" species="bEGFR" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_275" species="C3G" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_276" species="bEGFR" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_277" species="pC3G" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat23a </ci>
+                <ci> bEGFR </ci>
+                <ci> C3G </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> C3G </ci>
+                <ci> Km23a </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_281" id="v23b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_279" species="pC3G" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_280" species="C3G" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k23b </ci>
+              <ci> pC3G </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_286" id="v24" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_282" species="pC3G" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_283" species="Rap1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_284" species="pC3G" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_285" species="pRap1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat24 </ci>
+                <ci> pC3G </ci>
+                <ci> Rap1 </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> Rap1 </ci>
+                <ci> Km24 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_291" id="v25" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_287" species="Rap1Gap" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_288" species="pRap1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_289" species="Rap1Gap" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_290" species="Rap1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat25 </ci>
+                <ci> Rap1Gap </ci>
+                <ci> pRap1 </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> pRap1 </ci>
+                <ci> Km25 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_295" id="v26a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_292" species="GSK3B" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_293" species="GSK3B" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_294" species="PKCD" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <ci> V26a </ci>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <power/>
+                  <apply>
+                    <divide/>
+                    <ci> GSK3B </ci>
+                    <ci> k26a </ci>
+                  </apply>
+                  <cn> 2.5 </cn>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_298" id="v26b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_296" species="PKCD" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_297" species="null" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k26b </ci>
+              <ci> PKCD </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_303" id="v27a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_299" species="pERK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_300" species="GSK3B" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_301" species="pERK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_302" species="pGSK3B" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Kcat27a </ci>
+              <ci> GSK3B </ci>
+              <ci> pERK </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_308" id="v27b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_304" species="pAkt" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_305" species="GSK3B" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_306" species="pAkt" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_307" species="pGSK3B" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Kcat27b </ci>
+              <ci> GSK3B </ci>
+              <ci> pAkt </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_312" id="v27c" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_309" species="RKIP" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_310" species="RKIP" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_311" species="GSK3B" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k27c </ci>
+              <ci> RKIP </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_315" id="v27d" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_313" species="pGSK3B" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_314" species="GSK3B" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Kcat27d </ci>
+              <ci> pGSK3B </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_318" id="v28" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_316" species="Dshi" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_317" species="Dsha" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k28 </ci>
+              <ci> Dshi </ci>
+              <ci> W </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_321" id="v29" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_319" species="Dsha" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_320" species="Dshi" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k29 </ci>
+              <ci> Dsha </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_324" id="v3" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_322" species="fEGFR" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_323" species="dEGFR" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k3 </ci>
+              <ci> fEGFR </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_330" id="v30" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_325" species="Dsha" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_326" species="APCAxinGSK3B" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_327" species="GSK3B" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_328" species="APCAxin" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_329" species="Dsha" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k30 </ci>
+              <ci> Dsha </ci>
+              <ci> APCAxinGSK3B </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_334" id="v31" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_331" species="APCAxin" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_332" species="GSK3B" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_333" species="APCAxinGSK3B" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> k311 </ci>
+                <ci> GSK3B </ci>
+                <ci> APCAxin </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> k312 </ci>
+                <ci> APCAxinGSK3B </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_337" id="v32a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_335" species="APCAxinGSK3B" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_336" species="pAPCpAxinGSK3B" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k32a </ci>
+              <ci> APCAxinGSK3B </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_340" id="v32b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_338" species="pAPCpAxinGSK3B" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_339" species="APCAxinGSK3B" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k32b </ci>
+              <ci> pAPCpAxinGSK3B </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_344" id="v33a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_341" species="APC" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_342" species="Axin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_343" species="APCAxin" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> k33a1 </ci>
+                <ci> Axin </ci>
+                <ci> APC </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> k33a2 </ci>
+                <ci> APCAxin </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_347" id="v33b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_345" species="Axin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_346" species="null" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k33b </ci>
+              <ci> Axin </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_353" id="v33c" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_348" species="BCatenin" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_349" species="TCFBCatenin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_350" species="BCatenin" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_351" species="TCFBCatenin" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_352" species="Axin" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <plus/>
+              <ci> k33c1 </ci>
+              <apply>
+                <times/>
+                <ci> k33c2 </ci>
+                <apply>
+                  <plus/>
+                  <ci> TCFBCatenin </ci>
+                  <ci> BCatenin </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_357" id="v34" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_354" species="BCatenin" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_355" species="pAPCpAxinGSK3B" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_356" species="pAPCpAxinGSK3BBCatenin" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> k341 </ci>
+                <ci> pAPCpAxinGSK3B </ci>
+                <ci> BCatenin </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> k342 </ci>
+                <ci> pAPCpAxinGSK3BBCatenin </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_360" id="v35" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_358" species="pAPCpAxinGSK3BBCatenin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_359" species="pAPCpAxinGSK3BpBCatenin" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k35 </ci>
+              <ci> pAPCpAxinGSK3BBCatenin </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_364" id="v36" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_361" species="pAPCpAxinGSK3BpBCatenin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_362" species="pBCatenin" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_363" species="pAPCpAxinGSK3B" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k36 </ci>
+              <ci> pAPCpAxinGSK3BpBCatenin </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_368" id="v37a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_365" species="BCatenin" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_366" species="APC" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_367" species="APCBCatenin" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> k37a1 </ci>
+                <ci> APC </ci>
+                <ci> BCatenin </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> k37a2 </ci>
+                <ci> APCBCatenin </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_371" id="v37b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_369" species="null" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_370" species="BCatenin" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> V37b </ci>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_374" id="v37c" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_372" species="BCatenin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_373" species="null" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k37c </ci>
+              <ci> BCatenin </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_378" id="v38" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_375" species="TCF" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_376" species="BCatenin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_377" species="TCFBCatenin" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> k381 </ci>
+                <ci> BCatenin </ci>
+                <ci> TCF </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> k382 </ci>
+                <ci> TCFBCatenin </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_382" id="v39" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_379" species="TCFBCatenin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_380" species="X" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_381" species="TCFBCatenin" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> k39 </ci>
+                <apply>
+                  <power/>
+                  <ci> TCFBCatenin </ci>
+                  <cn type="integer"> 2 </cn>
+                </apply>
+              </apply>
+              <apply>
+                <plus/>
+                <apply>
+                  <power/>
+                  <ci> Km39 </ci>
+                  <cn type="integer"> 2 </cn>
+                </apply>
+                <apply>
+                  <power/>
+                  <ci> TCFBCatenin </ci>
+                  <cn type="integer"> 2 </cn>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_385" id="v4" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_383" species="bEGFR" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_384" species="dEGFR" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k4 </ci>
+              <ci> bEGFR </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_388" id="v40" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_386" species="X" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_387" species="null" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k40 </ci>
+              <ci> X </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_391" id="v41" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_389" species="pBCatenin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_390" species="null" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k41 </ci>
+              <ci> pBCatenin </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_400" id="v5" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_392" species="PKCD" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_393" species="pERK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_394" species="bEGFR" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_395" species="SOS" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_396" species="PKCD" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_397" species="pERK" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_398" species="bEGFR" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_399" species="pSOS" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> k51 </ci>
+                  <ci> bEGFR </ci>
+                </apply>
+                <ci> k52 </ci>
+                <apply>
+                  <times/>
+                  <ci> k53 </ci>
+                  <ci> PKCD </ci>
+                </apply>
+              </apply>
+              <apply>
+                <plus/>
+                <cn type="integer"> 1 </cn>
+                <apply>
+                  <divide/>
+                  <ci> pERK </ci>
+                  <ci> k54 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_403" id="v6a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_401" species="pSOS" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_402" species="SOS" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> k6a </ci>
+              <ci> pSOS </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_408" id="v6b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_404" species="pP90Rsk" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_405" species="pSOS" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_406" species="pP90Rsk" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_407" species="SOS" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat6b </ci>
+                <ci> pP90Rsk </ci>
+                <ci> pSOS </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> pSOS </ci>
+                <ci> Km6b </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_413" id="v7" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_409" species="pSOS" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_410" species="Ras" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_411" species="pSOS" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_412" species="pRas" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat7 </ci>
+                <ci> pSOS </ci>
+                <ci> Ras </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> Ras </ci>
+                <ci> Km7 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_416" id="v8a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_414" species="null" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_415" species="Ras" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> V8a </ci>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_421" id="v8b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_417" species="RasGap" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_418" species="pRas" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_419" species="RasGap" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_420" species="Ras" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat8b </ci>
+                <ci> RasGap </ci>
+                <ci> pRas </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> pRas </ci>
+                <ci> Km8b </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_426" id="v9a" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_422" species="pRas" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_423" species="Raf1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_424" species="pRas" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_425" species="pRaf1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kcat9a </ci>
+                <ci> pRas </ci>
+                <ci> Raf1 </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> Raf1 </ci>
+                <ci> Km9a </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction metaid="metaid_431" id="v9b" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference metaid="metaid_427" species="X" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_428" species="Raf1" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="metaid_429" species="X" stoichiometry="1" constant="true"/>
+          <speciesReference metaid="metaid_430" species="pRaf1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> k9b </ci>
+                <ci> W </ci>
+                <ci> X </ci>
+                <ci> Raf1 </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> Km9b </ci>
+                <ci> Raf1 </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

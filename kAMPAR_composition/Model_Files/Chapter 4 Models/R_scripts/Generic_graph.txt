@@ -1,0 +1,34 @@
+library(readxl)
+library(ggplot2)
+library(viridis)
+
+data <- read_excel("NAMEOFILE.xlsx")
+
+ggplot(`data`, aes(T)) + geom_line(aes(y = X,colour = "X"), size=1.2) + geom_line(aes(y = Y,colour = "Y"), size=1.2) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=24))
+
+
+//FOR LOG SCALE
++ scale_y_continuous(trans='log10') +
+
+//FOR Y INTERCEPT
++ geom_hline(yintercept=12, linetype="dashed", color = "red", size = 1.5) +
+
+//FOR FIXED Y AXIS SCALE
+
++ expand_limits(y=c(0, 75)) + 
+
+
+
+
+
+ggsave("name.png", dpi = 320)
+
+
+
+
+
+
+
+ggplot(`HBFigure_5f_highstate_nolowstate_2020`, aes(T)) + geom_line(aes(y = Synaptic_AMPAR,colour = "Synaptic AMPAR"), size=1.2) + geom_line(aes(y = cAMP,colour = "cAMP"), size=1.2) + scale_colour_viridis(discrete = TRUE,limits = c("Synaptic AMPAR","cAMP")) ---> Specifies order for colour scheme
+
++ theme_classic() + labs(x = "T(s)", y = "#", colour = "") + expand_limits(y=c(0, 150)) + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=24))

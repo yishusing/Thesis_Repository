@@ -1,0 +1,271 @@
+//Modification file
+//List all feasible modifications for the Kappa_AMPAR model
+
+//NECESSARY MODS
+
+//Calcium dependent cAMP activation
+
+%mod: Calcium_Levels > 10 do $UPDATE cAMP_synth 20; repeat [true]
+%mod: Calcium_Levels < 5 do $UPDATE cAMP_synth 0.5; repeat [true]
+
+//%mod: alarm 0.01 [true] do $ADD 10*CaGlu Ca(); repeat [true]
+%mod: 'Glu_Trigger' > 0 do $UPDATE 'Glu_Release' 1500000000000000/Theta; repeat [true]
+%mod: 'Glu_Trigger' = 0 do $UPDATE 'Glu_Release' 0; repeat [true]
+
+//for above, 3000000000000000/Theta is 1Hz rate of fire
+//adjust rate accordingly.
+
+//NSF binding rate
+
+//%mod: Calcium_Levels > 6 do $UPDATE ansf_off 50; repeat [true]
+//%mod: Calcium_Levels < 5 do $UPDATE ansf_off 5; repeat [true]
+
+//OPTIONAL MODS
+
+//Add x Calcium every y seconds until set Time
+
+//%mod: alarm 0.5 [true] do $ADD 720 Ca(); repeat [T] < 150
+
+
+//Add Calcium for set time period with specific gap
+//Gives calcium for 1.5 secs with 0.5s gap
+
+/*%agent: G()
+%init: 0	G()
+
+%obs: 'Gap'		|G()|
+
+%mod: alarm 0.5 [T] > 2500 do $ADD 1 G(); repeat [true]
+%mod: 'Gap' > 3 do $DEL |G()| G(); repeat [true]
+
+%mod: alarm 0.01 Gap > 0 do $ADD 180 Ca(); repeat [T] < 2530*/
+
+//Gives 0.2 secs on Ca and 800 ms gap
+
+/*%agent: G()
+%init: 0	G()
+
+%obs: 'Gap'		|G()|
+
+%mod: alarm 0.1 [T] > 10 do $ADD 1 G(); repeat [true]
+%mod: 'Gap' > 9 do $DEL |G()| G(); repeat [true]
+
+%mod: alarm 0.01 Gap > 8 do $ADD 180 Ca(); repeat [T] < 40*/
+
+
+//%mod: alarm 1 [T] > 100 do $ADD 180 Ca(); repeat [T] < 1810
+
+
+
+%agent: Counter()
+%init: 0	Counter()
+
+%mod: alarm 0.001 'Glu_Release' = 3000000000000000/Theta do $ADD 1 Counter(); repeat [true]
+
+
+
+
+//LTP Protocols
+
+%agent: G()
+%init: 0	G()
+%agent: N()
+%init: 0	N()
+%agent: P()
+%init: 0	P()
+
+
+%obs: 'Gap'		|G()|
+%obs: 'Pulse_Number'		|N()|
+%obs: 'Pulse_Numberb'		|Nb()|
+%obs: 'Pulse_Numberc'		|Nc()|
+%obs: 'Pulse'		|P()|
+
+%agent: Gb()
+%init: 0	Gb()
+%agent: Nb()
+%init: 0	Nb()
+%agent: Pb()
+%init: 0	Pb()
+
+
+%obs: 'Gapb'		|Gb()|
+%obs: 'Pulseb'		|Pb()|
+
+
+%agent: Gc()
+%init: 0	Gc()
+%agent: Nc()
+%init: 0	Nc()
+%agent: Pc()
+%init: 0	Pc()
+
+
+%obs: 'Gapc'		|Gc()|
+%obs: 'Pulsec'		|Pc()|
+
+
+
+//HFS a la Bliss and Lomo
+
+//%mod alarm 0.01 [T]>0 do $ADD 180 Ca(); repeat [T] < 20
+
+
+//Theta Protocol (Nguyen 1994)
+
+/*%mod: alarm 0.1 do $ADD 1 G(); repeat [true]
+%mod: 'Gap' = 2 do $DEL |G()| G(); repeat [true]
+
+%mod: alarm 0.01 'Gap' = 1 do $ADD 1 P(); repeat 'Pulse_Number' < 15
+%mod: 'Pulse' = 10 do $DEL |P()| P(); repeat [true]
+
+%mod: 'Gap' = 2 do $ADD 1 N(); repeat 'Pulse_Number' < 15
+
+%mod: alarm 0.01 'Pulse' = 1 do $ADD 28 Ca(); repeat 'Pulse_Number' < 15
+%mod: alarm 0.01 'Pulse' = 2 do $ADD 28 Ca(); repeat 'Pulse_Number' < 15
+%mod: alarm 0.01 'Pulse' = 3 do $ADD 28 Ca(); repeat 'Pulse_Number' < 15
+%mod: alarm 0.01 'Pulse' = 4 do $ADD 28 Ca(); repeat 'Pulse_Number' < 15*/
+
+
+
+//Theta Protocol Spaced (Park 2016) 25 stim as above, with 10 minute gaps between 25 stim trains for 3 trains
+
+/*%mod: alarm 0.1 [T] > 0 do $ADD 1 G(); repeat 'Pulse_Number' < 25
+%mod: 'Gap' = 2 do $DEL |G()| G(); repeat 'Pulse_Number' < 25
+
+%mod: alarm 0.01 'Gap' = 1 do $ADD 1 P(); repeat 'Pulse_Number' < 25
+%mod: 'Pulse' = 10 do $DEL |P()| P(); repeat 'Pulse_Number' < 25
+
+%mod: 'Gap' = 2 do $ADD 1 N(); repeat 'Pulse_Number' < 25
+
+%mod: alarm 0.01 'Pulse' = 1 do $ADD 28 Ca(); repeat 'Pulse_Number' < 25
+%mod: alarm 0.01 'Pulse' = 2 do $ADD 28 Ca(); repeat 'Pulse_Number' < 25
+%mod: alarm 0.01 'Pulse' = 3 do $ADD 28 Ca(); repeat 'Pulse_Number' < 25
+%mod: alarm 0.01 'Pulse' = 4 do $ADD 28 Ca(); repeat 'Pulse_Number' < 25
+
+
+%mod: alarm 0.1 [T] > 600.1 do $ADD 1 Gb(); repeat 'Pulse_Numberb' < 25
+%mod: 'Gapb' = 2 do $DEL |Gb()| Gb(); repeat 'Pulse_Numberb' < 25
+
+%mod: alarm 0.01 'Gapb' = 1 do $ADD 1 Pb(); repeat 'Pulse_Numberb' < 25
+%mod: 'Pulseb' = 10 do $DEL |Pb()| Pb(); repeat 'Pulse_Numberb' < 25
+
+%mod: 'Gapb' = 2 do $ADD 1 Nb(); repeat 'Pulse_Numberb' < 25
+
+%mod: alarm 0.01 'Pulseb' = 1 do $ADD 28 Ca(); repeat 'Pulse_Numberb' < 25
+%mod: alarm 0.01 'Pulseb' = 2 do $ADD 28 Ca(); repeat 'Pulse_Numberb' < 25
+%mod: alarm 0.01 'Pulseb' = 3 do $ADD 28 Ca(); repeat 'Pulse_Numberb' < 25
+%mod: alarm 0.01 'Pulseb' = 4 do $ADD 28 Ca(); repeat 'Pulse_Numberb' < 25
+
+
+%mod: alarm 0.1 [T] > 1600.1 do $ADD 1 Gc(); repeat 'Pulse_Numberc' < 25
+%mod: 'Gapc' = 2 do $DEL |Gc()| Gc(); repeat 'Pulse_Numberc' < 25
+
+%mod: alarm 0.01 'Gapc' = 1 do $ADD 1 Pc(); repeat 'Pulse_Numberc' < 25
+%mod: 'Pulsec' = 10 do $DEL |Pc()| Pc(); repeat 'Pulse_Numberc' < 25
+
+%mod: 'Gapc' = 2 do $ADD 1 Nc(); repeat 'Pulse_Numberc' < 25
+
+%mod: alarm 0.01 'Pulsec' = 1 do $ADD 28 Ca(); repeat 'Pulse_Numberc' < 25
+%mod: alarm 0.01 'Pulsec' = 2 do $ADD 28 Ca(); repeat 'Pulse_Numberc' < 25
+%mod: alarm 0.01 'Pulsec' = 3 do $ADD 28 Ca(); repeat 'Pulse_Numberc' < 25
+%mod: alarm 0.01 'Pulsec' = 4 do $ADD 28 Ca(); repeat 'Pulse_Numberc' < 25*/
+
+
+//Theta ProtocOl Condensed (Park 2016) 25 stim as above, with 10 second gaps between 25 stim trains for 3 trains
+
+%mod: alarm 0.1 [T] > 0 do $ADD 1 G(); repeat 'Pulse_Number' < 25
+%mod: 'Gap' = 2 do $DEL |G()| G(); repeat 'Pulse_Number' < 25
+
+%mod: alarm 0.01 'Gap' = 1 do $ADD 1 P(); repeat 'Pulse_Number' < 25
+%mod: 'Pulse' = 10 do $DEL |P()| P(); repeat 'Pulse_Number' < 25
+
+%mod: 'Gap' = 2 do $ADD 1 N(); repeat 'Pulse_Number' < 25
+
+%mod: alarm 0.01 'Pulse' = 3 do $ADD 60 Ca(); repeat 'Pulse_Number' < 25
+%mod: alarm 0.01 'Pulse' = 4 do $ADD 60 Ca(); repeat 'Pulse_Number' < 25
+%mod: alarm 0.01 'Pulse' = 5 do $ADD 60 Ca(); repeat 'Pulse_Number' < 25
+%mod: alarm 0.01 'Pulse' = 6 do $ADD 60 Ca(); repeat 'Pulse_Number' < 25
+
+
+%mod: alarm 0.1 [T] > 15.1 do $ADD 1 Gb(); repeat 'Pulse_Numberb' < 25
+%mod: 'Gapb' = 2 do $DEL |Gb()| Gb(); repeat 'Pulse_Numberb' < 25
+
+%mod: alarm 0.01 'Gapb' = 1 do $ADD 1 Pb(); repeat 'Pulse_Numberb' < 25
+%mod: 'Pulseb' = 10 do $DEL |Pb()| Pb(); repeat 'Pulse_Numberb' < 25
+
+%mod: 'Gapb' = 2 do $ADD 1 Nb(); repeat 'Pulse_Numberb' < 25
+
+%mod: alarm 0.01 'Pulseb' = 3 do $ADD 60 Ca(); repeat 'Pulse_Numberb' < 25
+%mod: alarm 0.01 'Pulseb' = 4 do $ADD 60 Ca(); repeat 'Pulse_Numberb' < 25
+%mod: alarm 0.01 'Pulseb' = 5 do $ADD 60 Ca(); repeat 'Pulse_Numberb' < 25
+%mod: alarm 0.01 'Pulseb' = 6 do $ADD 60 Ca(); repeat 'Pulse_Numberb' < 25
+
+
+%mod: alarm 0.1 [T] > 30.1 do $ADD 1 Gc(); repeat 'Pulse_Numberc' < 25
+%mod: 'Gapc' = 2 do $DEL |Gc()| Gc(); repeat 'Pulse_Numberc' < 25
+
+%mod: alarm 0.01 'Gapc' = 1 do $ADD 1 Pc(); repeat 'Pulse_Numberc' < 25
+%mod: 'Pulsec' = 10 do $DEL |Pc()| Pc(); repeat 'Pulse_Numberc' < 25
+
+%mod: 'Gapc' = 2 do $ADD 1 Nc(); repeat 'Pulse_Numberc' < 25
+
+%mod: alarm 0.01 'Pulsec' = 3 do $ADD 60 Ca(); repeat 'Pulse_Numberc' < 25
+%mod: alarm 0.01 'Pulsec' = 4 do $ADD 60 Ca(); repeat 'Pulse_Numberc' < 25
+%mod: alarm 0.01 'Pulsec' = 5 do $ADD 60 Ca(); repeat 'Pulse_Numberc' < 25
+%mod: alarm 0.01 'Pulsec' = 6 do $ADD 60 Ca(); repeat 'Pulse_Numberc' < 25
+
+
+
+//Delta Protocol (Grover 2009)
+
+
+/*%mod: alarm 0.1 do $ADD 1 G(); repeat [true]
+%mod: 'Gap' = 5 do $DEL |G()| G(); repeat [true]
+
+%mod: alarm 0.01 'Gap' = 1 do $ADD 1 P(); repeat 'Pulse_Number' < 15
+%mod: 'Pulse' = 10 do $DEL |P()| P(); repeat [true]
+
+%mod: 'Gap' = 5 do $ADD 1 N(); repeat 'Pulse_Number' < 15
+
+%mod: alarm 0.01 'Pulse' = 1  do $ADD 28 Ca(); repeat 'Pulse_Number' < 15
+%mod: alarm 0.01 'Pulse' = 2 do $ADD 28 Ca(); repeat 'Pulse_Number' < 15
+%mod: alarm 0.01 'Pulse' = 3 do $ADD 28 Ca(); repeat 'Pulse_Number' < 15
+%mod: alarm 0.01 'Pulse' = 4 do $ADD 28 Ca(); repeat 'Pulse_Number' < 15*/
+
+
+
+//Weak LTP (Grover 2009)
+
+
+/*%mod: alarm 1 do $ADD 1 G(); repeat [true]
+%mod: 'Gap' = 5 do $DEL |G()| G(); repeat [true]
+
+%mod: alarm 0.01 'Gap' = 1 do $ADD 1 P(); repeat 'Pulse_Number' < 20
+%mod: 'Pulse' = 10 do $DEL |P()| P(); repeat [true]
+
+%mod: 'Gap' = 5 do $ADD 1 N(); repeat 'Pulse_Number' < 20
+
+%mod: alarm 0.01 'Pulse' = 1 do $ADD 28 Ca(); repeat 'Pulse_Number' < 20
+%mod: alarm 0.01 'Pulse' = 2 do $ADD 28 Ca(); repeat 'Pulse_Number' < 20
+%mod: alarm 0.01 'Pulse' = 3 do $ADD 28 Ca(); repeat 'Pulse_Number' < 20
+%mod: alarm 0.01 'Pulse' = 4 do $ADD 28 Ca(); repeat 'Pulse_Number' < 20*/
+
+
+
+//LFS Double
+
+
+//%mod alarm 1 [T]>600 do $ADD 180 Ca(); repeat [T] < 2400
+
+
+
+//LFS standard 200ms intra
+
+
+
+
+
+//%mod: alarm 3000 do $SNAPSHOT "8020_steady_final";
+
+

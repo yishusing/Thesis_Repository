@@ -1,0 +1,8 @@
+library(readxl)
+library(ggplot2)
+library(viridis)
+transient <- read_excel("CaMKII-Phosphatase relationship.xlsx", sheet = "cTheta_transient")
+
+ggplot(`transient`, aes(T)) + geom_line(aes(y = Phosphatase,colour = "Phosphatase"), size=1.2) + geom_line(aes(y = CaMKII,colour = "CaMKII"), size=1.2) + scale_y_continuous(trans='log10') + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=16), axis.title=element_text(size=16,face='bold'), legend.text=element_text(size=16))
+
+ggsave("transient.png", dpi = 320)
