@@ -1,3 +1,1 @@
-Conductance data is too large a file to be inserted here.
-
-Running any later version of the model with a very small (microsecond) observation timestep will produce similar outputs however.
+Running any later version of the model with a very small (microsecond) observation timestep will produce similar outputs however. The "inputs" files listed should also be able to redo the simulations shown.

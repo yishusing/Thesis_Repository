@@ -1,0 +1,1352 @@
+// "uuid" : "1068068911"
+%def: "seed" "833514983"
+%def: "dumpIfDeadlocked" "true"
+%def: "maxConsecutiveClash" "2"
+%def: "plotPeriod" "1" "t.u."
+%def: "outputFileName" "weakLTP16_5.out"
+
+%agent:
+  AMPAR_1(S831{u p pp ppp pppp} S845{u p pp ppp pppp} S818{u p pp ppp pppp}
+          Open{B S M L} Glu{g0 g1 g2 g3 g4} Anchor{endo X EZ PSD}
+          K868{u0 u1 u2 u3 u4 u5} DUB Nedd4)
+%agent:
+  AMPAR_12(S831{u p pp}[b.PP1 T286.CK] S845{u p pp}[b.PP1 b.PKA b.CaNAB]
+           S880{u p pp}[b.PP2A Calcium.PKC] Y876{u p pp}[b.SFK b.PTPMEG]
+           S818{u p pp}[b.PP2A Calcium.PKC] Open{B S M L} Glu{g0 g1 g2 g3 g4}
+           Anchor{endo X EZ PSD} K868{u0 u1 u2 u3 u4 u5}
+           K870{u0 u1 u2 u3 u4 u5} K882{u0 u1 u2 u3 u4 u5} DUB[AMPAR.DUB]
+           Nedd4[AMPAR.Nedd4] RNF[AMPAR.RNF] pick1[ampa.PICK1]
+           grip[ampa.GRIP] nsf[ampa.NSF])
+%agent:
+  AMPAR_23(S880{u p pp}[b.PP2A Calcium.PKC] Y876{u p pp}[b.SFK b.PTPMEG]
+           Open{B S M L} Glu{g0 g1 g2 g3 g4} Anchor{endo X EZ PSD}
+           K870{u0 u1 u2 u3 u4 u5} K882{u0 u1 u2 u3 u4 u5} DUB[AMPAR.DUB]
+           Nedd4 RNF[AMPAR.RNF] pick1[ampa.PICK1] grip[ampa.GRIP]
+           nsf[ampa.NSF])
+%agent: Glutamate()
+%agent: PSD()
+%agent: PP1(b[S831.AMPAR_12 S845.AMPAR_12 Phos.I1 T286.CK])
+%agent: PKA(b[S845.AMPAR_12 b.PKA_Inhibitor] Active{i a}[Phos.I1])
+%agent: I1(Phos{u p}[b.PP1 Active.PKA b.PP2A b.CaNAB] b[b.PP2A b.CaNAB])
+%agent: PP2A(b[S880.AMPAR_12 S818.AMPAR_12 S880.AMPAR_23 Phos.I1 b.I1])
+%agent: Random()
+%agent: Ca(b)
+%agent: CaM(ck[cam.CK] calcium{c0 c2 c3 c4}[calcium.CaNAB])
+%agent: CaNAB(b[S845.AMPAR_12 Phos.I1 b.I1] calcium{c0 c2 c4}[calcium.CaM])
+%agent: cAMP()
+%agent: AC1()
+%agent: AC2()
+%agent: PDE()
+%agent: R2C2(cAMP{c0 c1 c2 c3 c4} C{c0 c1 c2})
+%agent: PKA_Inhibitor(b[b.PKA])
+%agent:
+  CK(a[b.CK] b[a.CK] c[d.CK] d[c.CK] cam[ck.CaM] nedd4
+     T286{u p pp}[S831.AMPAR_12 b.PP1 CK.RNF Cdomain.Nedd4] T305{u p pp}
+     T306{u p pp})
+%agent: PP(dp)
+%agent: GRIP(ampa[grip.AMPAR_12 grip.AMPAR_23])
+%agent: PICK1(ampa[pick1.AMPAR_12 pick1.AMPAR_23] pkc[pick1.PKC])
+%agent:
+  PKC(pick1[pkc.PICK1]
+      Calcium{c0 c1 c2 c3}[S880.AMPAR_12 S818.AMPAR_12 S880.AMPAR_23]
+      Location{Endo Membrane})
+%agent: NSF(ampa[nsf.AMPAR_12 nsf.AMPAR_23])
+%agent: SFK(b[Y876.AMPAR_12 Y876.AMPAR_23])
+%agent: PTPMEG(b[Y876.AMPAR_12 Y876.AMPAR_23])
+%agent:
+  RNF(CK{Active Inactive}[T286.CK] E2[RNF.E2]
+      AMPAR[RNF.AMPAR_12 RNF.AMPAR_23] s{u0 u1})
+%agent: E1(s{u0 u1} E2[E1.E2])
+%agent: E2(E1[E2.E1] s{u0 u1} Nedd4[E2.Nedd4] RNF[E2.RNF])
+%agent:
+  Nedd4(Cdomain{Active Inactive}[T286.CK] E2[Nedd4.E2] s{u0 u1}
+        AMPAR[Nedd4.AMPAR_12])
+%agent: DUB(AMPAR[DUB.AMPAR_12 DUB.AMPAR_23])
+%agent: GluA1(b)
+%agent: GluA2(b)
+%agent: GluA3(b)
+%agent: GluA1A1(b)
+%agent: GluA1A2(b)
+%agent: GluA2A3(b)
+%agent: Counter()
+%agent: G()
+%agent: N()
+%agent: P()
+%agent: Gb()
+%agent: Nb()
+%agent: Pb()
+%agent: Gc()
+%agent: Nc()
+%agent: Pc()
+
+%var:/*0*/ 'NA' 6.022e+23
+%var:/*1*/ 'V' 1e-16
+%var:/*2*/ 'V_PSD' 1e-17
+%var:/*3*/ 'Theta' (NA * V)
+%var:/*4*/ 'Theta_PSD' (NA * V_PSD)
+%var:/*5*/ 'Ubq' 0.02
+%var:/*6*/ 'Tag' 0.005
+%var:/*7*/ 'PSD_removal' 0
+%var:/*8*/ 'PKA_Inhib' (53.9995 / Theta)
+%var:/*9*/ 'Activate_PKA' (5000000 / Theta)
+%var:/*10*/ 'Inhibit_PKA' 0
+%var:/*11*/ 'Glu_Remove' (600000000000 / Theta)
+%var:/*12*/ 'Glu_Release' 0
+%var:/*13*/ 'Random_In' (50000000 / Theta)
+%var:/*14*/ 'Random_Out' (45000000000 / Theta)
+%var:/*15*/ 'endo' 0.01
+%var:/*16*/ 'breakdown' 0.01
+%var:/*17*/ 'Bkoff' 4495
+%var:/*18*/ 'Bkon' (5000000 / Theta)
+%var:/*19*/ 'BSc' 0.0601
+%var:/*20*/ 'p' 0.5
+%var:/*21*/ 'BSk4' 300000
+%var:/*22*/ 'BSk3' (BSk4 * (BSc ^ p))
+%var:/*23*/ 'BSk2' (BSk3 * (BSc ^ p))
+%var:/*24*/ 'BSk1' (BSk2 * (BSc ^ p))
+%var:/*25*/ 'BSk0' (BSk1 * (BSc ^ p))
+%var:/*26*/ 'Skoff' 270.4
+%var:/*27*/ 'Skon' (5000000 / Theta)
+%var:/*28*/ 'SMc' 0.0616
+%var:/*29*/ 'SBk4' 860
+%var:/*30*/ 'SBk3' (SBk4 / (BSc ^ p))
+%var:/*31*/ 'SBk2' (SBk3 / (BSc ^ p))
+%var:/*32*/ 'SBk1' (SBk2 / (BSc ^ p))
+%var:/*33*/ 'SBk0' (SBk1 / (BSc ^ p))
+%var:/*34*/ 'SMk4' 20000
+%var:/*35*/ 'SMk3' (SMk4 * (SMc ^ p))
+%var:/*36*/ 'SMk2' (SMk3 * (SMc ^ p))
+%var:/*37*/ 'SMk1' (SMk2 * (SMc ^ p))
+%var:/*38*/ 'SMk0' (SMk1 * (SMc ^ p))
+%var:/*39*/ 'Mkoff' 16.65
+%var:/*40*/ 'Mkon' (5000000 / Theta)
+%var:/*41*/ 'MLc' 0.069
+%var:/*42*/ 'MSk4' 145
+%var:/*43*/ 'MSk3' (MSk4 / (SMc ^ p))
+%var:/*44*/ 'MSk2' (MSk3 / (SMc ^ p))
+%var:/*45*/ 'MSk1' (MSk2 / (SMc ^ p))
+%var:/*46*/ 'MSk0' (MSk1 / (SMc ^ p))
+%var:/*47*/ 'MLk4' 50000
+%var:/*48*/ 'MLk3' (MLk4 * (MLc ^ p))
+%var:/*49*/ 'MLk2' (MLk3 * (MLc ^ p))
+%var:/*50*/ 'MLk1' (MLk2 * (MLc ^ p))
+%var:/*51*/ 'MLk0' (MLk1 * (MLc ^ p))
+%var:/*52*/ 'Lkoff' 1.149
+%var:/*53*/ 'Lkon' (5000000 / Theta)
+%var:/*54*/ 'LMk4' 691
+%var:/*55*/ 'LMk3' (LMk4 / (MLc ^ p))
+%var:/*56*/ 'LMk2' (LMk3 / (MLc ^ p))
+%var:/*57*/ 'LMk1' (LMk2 / (MLc ^ p))
+%var:/*58*/ 'LMk0' (LMk1 / (MLc ^ p))
+%var:/*59*/ 'pp1_s831_k1' (874978.13 / Theta)
+%var:/*60*/ 'pp1_s831_k2' 1.4
+%var:/*61*/ 'pp1_s831_k3' 0.35
+%var:/*62*/ 'pp1_s845_k1' (874979.8 / Theta)
+%var:/*63*/ 'pp1_s845_k2' 0.68
+%var:/*64*/ 'pp1_s845_k3' 0.17
+%var:/*65*/ 'pka_k1' (3999888 / Theta)
+%var:/*66*/ 'pka_k2' 24
+%var:/*67*/ 'pka_k3' 6
+%var:/*68*/ 'camkii_k1' (27777.59 / Theta)
+%var:/*69*/ 'camkii_k2' 2
+%var:/*70*/ 'camkii_k3' 0.5
+%var:/*71*/ 'pp2b_k1' (2011825.51 / Theta)
+%var:/*72*/ 'pp2b_k2' 8
+%var:/*73*/ 'pp2b_k3' 2
+%var:/*74*/ 'PKA_I1_k1' (6000000 / Theta)
+%var:/*75*/ 'PKA_I1_k2' 36
+%var:/*76*/ 'PKA_I1_k3' 9
+%var:/*77*/ 'PP2A_I1_k1' (625391 / Theta)
+%var:/*78*/ 'PP2A_I1_k2' 8
+%var:/*79*/ 'PP2A_I1_k3' 2
+%var:/*80*/ 'PP2A_PP1_I1_k1' (625391 / Theta)
+%var:/*81*/ 'PP2A_PP1_I1_k2' 8
+%var:/*82*/ 'PP2A_PP1_I1_k3' 2
+%var:/*83*/ 'PP2B_I1_k1' (34200 / Theta)
+%var:/*84*/ 'PP2B_I1_k2' 0.14
+%var:/*85*/ 'PP2B_I1_k3' 0.03
+%var:/*86*/ 'PP2B_PP1_I1_k1' (34200 / Theta)
+%var:/*87*/ 'PP2B_PP1_I1_k2' 0.14
+%var:/*88*/ 'PP2B_PP1_I1_k3' 0.03
+%var:/*89*/ 'Basal_12' 66
+%var:/*90*/ 'Basal_23' 19
+%var:/*91*/ 'X_12' 12
+%var:/*92*/ 'X_23' 3
+%var:/*93*/ 'Glu' 0
+%var:/*94*/ 'PKA' 0
+%var:/*95*/ 'PP1' 108
+%var:/*96*/ 'PSD_slots' 0
+%var:/*97*/ 'x' (54000000 / Theta)
+%var:/*98*/ 'y' (75000000 / Theta)
+%var:/*99*/ 'cAMP_synth' 0.5
+%var:/*100*/ 'cAMP_breakdown' (50000000 / Theta)
+%var:/*101*/ 'Ca_synth' 200
+%var:/*102*/ 'Ca_breakdown' (2700000000 / Theta)
+%var:/*103*/ 'CaM_binding' 0.0697
+%var:/*104*/ 'CaM_unbinding' 0.126
+%var:/*105*/ 'pp1_binding' 0.008303
+%var:/*106*/ 'pp1_unbinding' 50
+%var:/*107*/ 'ck2_dephos' 1
+%var:/*108*/ 'ampar_grip_on' (5500000 / Theta)
+%var:/*109*/ 'ampar_grip_off' 0.3
+%var:/*110*/ 'ampar_grip_offPS' 70
+%var:/*111*/ 'ampar_pick_on' (700000 / Theta)
+%var:/*112*/ 'ampar_pick_off' 5
+%var:/*113*/ 'ampar_pick_onstar' (28000000 / Theta)
+%var:/*114*/ 'grip_pick_on' (10000000 / Theta)
+%var:/*115*/ 'grip_pick_off' 5
+%var:/*116*/ 'ansf_on' (1000000 / Theta)
+%var:/*117*/ 'ansf_off' 5
+%var:/*118*/ 'diff_psd_x' 0.05
+%var:/*119*/ 'diff_x_psd' 0.065
+%var:/*120*/ 'diff_x_ez' 0.05
+%var:/*121*/ 'diff_ez_x' 0.0065
+%var:/*122*/ 'ampa_endo' 0.03
+%var:/*123*/ 'ampa_exo' 0.045
+%var:/*124*/ 'pkc_act' 0
+%var:/*125*/ 'pkc_deact' 0.5
+%var:/*126*/ 'pick_pkc_on' (6000000 / Theta)
+%var:/*127*/ 'pick_pkc_off' 1
+%var:/*128*/ 'pkc_k1' (7057057 / Theta)
+%var:/*129*/ 'pkc_k2' 18.8
+%var:/*130*/ 'pkc_k3' 4.7
+%var:/*131*/ 'pkc_s818' (186507 / Theta)
+%var:/*132*/ 's880_pp2a_k1' (384615 / Theta)
+%var:/*133*/ 's880_pp2a_k2' 2.4
+%var:/*134*/ 's880_pp2a_k3' 0.6
+%var:/*135*/ 'sfk_k1' (14285714 / Theta)
+%var:/*136*/ 'sfk_k2' 40
+%var:/*137*/ 'sfk_k3' 10
+%var:/*138*/ 'ptpmeg_k1' (3525641 / Theta)
+%var:/*139*/ 'ptpmeg_k2' 22
+%var:/*140*/ 'ptpmeg_k3' 5.5
+%var:/*141*/ 'pkc_to_membrane' 420
+%var:/*142*/ 'pkc_to_endo' 8400
+%var:/*143*/ 'pkc_to_endo_ca' 4200
+%var:/*144*/ 'pkc_to_endo_2ca' 0.017
+%var:/*145*/ 'pkc_to_endo_3ca' 0.0017
+%var:/*146*/ 'pkc_23ca' (45450000 / Theta)
+%var:/*147*/ 'pkc_1ca' (1111000000 / Theta)
+%var:/*148*/ 'pkc_ca_off' 1000
+%var:/*149*/ 'pkc_ca_off_2' 2
+%var:/*150*/ 'pkc_ca_off_3' 0.12
+%var:/*151*/ 'GRIP' 1330
+%var:/*152*/ 'PICK1' 80
+%var:/*153*/ 'PKC' 40
+%var:/*154*/ 'SFK' 40
+%var:/*155*/ 'NSF' 133
+%var:/*156*/ 'PTPMEG' 133
+%var:/*157*/ 'PP2A' 67
+%var:/*158*/ 'RNFCK_assoc' (27777.59 / Theta)
+%var:/*159*/ 'RNFCK_dissoc' 2
+%var:/*160*/ 'RNF_Activate' 0.5
+%var:/*161*/ 'A' 6.022e+14
+%var:/*162*/ 'AV' (A * V)
+%var:/*163*/ 'E1 activation rate' (0.01 / AV)
+%var:/*164*/ 'E1 deactivation rate' 0.1
+%var:/*165*/ 'E1 association rate' (0.01 / AV)
+%var:/*166*/ 'E1 dissociation rate' 0.1
+%var:/*167*/ 'E1 ub transfer rate' 0.2
+%var:/*168*/ 'E2 association rate' (0.01 / AV)
+%var:/*169*/ 'E2 dissociation rate' 0.1
+%var:/*170*/ 'E2 ub transfer rate' 0.2
+%var:/*171*/ 'E3 bind rate' (0.002 / AV)
+%var:/*172*/ 'E3 dissociation rate' 0.7
+%var:/*173*/ 'kub1' 0.002
+%var:/*174*/ 'kub2' 0.04
+%var:/*175*/ 'kub3' 0.04
+%var:/*176*/ 'kub4' 0.04
+%var:/*177*/ 'kub5' 0.04
+%var:/*178*/ 'DUB bind rate' (0.6 / AV)
+%var:/*179*/ 'DUB dissociation rate' 0.043
+%var:/*180*/ 'kdub' 0.054
+%var:/*181*/ 'ks' 0.08
+%var:/*182*/ 'kd' 0.01
+%var:/*183*/ 'kb' 0.0001
+%var:/*184*/ 'Nedd4_assoc' (27777.59 / Theta)
+%var:/*185*/ 'Nedd4_dissoc' 2
+%var:/*186*/ 'Nedd4_Activate' 5
+%var:/*187*/ 'B0' |AMPAR_12(Open{B} Glu{g0} Anchor{PSD})|
+%var:/*188*/ 'B1' |AMPAR_12(Open{B} Glu{g1})|
+%var:/*189*/ 'B2' |AMPAR_12(Open{B} Glu{g2})|
+%var:/*190*/ 'B3' |AMPAR_12(Open{B} Glu{g3})|
+%var:/*191*/ 'B4' |AMPAR_12(Open{B} Glu{g4})|
+%var:/*192*/ 'S0' |AMPAR_12(Open{S} Glu{g0} Anchor{PSD})|
+%var:/*193*/ 'S1' |AMPAR_12(Open{S} Glu{g1})|
+%var:/*194*/ 'S2' |AMPAR_12(Open{S} Glu{g2})|
+%var:/*195*/ 'S3' |AMPAR_12(Open{S} Glu{g3})|
+%var:/*196*/ 'S4' |AMPAR_12(Open{S} Glu{g4})|
+%var:/*197*/ 'M0' |AMPAR_12(Open{M} Glu{g0} Anchor{PSD})|
+%var:/*198*/ 'M1' |AMPAR_12(Open{M} Glu{g1})|
+%var:/*199*/ 'M2' |AMPAR_12(Open{M} Glu{g2})|
+%var:/*200*/ 'M3' |AMPAR_12(Open{M} Glu{g3})|
+%var:/*201*/ 'M4' |AMPAR_12(Open{M} Glu{g4})|
+%var:/*202*/ 'L0' |AMPAR_12(Open{L} Glu{g0} Anchor{PSD})|
+%var:/*203*/ 'L1' |AMPAR_12(Open{L} Glu{g1})|
+%var:/*204*/ 'L2' |AMPAR_12(Open{L} Glu{g2})|
+%var:/*205*/ 'L3' |AMPAR_12(Open{L} Glu{g3})|
+%var:/*206*/ 'L4' |AMPAR_12(Open{L} Glu{g4})|
+%var:/*207*/ 'S0_p' |AMPAR_12(S845{p} Open{S} Glu{g0} Anchor{PSD})|
+%var:/*208*/ 'S1_p' |AMPAR_12(S845{p} Open{S} Glu{g1} Anchor{PSD})|
+%var:/*209*/ 'S2_p' |AMPAR_12(S845{p} Open{S} Glu{g2} Anchor{PSD})|
+%var:/*210*/ 'S3_p' |AMPAR_12(S845{p} Open{S} Glu{g3} Anchor{PSD})|
+%var:/*211*/ 'S4_p' |AMPAR_12(S845{p} Open{S} Glu{g4} Anchor{PSD})|
+%var:/*212*/ 'M0_p' |AMPAR_12(S845{p} Open{M} Glu{g0} Anchor{PSD})|
+%var:/*213*/ 'M1_p' |AMPAR_12(S845{p} Open{M} Glu{g1} Anchor{PSD})|
+%var:/*214*/ 'M2_p' |AMPAR_12(S845{p} Open{M} Glu{g2} Anchor{PSD})|
+%var:/*215*/ 'M3_p' |AMPAR_12(S845{p} Open{M} Glu{g3} Anchor{PSD})|
+%var:/*216*/ 'M4_p' |AMPAR_12(S845{p} Open{M} Glu{g4} Anchor{PSD})|
+%var:/*217*/ 'L0_p' |AMPAR_12(S845{p} Open{L} Glu{g0} Anchor{PSD})|
+%var:/*218*/ 'L1_p' |AMPAR_12(S845{p} Open{L} Glu{g1} Anchor{PSD})|
+%var:/*219*/ 'L2_p' |AMPAR_12(S845{p} Open{L} Glu{g2} Anchor{PSD})|
+%var:/*220*/ 'L3_p' |AMPAR_12(S845{p} Open{L} Glu{g3} Anchor{PSD})|
+%var:/*221*/ 'L4_p' |AMPAR_12(S845{p} Open{L} Glu{g4} Anchor{PSD})|
+%var:/*222*/ 'S0_pp' |AMPAR_12(S845{pp} Open{S} Glu{g0} Anchor{PSD})|
+%var:/*223*/ 'S1_pp' |AMPAR_12(S845{pp} Open{S} Glu{g1} Anchor{PSD})|
+%var:/*224*/ 'S2_pp' |AMPAR_12(S845{pp} Open{S} Glu{g2} Anchor{PSD})|
+%var:/*225*/ 'S3_pp' |AMPAR_12(S845{pp} Open{S} Glu{g3} Anchor{PSD})|
+%var:/*226*/ 'S4_pp' |AMPAR_12(S845{pp} Open{S} Glu{g4} Anchor{PSD})|
+%var:/*227*/ 'M0_pp' |AMPAR_12(S845{pp} Open{M} Glu{g0} Anchor{PSD})|
+%var:/*228*/ 'M1_pp' |AMPAR_12(S845{pp} Open{M} Glu{g1} Anchor{PSD})|
+%var:/*229*/ 'M2_pp' |AMPAR_12(S845{pp} Open{M} Glu{g2} Anchor{PSD})|
+%var:/*230*/ 'M3_pp' |AMPAR_12(S845{pp} Open{M} Glu{g3} Anchor{PSD})|
+%var:/*231*/ 'M4_pp' |AMPAR_12(S845{pp} Open{M} Glu{g4} Anchor{PSD})|
+%var:/*232*/ 'L0_pp' |AMPAR_12(S845{pp} Open{L} Glu{g0} Anchor{PSD})|
+%var:/*233*/ 'L1_pp' |AMPAR_12(S845{pp} Open{L} Glu{g1} Anchor{PSD})|
+%var:/*234*/ 'L2_pp' |AMPAR_12(S845{pp} Open{L} Glu{g2} Anchor{PSD})|
+%var:/*235*/ 'L3_pp' |AMPAR_12(S845{pp} Open{L} Glu{g3} Anchor{PSD})|
+%var:/*236*/ 'L4_pp' |AMPAR_12(S845{pp} Open{L} Glu{g4} Anchor{PSD})|
+%var:/*237*/ 'Glu_Trigger' |Random()|
+%var:/*238*/ 'Glutamate_level' |Glutamate()|
+%var:/*239*/ 'CaGlu' ((((((((((((((0.015 * S1) + (0.06 * S2)) + (0.105 * S3)) + (0.15 * S4)) + (0.03 * M1)) + (0.12 * M2)) + (0.21 * M3)) + (0.3 * M4)) + (0.045 * L1)) + (0.18 * L2)) + (0.315 * L3)) + (0.45 * L4)) + (1.5 * ((((((((((((0.015 * S1_p) + (0.06 * S2_p)) + (0.105 * S3_p)) + (0.15 * S4_p)) + (0.03 * M1_p)) + (0.12 * M2_p)) + (0.21 * M3_p)) + (0.3 * M4_p)) + (0.045 * L1_p)) + (0.18 * L2_p)) + (0.315 * L3_p)) + (0.45 * L4_p)))) + (2 * ((((((((((((0.015 * S1_pp) + (0.06 * S2_pp)) + (0.105 * S3_pp)) + (0.15 * S4_pp)) + (0.03 * M1_pp)) + (0.12 * M2_pp)) + (0.21 * M3_pp)) + (0.3 * M4_pp)) + (0.045 * L1_pp)) + (0.18 * L2_pp)) + (0.315 * L3_pp)) + (0.45 * L4_pp))))
+%var:/*240*/ 'S831_P' |AMPAR_12(S831{p} Anchor{PSD})|
+%var:/*241*/ 'S831_PP' |AMPAR_12(S831{pp} Anchor{PSD})|
+%var:/*242*/ 'S831_u' |AMPAR_12(S831{u} Anchor{PSD})|
+%var:/*243*/ 'S845_P' |AMPAR_12(S845{p} Anchor{PSD})|
+%var:/*244*/ 'S845_PP' |AMPAR_12(S845{pp} Anchor{PSD})|
+%var:/*245*/ 'S845_u' |AMPAR_12(S845{u} Anchor{PSD})|
+%var:/*246*/ 'S818_u' |AMPAR_12(S818{u} Anchor{PSD})|
+%var:/*247*/ 'S818_p' |AMPAR_12(S818{p} Anchor{PSD})|
+%var:/*248*/ 'S818_pp' |AMPAR_12(S818{pp} Anchor{PSD})|
+%var:/*249*/ 'I1_P' |I1(Phos{p})|
+%var:/*250*/ 'I1_u' |I1(Phos{u})|
+%var:/*251*/ 'PKA_a' |PKA(Active{a})|
+%var:/*252*/ 'PKA_i' |PKA(Active{i})|
+%var:/*253*/ 'Conductance_S845_measure' ((S845_u + (1.5 * S845_P)) + (2 * S845_PP))
+%var:/*254*/ 'Conductance_S831_measure' (((3 * |AMPAR_12(S831{u} Anchor{PSD})|) + (4 * |AMPAR_12(S831{p} Anchor{PSD})|)) + (8 * |AMPAR_12(S831{pp} Anchor{PSD})|))
+%var:/*255*/ 'Slots' |PSD()|
+%var:/*256*/ 'Synaptic_12' |AMPAR_12(Anchor{PSD})|
+%var:/*257*/ 'Synaptic_23' |AMPAR_23(Anchor{PSD})|
+%var:/*258*/ 'Synaptic_receptors' (Synaptic_12 + Synaptic_23)
+%var:/*259*/ 'PP2B' |CaM(calcium{c4}[1]), CaNAB(calcium{c4}[1])|
+%var:/*260*/ 'Calcium_Levels' |Ca()|
+%var:/*261*/ 'R2C2_total' |R2C2()|
+%var:/*262*/ 'cAMP_levels' |cAMP()|
+%var:/*263*/ 'Active_CaM' |CaM(calcium{c4})|
+%var:/*264*/ 'Phos_CK_subunits' |CK(T286{p})|
+%var:/*265*/ 'Phos_CK_hexamers' (|CK(a[1] b[2] T286{p}), CK(a[2] b[3] T286{p}), CK(a[3] b[4] T286{p}), CK(a[4] b[5] T286{p}), CK(a[5] b[6] T286{p}), CK(a[6] b[1] T286{p})| / 6)
+%var:/*266*/ 'Free_PP' |PP1(b[.])|
+%var:/*267*/ 'CaM_CaMKII_C4' |CaM(ck[1] calcium{c4}), CK(cam[1])|
+%var:/*268*/ 'CaMKII_CaM' |CaM(ck[1]), CK(cam[1])|
+%var:/*269*/ 'CaM_CaMKII_all' |CaM(ck[1]), CK(cam[1])|
+%var:/*270*/ 'GRIP_level' |GRIP(ampa[.])|
+%var:/*271*/ 'PICK1_level' |PICK1(ampa[.] pkc[.])|
+%var:/*272*/ 'actPKC_level' |PKC(Calcium{c3})|
+%var:/*273*/ 'PKC_membrane' |PKC(Calcium{c3} Location{Membrane})|
+%var:/*274*/ 'PKC_endo' |PKC(Calcium{c3} Location{Endo})|
+%var:/*275*/ 'PKC_PICK1' |PICK1(pkc[1]), PKC(pick1[1] Calcium{c3})|
+%var:/*276*/ 'PKC_PICK1_AMPAR' |AMPAR_12(S880{u}[1] Y876{u} pick1[2] grip[.] nsf[.]), PICK1(ampa[2] pkc[3]), PKC(pick1[3] Calcium{c3}[1])|
+%var:/*277*/ 'PKC_AMPAR' |AMPAR_12(S880{u}[1] Y876{u}), PKC(pick1[.] Calcium{c3}[1])|
+%var:/*278*/ 'AMPA_S880_membrane' ((|AMPAR_12(S880{p} Anchor{PSD})| + |AMPAR_12(S880{p} Anchor{X})|) + |AMPAR_12(S880{p} Anchor{EZ})|)
+%var:/*279*/ 'AMPA_Y876_membrane' ((|AMPAR_12(Y876{p} Anchor{PSD})| + |AMPAR_12(Y876{p} Anchor{X})|) + |AMPAR_12(Y876{p} Anchor{EZ})|)
+%var:/*280*/ 'AMPA_PSD' |AMPAR_12(Anchor{PSD})|
+%var:/*281*/ 'AMPA_mPSD' |AMPAR_12(Anchor{PSD} grip[.])|
+%var:/*282*/ 'AMPA_mX' |AMPAR_12(Anchor{X} grip[.])|
+%var:/*283*/ 'AMPA_mEZ' |AMPAR_12(Anchor{EZ} grip[.])|
+%var:/*284*/ 'AMPA_X' |AMPAR_12(Anchor{X})|
+%var:/*285*/ 'AMPA_EZ' |AMPAR_12(Anchor{EZ})|
+%var:/*286*/ 'AMPA_endo' |AMPAR_12(Anchor{endo})|
+%var:/*287*/ 'AMPA_membrane' ((AMPA_PSD + AMPA_X) + AMPA_EZ)
+%var:/*288*/ 'AMPA_mobile' ((AMPA_mPSD + AMPA_mX) + AMPA_mEZ)
+%var:/*289*/ 'K868' |AMPAR_12(K868{u0})|
+%var:/*290*/ 'K868_ub' |AMPAR_12(K868{u1})|
+%var:/*291*/ 'K868_ub2' |AMPAR_12(K868{u2})|
+%var:/*292*/ 'K868_ub3' |AMPAR_12(K868{u3})|
+%var:/*293*/ 'K868_ub4' |AMPAR_12(K868{u4})|
+%var:/*294*/ 'K868_ub5' |AMPAR_12(K868{u5})|
+%var:/*295*/ '12K870_ub' |AMPAR_12(K870{u1})|
+%var:/*296*/ '12K870_ub2' |AMPAR_12(K870{u2})|
+%var:/*297*/ '12K870_ub3' |AMPAR_12(K870{u3})|
+%var:/*298*/ '12K870_ub4' |AMPAR_12(K870{u4})|
+%var:/*299*/ '12K870_ub5' |AMPAR_12(K870{u5})|
+%var:/*300*/ '23K870_ub' |AMPAR_23(K870{u1})|
+%var:/*301*/ '23K870_ub2' |AMPAR_23(K870{u2})|
+%var:/*302*/ '23K870_ub3' |AMPAR_23(K870{u3})|
+%var:/*303*/ '23K870_ub4' |AMPAR_23(K870{u4})|
+%var:/*304*/ '23K870_ub5' |AMPAR_23(K870{u5})|
+%var:/*305*/ '12K882_ub' |AMPAR_12(K882{u1})|
+%var:/*306*/ '12K882_ub2' |AMPAR_12(K882{u2})|
+%var:/*307*/ '12K882_ub3' |AMPAR_12(K882{u3})|
+%var:/*308*/ '12K882_ub4' |AMPAR_12(K882{u4})|
+%var:/*309*/ '12K882_ub5' |AMPAR_12(K882{u5})|
+%var:/*310*/ '23K882_ub' |AMPAR_23(K882{u1})|
+%var:/*311*/ '23K882_ub2' |AMPAR_23(K882{u2})|
+%var:/*312*/ '23K882_ub3' |AMPAR_23(K882{u3})|
+%var:/*313*/ '23K882_ub4' |AMPAR_23(K882{u4})|
+%var:/*314*/ '23K882_ub5' |AMPAR_23(K882{u5})|
+%var:/*315*/ 'AMPAR1' |AMPAR_1()|
+%var:/*316*/ 'AMPAR12' |AMPAR_12()|
+%var:/*317*/ 'AMPAR23' |AMPAR_23()|
+%var:/*318*/ 'slot_degen' 0
+%var:/*319*/ 'Gap' |G()|
+%var:/*320*/ 'Pulse_Number' |N()|
+%var:/*321*/ 'Pulse_Numberb' |Nb()|
+%var:/*322*/ 'Pulse_Numberc' |Nc()|
+%var:/*323*/ 'Pulse' |P()|
+%var:/*324*/ 'Gapb' |Gb()|
+%var:/*325*/ 'Pulseb' |Pb()|
+%var:/*326*/ 'Gapc' |Gc()|
+%var:/*327*/ 'Pulsec' |Pc()|
+%plot: [T]
+%plot: B0
+%plot: B1
+%plot: B2
+%plot: B3
+%plot: B4
+%plot: S0
+%plot: S1
+%plot: S2
+%plot: S3
+%plot: S4
+%plot: M0
+%plot: M1
+%plot: M2
+%plot: M3
+%plot: M4
+%plot: L0
+%plot: L1
+%plot: L2
+%plot: L3
+%plot: L4
+%plot: S0_p
+%plot: S1_p
+%plot: S2_p
+%plot: S3_p
+%plot: S4_p
+%plot: M0_p
+%plot: M1_p
+%plot: M2_p
+%plot: M3_p
+%plot: M4_p
+%plot: L0_p
+%plot: L1_p
+%plot: L2_p
+%plot: L3_p
+%plot: L4_p
+%plot: S0_pp
+%plot: S1_pp
+%plot: S2_pp
+%plot: S3_pp
+%plot: S4_pp
+%plot: M0_pp
+%plot: M1_pp
+%plot: M2_pp
+%plot: M3_pp
+%plot: M4_pp
+%plot: L0_pp
+%plot: L1_pp
+%plot: L2_pp
+%plot: L3_pp
+%plot: L4_pp
+%plot: Glu_Trigger
+%plot: Glutamate_level
+%plot: CaGlu
+%plot: S831_P
+%plot: S831_PP
+%plot: S831_u
+%plot: S845_P
+%plot: S845_PP
+%plot: S845_u
+%plot: S818_u
+%plot: S818_p
+%plot: S818_pp
+%plot: I1_P
+%plot: I1_u
+%plot: PKA_a
+%plot: PKA_i
+%plot: Conductance_S845_measure
+%plot: Conductance_S831_measure
+%plot: Slots
+%plot: Synaptic_12
+%plot: Synaptic_23
+%plot: Synaptic_receptors
+%plot: PP2B
+%plot: Calcium_Levels
+%plot: R2C2_total
+%plot: cAMP_levels
+%plot: Active_CaM
+%plot: Phos_CK_subunits
+%plot: Phos_CK_hexamers
+%plot: Free_PP
+%plot: CaM_CaMKII_C4
+%plot: CaMKII_CaM
+%plot: CaM_CaMKII_all
+%plot: GRIP_level
+%plot: PICK1_level
+%plot: actPKC_level
+%plot: PKC_membrane
+%plot: PKC_endo
+%plot: PKC_PICK1
+%plot: PKC_PICK1_AMPAR
+%plot: PKC_AMPAR
+%plot: AMPA_S880_membrane
+%plot: AMPA_Y876_membrane
+%plot: AMPA_PSD
+%plot: AMPA_mPSD
+%plot: AMPA_mX
+%plot: AMPA_mEZ
+%plot: AMPA_X
+%plot: AMPA_EZ
+%plot: AMPA_endo
+%plot: AMPA_membrane
+%plot: AMPA_mobile
+%plot: K868
+%plot: K868_ub
+%plot: K868_ub2
+%plot: K868_ub3
+%plot: K868_ub4
+%plot: K868_ub5
+%plot: 12K870_ub
+%plot: 12K870_ub2
+%plot: 12K870_ub3
+%plot: 12K870_ub4
+%plot: 12K870_ub5
+%plot: 23K870_ub
+%plot: 23K870_ub2
+%plot: 23K870_ub3
+%plot: 23K870_ub4
+%plot: 23K870_ub5
+%plot: 12K882_ub
+%plot: 12K882_ub2
+%plot: 12K882_ub3
+%plot: 12K882_ub4
+%plot: 12K882_ub5
+%plot: 23K882_ub
+%plot: 23K882_ub2
+%plot: 23K882_ub3
+%plot: 23K882_ub4
+%plot: 23K882_ub5
+%plot: AMPAR1
+%plot: AMPAR12
+%plot: AMPAR23
+%plot: Gap
+%plot: Pulse_Number
+%plot: Pulse_Numberb
+%plot: Pulse_Numberc
+%plot: Pulse
+%plot: Gapb
+%plot: Pulseb
+%plot: Gapc
+%plot: Pulsec
+
+PSD()- @ slot_degen
+AMPAR_12(Open{B/S}[#] Glu{g0}[#]) @ BSk0
+AMPAR_12(Open{S/B}[#] Glu{g0}[#]) @ SBk0
+AMPAR_12(Open{B/S}[#] Glu{g1}[#]) @ BSk1
+AMPAR_12(Open{S/B}[#] Glu{g1}[#]) @ SBk1
+AMPAR_12(Open{B/S}[#] Glu{g2}[#]) @ BSk2
+AMPAR_12(Open{S/B}[#] Glu{g2}[#]) @ SBk2
+AMPAR_12(Open{B/S}[#] Glu{g3}[#]) @ BSk3
+AMPAR_12(Open{S/B}[#] Glu{g3}[#]) @ SBk3
+AMPAR_12(Open{B/S}[#] Glu{g4}[#]) @ BSk4
+AMPAR_12(Open{S/B}[#] Glu{g4}[#]) @ SBk4
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g0}[#]) @ (1.5 * BSk0)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g0}[#]) @ SBk0
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g1}[#]) @ (1.5 * BSk1)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g1}[#]) @ SBk1
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g2}[#]) @ (1.5 * BSk2)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g2}[#]) @ SBk2
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g3}[#]) @ (1.5 * BSk3)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g3}[#]) @ SBk3
+AMPAR_12(S831{p}[#] Open{B/S}[#] Glu{g4}[#]) @ (1.5 * BSk4)
+AMPAR_12(S831{p}[#] Open{S/B}[#] Glu{g4}[#]) @ SBk4
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g0}[#]) @ (2 * BSk0)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g0}[#]) @ SBk0
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g1}[#]) @ (2 * BSk1)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g1}[#]) @ SBk1
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g2}[#]) @ (2 * BSk2)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g2}[#]) @ SBk2
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g3}[#]) @ (2 * BSk3)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g3}[#]) @ SBk3
+AMPAR_12(S831{pp}[#] Open{B/S}[#] Glu{g4}[#]) @ (2 * BSk4)
+AMPAR_12(S831{pp}[#] Open{S/B}[#] Glu{g4}[#]) @ SBk4
+AMPAR_12(Open{S/M}[#] Glu{g0}[#]) @ SMk0
+AMPAR_12(Open{M/S}[#] Glu{g0}[#]) @ MSk0
+AMPAR_12(Open{S/M}[#] Glu{g1}[#]) @ SMk1
+AMPAR_12(Open{M/S}[#] Glu{g1}[#]) @ MSk1
+AMPAR_12(Open{S/M}[#] Glu{g2}[#]) @ SMk2
+AMPAR_12(Open{M/S}[#] Glu{g2}[#]) @ MSk2
+AMPAR_12(Open{S/M}[#] Glu{g3}[#]) @ SMk3
+AMPAR_12(Open{M/S}[#] Glu{g3}[#]) @ MSk3
+AMPAR_12(Open{S/M}[#] Glu{g4}[#]) @ SMk4
+AMPAR_12(Open{M/S}[#] Glu{g4}[#]) @ MSk4
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g0}[#]) @ (1.5 * SMk0)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g0}[#]) @ MSk0
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g1}[#]) @ (1.5 * SMk1)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g1}[#]) @ MSk1
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g2}[#]) @ (1.5 * SMk2)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g2}[#]) @ MSk2
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g3}[#]) @ (1.5 * SMk3)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g3}[#]) @ MSk3
+AMPAR_12(S831{p}[#] Open{S/M}[#] Glu{g4}[#]) @ (1.5 * SMk4)
+AMPAR_12(S831{p}[#] Open{M/S}[#] Glu{g4}[#]) @ MSk4
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g0}[#]) @ (2 * SMk0)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g0}[#]) @ MSk0
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g1}[#]) @ (2 * SMk1)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g1}[#]) @ MSk1
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g2}[#]) @ (2 * SMk2)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g2}[#]) @ MSk2
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g3}[#]) @ (2 * SMk3)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g3}[#]) @ MSk3
+AMPAR_12(S831{pp}[#] Open{S/M}[#] Glu{g4}[#]) @ (2 * SMk4)
+AMPAR_12(S831{pp}[#] Open{M/S}[#] Glu{g4}[#]) @ MSk4
+AMPAR_12(Open{M/L}[#] Glu{g0}[#]) @ MLk0
+AMPAR_12(Open{L/M}[#] Glu{g0}[#]) @ LMk0
+AMPAR_12(Open{M/L}[#] Glu{g1}[#]) @ MLk1
+AMPAR_12(Open{L/M}[#] Glu{g1}[#]) @ LMk1
+AMPAR_12(Open{M/L}[#] Glu{g2}[#]) @ MLk2
+AMPAR_12(Open{L/M}[#] Glu{g2}[#]) @ LMk2
+AMPAR_12(Open{M/L}[#] Glu{g3}[#]) @ MLk3
+AMPAR_12(Open{L/M}[#] Glu{g3}[#]) @ LMk3
+AMPAR_12(Open{M/L}[#] Glu{g4}[#]) @ MLk4
+AMPAR_12(Open{L/M}[#] Glu{g4}[#]) @ LMk4
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g0}[#]) @ (1.5 * MLk0)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g0}[#]) @ LMk0
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g1}[#]) @ (1.5 * MLk1)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g1}[#]) @ LMk1
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g2}[#]) @ (1.5 * MLk2)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g2}[#]) @ LMk2
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g3}[#]) @ (1.5 * MLk3)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g3}[#]) @ LMk3
+AMPAR_12(S831{p}[#] Open{M/L}[#] Glu{g4}[#]) @ (1.5 * MLk4)
+AMPAR_12(S831{p}[#] Open{L/M}[#] Glu{g4}[#]) @ LMk4
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g0}[#]) @ (2 * MLk0)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g0}[#]) @ LMk0
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g1}[#]) @ (2 * MLk1)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g1}[#]) @ LMk1
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g2}[#]) @ (2 * MLk2)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g2}[#]) @ LMk2
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g3}[#]) @ (2 * MLk3)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g3}[#]) @ LMk3
+AMPAR_12(S831{pp}[#] Open{M/L}[#] Glu{g4}[#]) @ (2 * MLk4)
+AMPAR_12(S831{pp}[#] Open{L/M}[#] Glu{g4}[#]) @ LMk4
+AMPAR_12(Open{B}[#] Glu{g0/g1}[#] Anchor{PSD}[#]), Glutamate()- @ (4 * Bkon)
+AMPAR_12(Open{B}[#] Glu{g1/g0}[#] Anchor{PSD}[#]), Glutamate()+ @ Bkoff
+AMPAR_12(Open{B}[#] Glu{g1/g2}[#] Anchor{PSD}[#]), Glutamate()- @ (3 * Bkon)
+AMPAR_12(Open{B}[#] Glu{g2/g1}[#] Anchor{PSD}[#]), Glutamate()+ @ (2 * Bkoff)
+AMPAR_12(Open{B}[#] Glu{g2/g3}[#] Anchor{PSD}[#]), Glutamate()- @ (2 * Bkon)
+AMPAR_12(Open{B}[#] Glu{g3/g2}[#] Anchor{PSD}[#]), Glutamate()+ @ (3 * Bkoff)
+AMPAR_12(Open{B}[#] Glu{g3/g4}[#] Anchor{PSD}[#]), Glutamate()- @ Bkon
+AMPAR_12(Open{B}[#] Glu{g4/g3}[#] Anchor{PSD}[#]), Glutamate()+ @ (4 * Bkoff)
+AMPAR_12(Open{S}[#] Glu{g0/g1}[#] Anchor{PSD}[#]), Glutamate()- @ (4 * Skon)
+AMPAR_12(Open{S}[#] Glu{g1/g0}[#] Anchor{PSD}[#]), Glutamate()+ @ Skoff
+AMPAR_12(Open{S}[#] Glu{g1/g2}[#] Anchor{PSD}[#]), Glutamate()- @ (3 * Skon)
+AMPAR_12(Open{S}[#] Glu{g2/g1}[#] Anchor{PSD}[#]), Glutamate()+ @ (2 * Skoff)
+AMPAR_12(Open{S}[#] Glu{g2/g3}[#] Anchor{PSD}[#]), Glutamate()- @ (2 * Skon)
+AMPAR_12(Open{S}[#] Glu{g3/g2}[#] Anchor{PSD}[#]), Glutamate()+ @ (3 * Skoff)
+AMPAR_12(Open{S}[#] Glu{g3/g4}[#] Anchor{PSD}[#]), Glutamate()- @ Skon
+AMPAR_12(Open{S}[#] Glu{g4/g3}[#] Anchor{PSD}[#]), Glutamate()+ @ (4 * Skoff)
+AMPAR_12(Open{M}[#] Glu{g0/g1}[#] Anchor{PSD}[#]), Glutamate()- @ (4 * Mkon)
+AMPAR_12(Open{M}[#] Glu{g1/g0}[#] Anchor{PSD}[#]), Glutamate()+ @ Mkoff
+AMPAR_12(Open{M}[#] Glu{g1/g2}[#] Anchor{PSD}[#]), Glutamate()- @ (3 * Mkon)
+AMPAR_12(Open{M}[#] Glu{g2/g1}[#] Anchor{PSD}[#]), Glutamate()+ @ (2 * Mkoff)
+AMPAR_12(Open{M}[#] Glu{g2/g3}[#] Anchor{PSD}[#]), Glutamate()- @ (2 * Mkon)
+AMPAR_12(Open{M}[#] Glu{g3/g2}[#] Anchor{PSD}[#]), Glutamate()+ @ (3 * Mkoff)
+AMPAR_12(Open{M}[#] Glu{g3/g4}[#] Anchor{PSD}[#]), Glutamate()- @ Mkon
+AMPAR_12(Open{M}[#] Glu{g4/g3}[#] Anchor{PSD}[#]), Glutamate()+ @ (4 * Mkoff)
+AMPAR_12(Open{L}[#] Glu{g0/g1}[#] Anchor{PSD}[#]), Glutamate()- @ (4 * Lkon)
+AMPAR_12(Open{L}[#] Glu{g1/g0}[#] Anchor{PSD}[#]), Glutamate()+ @ Lkoff
+AMPAR_12(Open{L}[#] Glu{g1/g2}[#] Anchor{PSD}[#]), Glutamate()- @ (3 * Lkon)
+AMPAR_12(Open{L}[#] Glu{g2/g1}[#] Anchor{PSD}[#]), Glutamate()+ @ (2 * Lkoff)
+AMPAR_12(Open{L}[#] Glu{g2/g3}[#] Anchor{PSD}[#]), Glutamate()- @ (2 * Lkon)
+AMPAR_12(Open{L}[#] Glu{g3/g2}[#] Anchor{PSD}[#]), Glutamate()+ @ (3 * Lkoff)
+AMPAR_12(Open{L}[#] Glu{g3/g4}[#] Anchor{PSD}[#]), Glutamate()- @ Lkon
+AMPAR_12(Open{L}[#] Glu{g4/g3}[#] Anchor{PSD}[#]), Glutamate()+ @ (4 * Lkoff)
+AMPAR_12(S845{p}[./1]), PP1(b[./1]) @ pp1_s845_k1
+AMPAR_12(S845{p}[1/.]), PP1(b[1/.]) @ pp1_s845_k2
+AMPAR_12(S845{p/u}[1/.]), PP1(b[1/.]) @ pp1_s845_k3
+AMPAR_12(S845{pp}[./1]), PP1(b[./1]) @ pp1_s845_k1
+AMPAR_12(S845{pp}[1/.]), PP1(b[1/.]) @ pp1_s845_k2
+AMPAR_12(S845{pp/p}[1/.]), PP1(b[1/.]) @ pp1_s845_k3
+AMPAR_12(S831{p}[./1]), PP1(b[./1]) @ pp1_s831_k1
+AMPAR_12(S831{p}[1/.]), PP1(b[1/.]) @ pp1_s831_k2
+AMPAR_12(S831{p/u}[1/.]), PP1(b[1/.]) @ pp1_s831_k3
+AMPAR_12(S831{pp}[./1]), PP1(b[./1]) @ pp1_s831_k1
+AMPAR_12(S831{pp}[1/.]), PP1(b[1/.]) @ pp1_s831_k2
+AMPAR_12(S831{pp/p}[1/.]), PP1(b[1/.]) @ pp1_s831_k3
+AMPAR_12(S845{u}[./1]), PKA(b[./1] Active{a}[#]) @ pka_k1
+AMPAR_12(S845{u}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k2
+AMPAR_12(S845{u/p}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k3
+AMPAR_12(S845{p}[./1]), PKA(b[./1] Active{a}[#]) @ pka_k1
+AMPAR_12(S845{p}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k2
+AMPAR_12(S845{p/pp}[1/.]), PKA(b[1/.] Active{a}[#]) @ pka_k3
+AMPAR_12(S831{u}[./1]), CK(T286{p}[./1]) @ camkii_k1
+AMPAR_12(S831{u}[1/.]), CK(T286{p}[1/.]) @ camkii_k2
+AMPAR_12(S831{u/p}[1/.]), CK(T286{p}[1/.]) @ camkii_k3
+AMPAR_12(S831{p}[./1]), CK(T286{p}[./1]) @ camkii_k1
+AMPAR_12(S831{p}[1/.]), CK(T286{p}[1/.]) @ camkii_k2
+AMPAR_12(S831{p/pp}[1/.]), CK(T286{p}[1/.]) @ camkii_k3
+AMPAR_12(S845{p}[./2]), CaM(calcium{c4}[1]), CaNAB(b[./2] calcium{c4}[1]) @ pp2b_k1
+AMPAR_12(S845{p}[2/.]), CaM(calcium{c4}[1]), CaNAB(b[2/.] calcium{c4}[1]) @ pp2b_k2
+AMPAR_12(S845{p/u}[2/.]), CaM(calcium{c4}[1]), CaNAB(b[2/.] calcium{c4}[1]) @ pp2b_k3
+AMPAR_12(S845{pp}[./2]), CaM(calcium{c4}[1]), CaNAB(b[./2] calcium{c4}[1]) @ pp2b_k1
+AMPAR_12(S845{pp}[2/.]), CaM(calcium{c4}[1]), CaNAB(b[2/.] calcium{c4}[1]) @ pp2b_k2
+AMPAR_12(S845{pp/p}[2/.]), CaM(calcium{c4}[1]), CaNAB(b[2/.] calcium{c4}[1]) @ pp2b_k3
+AMPAR_12(S818{u}[./1]), PKC(pick1[.] Calcium{c3}[./1]) @ pkc_s818
+AMPAR_12(S818{u}[1/.]), PKC(pick1[.] Calcium{c3}[1/.]) @ pkc_k2
+AMPAR_12(S818{u/p}[1/.]), PKC(pick1[.] Calcium{c3}[1/.]) @ pkc_k3
+AMPAR_12(S818{p}[./1]), PKC(pick1[.] Calcium{c3}[./1]) @ pkc_k1
+AMPAR_12(S818{p}[1/.]), PKC(pick1[.] Calcium{c3}[1/.]) @ pkc_k2
+AMPAR_12(S818{p/pp}[1/.]), PKC(pick1[.] Calcium{c3}[1/.]) @ pkc_k3
+AMPAR_12(S818{p}[./1]), PP2A(b[./1]) @ s880_pp2a_k1
+AMPAR_12(S818{p}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k2
+AMPAR_12(S818{p/u}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k3
+AMPAR_12(S818{pp}[./1]), PP2A(b[./1]) @ s880_pp2a_k1
+AMPAR_12(S818{pp}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k2
+AMPAR_12(S818{pp/p}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k3
+PP1(b[1/.]), I1(Phos{u}[1/.]) @ 0.1
+PP1(b[./1]), I1(Phos{p}[./1]) @ (449980000 / Theta)
+PP1(b[1/.]), I1(Phos{p}[1/.]) @ 0.1
+I1(Phos{p}[./2]), PP2A(b[./2]) @ PP2A_I1_k1
+I1(Phos{p}[2/.]), PP2A(b[2/.]) @ PP2A_I1_k2
+I1(Phos{p/u}[2/.]), PP2A(b[2/.]) @ PP2A_I1_k3
+PP1(b[1]), I1(Phos{p}[1] b[./3]), PP2A(b[./3]) @ PP2A_PP1_I1_k1
+PP1(b[1]), I1(Phos{p}[1] b[3/.]), PP2A(b[3/.]) @ PP2A_PP1_I1_k2
+PP1(b[1]), I1(Phos{p/u}[1] b[3/.]), PP2A(b[3/.]) @ PP2A_PP1_I1_k3
+I1(Phos{u}[./1]), PKA(Active{a}[./1]) @ PKA_I1_k1
+I1(Phos{u}[1/.]), PKA(Active{a}[1/.]) @ PKA_I1_k2
+I1(Phos{u/p}[1/.]), PKA(Active{a}[1/.]) @ PKA_I1_k3
+I1(Phos{p}[./4]), CaM(calcium{c4}[1]), CaNAB(b[./4] calcium{c4}[1]) @ PP2B_I1_k1
+I1(Phos{p}[4/.]), CaM(calcium{c4}[1]), CaNAB(b[4/.] calcium{c4}[1]) @ PP2B_I1_k2
+I1(Phos{p/u}[4/.]), CaM(calcium{c4}[1]), CaNAB(b[4/.] calcium{c4}[1]) @ PP2B_I1_k3
+PP1(b[1]), I1(Phos{p}[1] b[./5]), CaM(calcium{c4}[2]), CaNAB(b[./5] calcium{c4}[2]) @ PP2B_PP1_I1_k1
+PP1(b[1]), I1(Phos{p}[1] b[5/.]), CaM(calcium{c4}[2]), CaNAB(b[5/.] calcium{c4}[2]) @ PP2B_PP1_I1_k2
+PP1(b[1]), I1(Phos{p/u}[1] b[5/.]), CaM(calcium{c4}[2]), CaNAB(b[5/.] calcium{c4}[2]) @ PP2B_PP1_I1_k3
+Random()+ @ Random_In
+Random()- @ Random_Out
+Glutamate()+ @ Glu_Release
+Glutamate()- @ Glu_Remove
+R2C2(cAMP{c0/c1}[#] C{c2}[#]), cAMP()- @ x
+R2C2(cAMP{c1/c0}[#] C{c2}[#]), cAMP()+ @ 33
+R2C2(cAMP{c1/c2}[#] C{c2}[#]), cAMP()- @ x
+R2C2(cAMP{c2/c1}[#] C{c2}[#]), cAMP()+ @ 33
+R2C2(cAMP{c2/c3}[#] C{c2}[#]), cAMP()- @ y
+R2C2(cAMP{c3/c2}[#] C{c2}[#]), cAMP()+ @ 110
+R2C2(cAMP{c3/c4}[#] C{c2}[#]), cAMP()- @ y
+R2C2(cAMP{c4/c3}[#] C{c2}[#]), cAMP()+ @ 32.5
+R2C2(cAMP{c4}[#] C{c2/c1}[#]), PKA(b[.] Active{a}[.])+ @ 60
+R2C2(cAMP{c4}[#] C{c1/c2}[#]), PKA(b[#] Active{a}[#])- @ (18000000 / Theta)
+R2C2(cAMP{c4}[#] C{c1/c0}[#]), PKA(b[.] Active{a}[.])+ @ 60
+R2C2(cAMP{c4}[#] C{c0/c1}[#]), PKA(b[#] Active{a}[#])- @ (18000000 / Theta)
+PKA(b[./1] Active{a/i}[#]), PKA_Inhibitor(b[./1]) @ (60000000 / Theta)
+PKA(b[1/.] Active{i/a}[#]), PKA_Inhibitor(b[1/.]) @ 1
+Ca(b[#])-, Ca(b[#])-, CaM(calcium{c0/c2}[#]) @ (720000000 / Theta)
+CaM(calcium{c2/c0}[#]), Ca(b[.])+, Ca(b[.])+ @ 72
+Ca(b[#])-, CaM(calcium{c2/c3}[#]) @ (36000000 / Theta)
+CaM(calcium{c3/c2}[#]), Ca(b[.])+ @ 10
+Ca(b[#])-, CaM(calcium{c3/c4}[#]) @ (4650000 / Theta)
+CaM(calcium{c4/c3}[#]), Ca(b[.])+ @ 10
+Ca(b[#])-, Ca(b[#])-, CaNAB(calcium{c0/c2}[#]) @ (10008000000 / Theta)
+CaNAB(calcium{c2/c0}[#]), Ca(b[.])+, Ca(b[.])+ @ 1
+Ca(b[#])-, Ca(b[#])-, CaNAB(calcium{c2/c4}[#]) @ (3600100 / Theta)
+CaNAB(calcium{c4/c2}[#]), Ca(b[.])+, Ca(b[.])+ @ 1
+CaM(calcium{c4}[./1]), CaNAB(calcium{c4}[./1]) @ (599994000 / Theta)
+CaM(calcium{c4}[1/.]), CaNAB(calcium{c4}[1/.]) @ 1
+cAMP()- @ cAMP_breakdown
+cAMP()+ @ cAMP_synth
+Ca(b[.])+ @ Ca_synth
+Ca(b[#])- @ Ca_breakdown
+CaM(ck[./1] calcium{c4}[#]), CK(cam[./1]) @ CaM_binding
+CaM(ck[1/.] calcium{c4}[#]), CK(cam[1/.]) @ CaM_unbinding
+CaM(ck[1/.]), CK(cam[1/.]) @ CaM_unbinding
+CaM(ck[1] calcium{c4}[#]), CK(b[2] T286{p}[#]), CK(a[2] cam[1] T286{u/p}[#]) @ 30
+CaM(ck[1] calcium{c4}[#]), CaM(ck[2] calcium{c4}[#]), CK(b[3] cam[1] T286{u}[#]), CK(a[3] cam[2] T286{u/p}[#]) @ 30
+CK(cam[.] T286{p}[./1]), PP1(b[./1]) @ pp1_binding
+CK(cam[.] T286{p}[1/.]), PP1(b[1/.]) @ pp1_unbinding
+CK(cam[.] T286{p/u}[1/.]), PP1(b[1/.]) @ ck2_dephos
+AMPAR_12(S880{u}[#] Anchor{PSD}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_12(S880{u}[#] Anchor{PSD}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_off
+AMPAR_12(S880{u}[#] Anchor{X}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_12(S880{u}[#] Anchor{X}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_off
+AMPAR_12(S880{u}[#] Anchor{endo}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_12(S880{u}[#] Anchor{endo}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_off
+AMPAR_23(S880{u}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_23(S880{u}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_off
+AMPAR_12(S880{p}[#] Anchor{PSD}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_12(S880{p}[#] Anchor{PSD}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_offPS
+AMPAR_12(S880{p}[#] Anchor{X}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_12(S880{p}[#] Anchor{X}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_offPS
+AMPAR_12(S880{p/u}[#] Anchor{endo}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_12(S880{u/p}[#] Anchor{endo}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_offPS
+AMPAR_23(S880{p}[#] pick1[.] grip[./1] nsf[.]), GRIP(ampa[./1]) @ ampar_grip_on
+AMPAR_23(S880{p}[#] pick1[.] grip[1/.] nsf[.]), GRIP(ampa[1/.]) @ ampar_grip_offPS
+AMPAR_12(pick1[./1] grip[.] nsf[.]), PICK1(ampa[./1]) @ ampar_pick_on
+AMPAR_12(pick1[1/.] grip[.] nsf[.]), PICK1(ampa[1/.]) @ ampar_pick_off
+AMPAR_23(pick1[./1] grip[.] nsf[.]), PICK1(ampa[./1]) @ ampar_pick_on
+AMPAR_23(pick1[1/.] grip[.] nsf[.]), PICK1(ampa[1/.]) @ ampar_pick_off
+AMPAR_12(pick1[./2] grip[.] nsf[.]), PICK1(ampa[./2] pkc[1]), PKC(pick1[1] Calcium{c3}[#]) @ ampar_pick_onstar
+AMPAR_12(pick1[2/.] grip[.] nsf[.]), PICK1(ampa[2/.] pkc[1]), PKC(pick1[1] Calcium{c3}[#]) @ ampar_pick_off
+AMPAR_23(pick1[./2] grip[.] nsf[.]), PICK1(ampa[./2] pkc[1]), PKC(pick1[1] Calcium{c3}[#]) @ ampar_pick_onstar
+AMPAR_23(pick1[2/.] grip[.] nsf[.]), PICK1(ampa[2/.] pkc[1]), PKC(pick1[1] Calcium{c3}[#]) @ ampar_pick_off
+AMPAR_12(pick1[./2] grip[1] nsf[.]), GRIP(ampa[1]), PICK1(ampa[./2]) @ grip_pick_on
+AMPAR_12(pick1[2/.] grip[1] nsf[.]), GRIP(ampa[1]), PICK1(ampa[2/.]) @ grip_pick_off
+AMPAR_23(pick1[./2] grip[1] nsf[.]), GRIP(ampa[1]), PICK1(ampa[./2]) @ grip_pick_on
+AMPAR_23(pick1[2/.] grip[1] nsf[.]), GRIP(ampa[1]), PICK1(ampa[2/.]) @ grip_pick_off
+AMPAR_12(pick1[2/.] grip[1/.] nsf[.]), GRIP(ampa[1/.]), PICK1(ampa[2/.]) @ ampar_grip_off
+AMPAR_23(pick1[2/.] grip[1/.] nsf[.]), GRIP(ampa[1/.]), PICK1(ampa[2/.]) @ ampar_grip_off
+AMPAR_12(Anchor{endo}[#] pick1[#] grip[.] nsf[./1]), NSF(ampa[./1]) @ ansf_on
+AMPAR_12(Anchor{endo}[#] pick1[#] grip[.] nsf[1/.]), NSF(ampa[1/.]) @ ansf_off
+AMPAR_23(Anchor{endo}[#] pick1[#] grip[.] nsf[./1]), NSF(ampa[./1]) @ ansf_on
+AMPAR_23(Anchor{endo}[#] pick1[#] grip[.] nsf[1/.]), NSF(ampa[1/.]) @ ansf_off
+AMPAR_12(Anchor{X}[#] nsf[1/.]), NSF(ampa[1/.]) @ ansf_off
+AMPAR_23(Anchor{X}[#] nsf[1/.]), NSF(ampa[1/.]) @ ansf_off
+AMPAR_12(Anchor{PSD}[#] nsf[1/.]), NSF(ampa[1/.]) @ ansf_off
+AMPAR_23(Anchor{PSD}[#] nsf[1/.]), NSF(ampa[1/.]) @ ansf_off
+AMPAR_12(Glu{g0}[#] Anchor{PSD/X}[#] grip[.] nsf[.]), PSD()+ @ diff_psd_x
+AMPAR_23(Anchor{PSD/X}[#] grip[.] nsf[.]), PSD()+ @ diff_psd_x
+AMPAR_12(Anchor{X/PSD}[#] grip[.] nsf[.]), PSD()- @ diff_x_psd
+AMPAR_23(Anchor{X/PSD}[#] grip[.] nsf[.]), PSD()- @ diff_x_psd
+PKC(Calcium{c0}[#] Location{Endo/Membrane}[#]) @ pkc_to_membrane
+PKC(Calcium{c0}[#] Location{Membrane/Endo}[#]) @ pkc_to_endo
+PKC(Calcium{c1}[#] Location{Endo/Membrane}[#]) @ pkc_to_membrane
+PKC(Calcium{c1}[#] Location{Membrane/Endo}[#]) @ pkc_to_endo_ca
+PKC(Calcium{c2}[#] Location{Endo/Membrane}[#]) @ pkc_to_membrane
+PKC(Calcium{c2}[#] Location{Membrane/Endo}[#]) @ pkc_to_endo_2ca
+PKC(Calcium{c3}[#] Location{Endo/Membrane}[#]) @ pkc_to_membrane
+PKC(Calcium{c3}[#] Location{Membrane/Endo}[#]) @ pkc_to_endo_3ca
+PKC(Calcium{c0/c1}[#] Location{Endo}[#]), Ca(b[#])- @ pkc_1ca
+PKC(Calcium{c1/c0}[#] Location{Endo}[#]), Ca(b[.])+ @ pkc_ca_off
+PKC(Calcium{c1/c2}[#] Location{Endo}[#]), Ca(b[#])- @ pkc_23ca
+PKC(Calcium{c2/c1}[#] Location{Endo}[#]), Ca(b[.])+ @ pkc_ca_off
+PKC(Calcium{c2/c3}[#] Location{Endo}[#]), Ca(b[#])- @ pkc_23ca
+PKC(Calcium{c3/c2}[#] Location{Endo}[#]), Ca(b[.])+ @ pkc_ca_off
+PKC(Calcium{c0/c1}[#] Location{Membrane}[#]), Ca(b[#])- @ pkc_1ca
+PKC(Calcium{c1/c0}[#] Location{Membrane}[#]), Ca(b[.])+ @ pkc_ca_off_3
+PKC(Calcium{c1/c2}[#] Location{Membrane}[#]), Ca(b[#])- @ pkc_23ca
+PKC(Calcium{c2/c1}[#] Location{Membrane}[#]), Ca(b[.])+ @ pkc_ca_off_2
+PKC(Calcium{c2/c3}[#] Location{Membrane}[#]), Ca(b[#])- @ pkc_23ca
+PKC(Calcium{c3/c2}[#] Location{Membrane}[#]), Ca(b[.])+ @ pkc_ca_off_2
+PKC(pick1[./1] Calcium{c3}[#]), PICK1(pkc[./1]) @ pick_pkc_on
+PKC(pick1[1/.] Calcium{c3}[#]), PICK1(pkc[1/.]) @ pick_pkc_off
+AMPAR_12(S880{u}[./3] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[./3] Location{Membrane}[#]) @ pkc_k1
+AMPAR_12(S880{u}[3/.] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_12(S880{u/p}[3/.] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_12(S880{u}[./1] Y876{u}[#] Anchor{PSD}[#]), PKC(pick1[.] Calcium{c3}[./1] Location{Membrane}[#]) @ pkc_k1
+AMPAR_12(S880{u}[1/.] Y876{u}[#] Anchor{PSD}[#]), PKC(pick1[.] Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_12(S880{u/p}[1/.] Y876{u}[#] Anchor{PSD}[#]), PKC(pick1[.] Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_23(S880{u}[./3] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[./3] Location{Membrane}[#]) @ pkc_k1
+AMPAR_23(S880{u}[3/.] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_23(S880{u/p}[3/.] Y876{u}[#] Anchor{PSD}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_23(S880{u}[./1] Y876{u}[#] Anchor{PSD}[#]), PKC(Calcium{c3}[./1] Location{Membrane}[#]) @ pkc_k1
+AMPAR_23(S880{u}[1/.] Y876{u}[#] Anchor{PSD}[#]), PKC(Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_23(S880{u/p}[1/.] Y876{u}[#] Anchor{PSD}[#]), PKC(Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_12(S880{u}[./3] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[./3] Location{Membrane}[#]) @ pkc_k1
+AMPAR_12(S880{u}[3/.] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_12(S880{u/p}[3/.] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_12(S880{u}[./1] Y876{u}[#] Anchor{X}[#]), PKC(pick1[.] Calcium{c3}[./1] Location{Membrane}[#]) @ pkc_k1
+AMPAR_12(S880{u}[1/.] Y876{u}[#] Anchor{X}[#]), PKC(pick1[.] Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_12(S880{u/p}[1/.] Y876{u}[#] Anchor{X}[#]), PKC(pick1[.] Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_23(S880{u}[./3] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[./3] Location{Membrane}[#]) @ pkc_k1
+AMPAR_23(S880{u}[3/.] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_23(S880{u/p}[3/.] Y876{u}[#] Anchor{X}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_23(S880{u}[./1] Y876{u}[#] Anchor{X}[#]), PKC(Calcium{c3}[./1] Location{Membrane}[#]) @ pkc_k1
+AMPAR_23(S880{u}[1/.] Y876{u}[#] Anchor{X}[#]), PKC(Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k2
+AMPAR_23(S880{u/p}[1/.] Y876{u}[#] Anchor{X}[#]), PKC(Calcium{c3}[1/.] Location{Membrane}[#]) @ pkc_k3
+AMPAR_12(S880{u}[./3] Y876{u}[#] Anchor{endo}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[./3] Location{Endo}[#]) @ pkc_k1
+AMPAR_12(S880{u}[3/.] Y876{u}[#] Anchor{endo}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Endo}[#]) @ pkc_k2
+AMPAR_12(S880{u/p}[3/.] Y876{u}[#] Anchor{endo}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Endo}[#]) @ pkc_k3
+AMPAR_12(S880{u}[./1] Y876{u}[#] Anchor{endo}[#]), PKC(pick1[.] Calcium{c3}[./1] Location{Endo}[#]) @ pkc_k1
+AMPAR_12(S880{u}[1/.] Y876{u}[#] Anchor{endo}[#]), PKC(pick1[.] Calcium{c3}[1/.] Location{Endo}[#]) @ pkc_k2
+AMPAR_12(S880{u/p}[1/.] Y876{u}[#] Anchor{endo}[#]), PKC(pick1[.] Calcium{c3}[1/.] Location{Endo}[#]) @ pkc_k3
+AMPAR_23(S880{u}[./3] Y876{u}[#] Anchor{endo}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[./3] Location{Endo}[#]) @ pkc_k1
+AMPAR_23(S880{u}[3/.] Y876{u}[#] Anchor{endo}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Endo}[#]) @ pkc_k2
+AMPAR_23(S880{u/p}[3/.] Y876{u}[#] Anchor{endo}[#] pick1[2] grip[_] nsf[.]), PICK1(ampa[2] pkc[1]), PKC(pick1[1] Calcium{c3}[3/.] Location{Endo}[#]) @ pkc_k3
+AMPAR_23(S880{u}[./1] Y876{u}[#] Anchor{endo}[#]), PKC(Calcium{c3}[./1] Location{Endo}[#]) @ pkc_k1
+AMPAR_23(S880{u}[1/.] Y876{u}[#] Anchor{endo}[#]), PKC(Calcium{c3}[1/.] Location{Endo}[#]) @ pkc_k2
+AMPAR_23(S880{u/p}[1/.] Y876{u}[#] Anchor{endo}[#]), PKC(Calcium{c3}[1/.] Location{Endo}[#]) @ pkc_k3
+AMPAR_12(S880{p}[./1]), PP2A(b[./1]) @ s880_pp2a_k1
+AMPAR_12(S880{p}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k2
+AMPAR_12(S880{p/u}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k3
+AMPAR_23(S880{p}[./1]), PP2A(b[./1]) @ s880_pp2a_k1
+AMPAR_23(S880{p}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k2
+AMPAR_23(S880{p/u}[1/.]), PP2A(b[1/.]) @ s880_pp2a_k3
+AMPAR_12(S880{u}[#] Y876{u}[./1]), SFK(b[./1]) @ sfk_k1
+AMPAR_12(S880{u}[#] Y876{u}[1/.]), SFK(b[1/.]) @ sfk_k2
+AMPAR_12(S880{u}[#] Y876{u/p}[1/.]), SFK(b[1/.]) @ sfk_k3
+AMPAR_23(Y876{u}[./1]), SFK(b[./1]) @ sfk_k1
+AMPAR_23(Y876{u}[1/.]), SFK(b[1/.]) @ sfk_k2
+AMPAR_23(Y876{u/p}[1/.]), SFK(b[1/.]) @ sfk_k3
+AMPAR_12(Y876{p}[./1]), PTPMEG(b[./1]) @ ptpmeg_k1
+AMPAR_12(Y876{p}[1/.]), PTPMEG(b[1/.]) @ ptpmeg_k2
+AMPAR_12(Y876{p/u}[1/.]), PTPMEG(b[1/.]) @ ptpmeg_k3
+AMPAR_23(Y876{p}[./1]), PTPMEG(b[./1]) @ ptpmeg_k1
+AMPAR_23(Y876{p}[1/.]), PTPMEG(b[1/.]) @ ptpmeg_k2
+AMPAR_23(Y876{p/u}[1/.]), PTPMEG(b[1/.]) @ ptpmeg_k3
+RNF(CK{Inactive}[./1] s{u0}[#]), CK(T286{p}[./1]) @ RNFCK_assoc
+RNF(CK{Inactive}[1/.] s{u0}[#]), CK(T286{p}[1/.]) @ RNFCK_dissoc
+RNF(CK{Inactive/Active}[1/.] s{u0}[#]), CK(T286{p}[1/.]) @ RNF_Activate
+E2(s{u1}[#] RNF[./1]), RNF(E2[./1] s{u0}[#]) @ 'E2 association rate'
+E2(s{u1}[#] RNF[1/.]), RNF(E2[1/.] s{u0}[#]) @ 'E2 dissociation rate'
+E2(s{u1/u0}[#] RNF[1/.]), RNF(E2[1/.] s{u0/u1}[#]) @ 'E2 ub transfer rate'
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K870{u0}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K870{u0}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K870{u0/u1}[#] RNF[1/.]) @ kub1
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K870{u0}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K870{u0}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K870{u0/u1}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{u1}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{u1}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K870{u1}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K870{u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K870{u1/u0}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K870{u1}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K870{u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K870{u1/u0}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_12(K870{u1}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_12(K870{u1}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K870{u1/u2}[#] RNF[1/.]) @ kub1
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_23(K870{u1}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_23(K870{u1}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K870{u1/u2}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{u2}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{u2}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K870{u2}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K870{u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K870{u2/u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K870{u2}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K870{u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K870{u2/u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_12(K870{u2}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_12(K870{u2}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K870{u2/u3}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{u3}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_23(K870{u2}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_23(K870{u2}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K870{u2/u3}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{u3}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K870{u3}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K870{u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K870{u3/u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K870{u3}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K870{u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K870{u3/u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_12(K870{u3}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_12(K870{u3}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K870{u3/u4}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{u4}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_23(K870{u3}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_23(K870{u3}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K870{u3/u4}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{u4}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K870{u4}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K870{u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K870{u4/u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K870{u4}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K870{u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K870{u4/u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_12(K870{u4}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_12(K870{u4}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K870{u4/u5}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{u5}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(CK{Active}[#] AMPAR[./1] s{u1}[#]), AMPAR_23(K870{u4}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(CK{Active}[#] AMPAR[1/.] s{u1}[#]), AMPAR_23(K870{u4}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K870{u4/u5}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{u5}[.] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K870{u5}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K870{u5}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K870{u5/u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K870{u5}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K870{u5}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K870{u5/u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+E1(s{u0/u1}[#]) @ 'E1 activation rate'
+E1(s{u1/u0}[#]) @ 'E1 deactivation rate'
+E1(s{u1}[#] E2[./1]), E2(E1[./1] s{u0}[#]) @ 'E1 association rate'
+E1(s{u1}[#] E2[1/.]), E2(E1[1/.] s{u0}[#]) @ 'E1 dissociation rate'
+E1(s{u1/u0}[#] E2[1/.]), E2(E1[1/.] s{u0/u1}[#]) @ 'E1 ub transfer rate'
+E2(s{u1}[#] Nedd4[./1]), Nedd4(E2[./1] s{u0}[#]) @ 'E2 association rate'
+E2(s{u1}[#] Nedd4[1/.]), Nedd4(E2[1/.] s{u0}[#]) @ 'E2 dissociation rate'
+E2(s{u1/u0}[#] Nedd4[1/.]), Nedd4(E2[1/.] s{u0/u1}[#]) @ 'E2 ub transfer rate'
+Nedd4(Cdomain{Inactive}[./1]), CK(T286{p}[./1]) @ Nedd4_assoc
+Nedd4(Cdomain{Inactive}[1/.]), CK(T286{p}[1/.]) @ Nedd4_dissoc
+Nedd4(Cdomain{Inactive/Active}[1/.]), CK(T286{p}[1/.]) @ Nedd4_Activate
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[./1]), AMPAR_12(S845{u}[#] K868{u0}[#] Nedd4[./1]) @ 'E3 bind rate'
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[1/.]), AMPAR_12(S845{u}[#] K868{u0}[#] Nedd4[1/.]) @ 'E3 dissociation rate'
+Nedd4(Cdomain{Active}[#] s{u1/u0}[#] AMPAR[1/.]), AMPAR_12(K868{u0/u1}[#] Nedd4[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{u1}[.] K870{#}[#] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+DUB(AMPAR[./1]), AMPAR_12(K868{u1}[#] DUB[./1]) @ 'DUB bind rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u1}[#] DUB[1/.]) @ 'DUB dissociation rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u1/u0}[#] DUB[1/.]) @ kdub
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[./1]), AMPAR_12(S845{u}[#] K868{u1}[#] Nedd4[./1]) @ 'E3 bind rate'
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[1/.]), AMPAR_12(S845{u}[#] K868{u1}[#] Nedd4[1/.]) @ 'E3 dissociation rate'
+Nedd4(Cdomain{Active}[#] s{u1/u0}[#] AMPAR[1/.]), AMPAR_12(K868{u1/u2}[#] Nedd4[1/.]) @ kub2
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{u2}[.] K870{#}[#] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+DUB(AMPAR[./1]), AMPAR_12(K868{u2}[#] DUB[./1]) @ 'DUB bind rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u2}[#] DUB[1/.]) @ 'DUB dissociation rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u2/u1}[#] DUB[1/.]) @ kdub
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[./1]), AMPAR_12(S845{u}[#] K868{u2}[#] Nedd4[./1]) @ 'E3 bind rate'
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[1/.]), AMPAR_12(S845{u}[#] K868{u2}[#] Nedd4[1/.]) @ 'E3 dissociation rate'
+Nedd4(Cdomain{Active}[#] s{u1/u0}[#] AMPAR[1/.]), AMPAR_12(K868{u2/u3}[#] Nedd4[1/.]) @ kub3
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{u3}[.] K870{#}[#] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+DUB(AMPAR[./1]), AMPAR_12(K868{u3}[#] DUB[./1]) @ 'DUB bind rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u3}[#] DUB[1/.]) @ 'DUB dissociation rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u3/u2}[#] DUB[1/.]) @ kdub
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[./1]), AMPAR_12(S845{u}[#] K868{u3}[#] Nedd4[./1]) @ 'E3 bind rate'
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[1/.]), AMPAR_12(S845{u}[#] K868{u3}[#] Nedd4[1/.]) @ 'E3 dissociation rate'
+Nedd4(Cdomain{Active}[#] s{u1/u0}[#] AMPAR[1/.]), AMPAR_12(K868{u3/u4}[#] Nedd4[1/.]) @ kub4
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{u4}[.] K870{#}[#] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+DUB(AMPAR[./1]), AMPAR_12(K868{u4}[#] DUB[./1]) @ 'DUB bind rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u4}[#] DUB[1/.]) @ 'DUB dissociation rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u4/u3}[#] DUB[1/.]) @ kdub
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[./1]), AMPAR_12(S845{u}[#] K868{u4}[#] Nedd4[./1]) @ 'E3 bind rate'
+Nedd4(Cdomain{Active}[#] s{u1}[#] AMPAR[1/.]), AMPAR_12(S845{u}[#] K868{u4}[#] Nedd4[1/.]) @ 'E3 dissociation rate'
+Nedd4(Cdomain{Active}[#] s{u1/u0}[#] AMPAR[1/.]), AMPAR_12(K868{u4/u5}[#] Nedd4[1/.]) @ kub5
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{u5}[.] K870{#}[#] K882{#}[#] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kd
+DUB(AMPAR[./1]), AMPAR_12(K868{u5}[#] DUB[./1]) @ 'DUB bind rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u5}[#] DUB[1/.]) @ 'DUB dissociation rate'
+DUB(AMPAR[1/.]), AMPAR_12(K868{u5/u4}[#] DUB[1/.]) @ kdub
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K882{u0}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K882{u0}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K882{u0/u1}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{#}[#] K882{u1}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K882{u0}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K882{u0}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K882{u0/u1}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{#}[#] K882{u1}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K882{u1}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K882{u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K882{u1/u0}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K882{u1}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K882{u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K882{u1/u0}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K882{u1}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K882{u1}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K882{u1/u2}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{#}[#] K882{u2}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K882{u1}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K882{u1}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K882{u1/u2}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{#}[#] K882{u2}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K882{u2}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K882{u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K882{u2/u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K882{u2}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K882{u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K882{u2/u1}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K882{u2}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K882{u2}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K882{u2/u3}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{#}[#] K882{u3}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K882{u2}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K882{u2}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K882{u2/u3}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{#}[#] K882{u3}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K882{u3}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K882{u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K882{u3/u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K882{u3}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K882{u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K882{u3/u2}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K882{u3}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K882{u3}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K882{u3/u4}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{#}[#] K882{u4}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K882{u3}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K882{u3}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K882{u3/u4}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{#}[#] K882{u4}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kb
+AMPAR_12(K882{u4}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K882{u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K882{u4/u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+AMPAR_23(K882{u4}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_23(K882{u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_23(K882{u4/u3}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_12(K882{u4}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_12(K882{u4}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_12(K882{u4/u5}[#] RNF[1/.]) @ kub1
+AMPAR_12(S831{#}[#] S845{#}[#] S880{#}[#] Y876{#}[#] S818{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K868{#}[#] K870{#}[#] K882{u5}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kd
+RNF(AMPAR[./1] s{u1}[#]), AMPAR_23(K882{u4}[#] RNF[./1]) @ 'E3 bind rate'
+RNF(AMPAR[1/.] s{u1}[#]), AMPAR_23(K882{u4}[#] RNF[1/.]) @ 'E3 dissociation rate'
+RNF(AMPAR[1/.] s{u1/u0}[#]), AMPAR_23(K882{u4/u5}[#] RNF[1/.]) @ kub1
+AMPAR_23(S880{#}[#] Y876{#}[#] Open{#}[#] Glu{#}[#] Anchor{endo}[#] K870{#}[#] K882{u5}[.] DUB[#] Nedd4[#] RNF[#] pick1[#] grip[#] nsf[#])- @ kd
+AMPAR_12(K882{u5}[#] DUB[./1]), DUB(AMPAR[./1]) @ 'DUB bind rate'
+AMPAR_12(K882{u5}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ 'DUB dissociation rate'
+AMPAR_12(K882{u5/u4}[#] DUB[1/.]), DUB(AMPAR[1/.]) @ kdub
+GluA1(b[.])+ @ (1000 / Theta)
+GluA2(b[.])+ @ (1000 / Theta)
+GluA3(b[.])+ @ (1000 / Theta)
+GluA1(b[.])-, GluA1(b[.])-, GluA1A1(b[.])+ @ 1
+GluA1(b[.])-, GluA2(b[.])-, GluA1A2(b[.])+ @ 1
+GluA2(b[.])-, GluA3(b[.])-, GluA2A3(b[.])+ @ 1
+GluA1A1(b[#])-, GluA1A1(b[#])-, AMPAR_1(S831{u}[.] S845{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K868{u0}[.] DUB[.] Nedd4[.])+ @ (1 / Theta)
+GluA1A2(b[#])-, GluA1A2(b[#])-, AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])+ @ (3 / Theta)
+GluA2A3(b[#])-, GluA2A3(b[#])-, AMPAR_23(S880{u}[.] Y876{u}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])+ @ (3 / Theta)
+
+/*0*/%mod: (Phos_CK_subunits > 100) do $APPLY 10 PSD()+; repeat [false]
+/*1*/%mod: (Phos_CK_subunits > 200) do $APPLY 10 PSD()+; repeat [false]
+/*2*/%mod: (Phos_CK_subunits > 300) do $APPLY 10 PSD()+; repeat [false]
+/*3*/%mod: (Phos_CK_subunits > 400) do $APPLY 10 PSD()+; repeat [false]
+/*4*/%mod: (Phos_CK_subunits > 500) do $APPLY 10 PSD()+; repeat [false]
+/*5*/%mod: (Phos_CK_subunits > 600) do $APPLY 10 PSD()+; repeat [false]
+/*6*/%mod: (Phos_CK_subunits < 100) do $UPDATE slot_degen 0.05; repeat [true]
+/*7*/%mod: (Phos_CK_subunits > 500) do $UPDATE slot_degen 0; repeat [true]
+/*8*/%mod: (Calcium_Levels > 10) do $UPDATE cAMP_synth 20; repeat [true]
+/*9*/%mod: (Calcium_Levels < 5) do $UPDATE cAMP_synth 0.5; repeat [true]
+/*10*/%mod: alarm 0.01 [true] do $APPLY (10 * CaGlu) Ca(b[.])+; repeat [true]
+/*11*/%mod: (Glu_Trigger > 0) do $UPDATE Glu_Release (1500000000000000 / Theta); repeat [true]
+/*12*/%mod: (Glu_Trigger = 0) do $UPDATE Glu_Release 0; repeat [true]
+/*13*/%mod: alarm 0.001 (Glu_Release = (3000000000000000 / Theta)) do $APPLY 1 Counter()+; repeat [true]
+/*14*/%mod: alarm 1 [true] do $APPLY 1 G()+; repeat (Pulse_Number < 25)
+/*15*/%mod: (Gap = 5) do $APPLY |G()| G()-; repeat (Pulse_Number < 25)
+/*16*/%mod: alarm 0.01 (Gap = 1) do $APPLY 1 P()+; repeat (Pulse_Number < 25)
+/*17*/%mod: (Pulse = 100) do $APPLY |P()| P()-; repeat (Pulse_Number < 25)
+/*18*/%mod: (Gap = 5) do $APPLY 1 N()+; repeat (Pulse_Number < 25)
+/*19*/%mod: alarm 0.01 (Pulse = 3) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Number < 25)
+/*20*/%mod: alarm 0.01 (Pulse = 4) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Number < 25)
+/*21*/%mod: alarm 0.01 (Pulse = 5) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Number < 25)
+/*22*/%mod: alarm 0.01 (Pulse = 6) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Number < 25)
+/*23*/%mod: alarm 0.1 ([T] > 110.1) do $APPLY 1 Gb()+; repeat (Pulse_Numberb < 25)
+/*24*/%mod: (Gapb = 5) do $APPLY |Gb()| Gb()-; repeat (Pulse_Numberb < 25)
+/*25*/%mod: alarm 0.01 (Gapb = 1) do $APPLY 1 Pb()+; repeat (Pulse_Numberb < 25)
+/*26*/%mod: (Pulseb = 100) do $APPLY |Pb()| Pb()-; repeat (Pulse_Numberb < 25)
+/*27*/%mod: (Gapb = 5) do $APPLY 1 Nb()+; repeat (Pulse_Numberb < 25)
+/*28*/%mod: alarm 0.01 (Pulseb = 3) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Numberb < 25)
+/*29*/%mod: alarm 0.01 (Pulseb = 4) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Numberb < 25)
+/*30*/%mod: alarm 0.01 (Pulseb = 5) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Numberb < 25)
+/*31*/%mod: alarm 0.01 (Pulseb = 6) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Numberb < 25)
+/*32*/%mod: alarm 0.1 ([T] > 220.1) do $APPLY 1 Gc()+; repeat (Pulse_Numberc < 25)
+/*33*/%mod: (Gapc = 5) do $APPLY |Gc()| Gc()-; repeat (Pulse_Numberc < 25)
+/*34*/%mod: alarm 0.01 (Gapc = 1) do $APPLY 1 Pc()+; repeat (Pulse_Numberc < 25)
+/*35*/%mod: (Pulsec = 100) do $APPLY |Pc()| Pc()-; repeat (Pulse_Numberc < 25)
+/*36*/%mod: (Gapc = 5) do $APPLY 1 Nc()+; repeat (Pulse_Numberc < 25)
+/*37*/%mod: alarm 0.01 (Pulsec = 3) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Numberc < 25)
+/*38*/%mod: alarm 0.01 (Pulsec = 4) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Numberc < 25)
+/*39*/%mod: alarm 0.01 (Pulsec = 5) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Numberc < 25)
+/*40*/%mod: alarm 0.01 (Pulsec = 6) do $APPLY 60 Ca(b[.])+; repeat (Pulse_Numberc < 25)
+
+%init: 15 PKA_Inhibitor(b[.])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u1}[.] K882{u0}[.] DUB[1] Nedd4[.] RNF[.] pick1[2] grip[7] nsf[.]), DUB(AMPAR[1]), PICK1(ampa[2] pkc[3]), PKC(pick1[3] Calcium{c0}[4] Location{Endo}[.]), AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[4] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[5] grip[6] nsf[.]), PICK1(ampa[5] pkc[.]), GRIP(ampa[6]), GRIP(ampa[7])
+%init: 133 NSF(ampa[.])
+%init: 234 GluA1A2(b[.])
+%init: 2 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[1] pick1[2] grip[3] nsf[.]), RNF(CK{Inactive}[.] E2[.] AMPAR[1] s{u1}[.]), PICK1(ampa[2] pkc[.]), GRIP(ampa[3])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[1] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[2] grip[3] nsf[.]), PTPMEG(b[1]), PICK1(ampa[2] pkc[.]), GRIP(ampa[3])
+%init: 4 RNF(CK{Inactive}[.] E2[.] AMPAR[.] s{u1}[.])
+%init: 1 AMPAR_12(S831{p}[1] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[2] nsf[.]), PP1(b[1]), GRIP(ampa[2])
+%init: 1 GRIP(ampa[1]), AMPAR_23(S880{u}[.] Y876{p}[.] Open{B}[.] Glu{g0}[.] Anchor{endo}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[1] nsf[.])
+%init: 1 AMPAR_23(S880{u}[.] Y876{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[1] nsf[.]), GRIP(ampa[1])
+%init: 4 AMPAR_23(S880{u}[.] Y876{p}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[1] nsf[.]), GRIP(ampa[1])
+%init: 2 AMPAR_23(S880{p}[.] Y876{p}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[1] nsf[.]), GRIP(ampa[1])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{PSD}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[1] nsf[.]), GRIP(ampa[1])
+%init: 3 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{PSD}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[1] nsf[.]), GRIP(ampa[1])
+%init: 14 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[1] nsf[.]), GRIP(ampa[1])
+%init: 15 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[1] nsf[.]), GRIP(ampa[1])
+%init: 1208 GRIP(ampa[.])
+%init: 120 PTPMEG(b[.])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[1] RNF[.] pick1[2] grip[3] nsf[.]), Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[1]), PICK1(ampa[2] pkc[.]), GRIP(ampa[3])
+%init: 2 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[1] RNF[.] pick1[2] grip[3] nsf[.]), Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[1]), PICK1(ampa[2] pkc[.]), GRIP(ampa[3])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[23] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[22] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[21]), CaNAB(b[.] calcium{c4}[21]), CaM(ck[22] calcium{c2}[.]), CaM(ck[23] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[22] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[21]), CaNAB(b[.] calcium{c4}[21]), CaM(ck[22] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[22] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[21]), CaNAB(b[.] calcium{c2}[21]), CaM(ck[22] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[21]), CaNAB(b[.] calcium{c2}[21])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[21]), CaNAB(b[.] calcium{c4}[21])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[21]), CaNAB(b[.] calcium{c2}[21])
+%init: 1 CaM(ck[1] calcium{c2}[20]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaNAB(b[.] calcium{c4}[20])
+%init: 1 CaM(ck[1] calcium{c2}[20]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaNAB(b[.] calcium{c2}[20])
+%init: 1 CaM(ck[1] calcium{c0}[20]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaNAB(b[.] calcium{c4}[20])
+%init: 1 CaM(ck[1] calcium{c2}[20]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaNAB(b[.] calcium{c4}[20])
+%init: 1 Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[.])
+%init: 5 Nedd4(Cdomain{Inactive}[.] E2[.] s{u1}[.] AMPAR[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[23] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[22] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.]), CaM(ck[21] calcium{c2}[.]), CaM(ck[22] calcium{c0}[.]), CaM(ck[23] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[22] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.]), CaM(ck[21] calcium{c2}[.]), CaM(ck[22] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[22] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.]), CaM(ck[21] calcium{c0}[.]), CaM(ck[22] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.]), CaM(ck[21] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.]), CaM(ck[21] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 2 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[21] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.]), CaM(ck[21] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 2 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 3 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 4 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 2 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 2 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 2 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 3 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 2 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c4}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 3 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 3 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 3 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.])
+%init: 3 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 3 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.])
+%init: 3 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.])
+%init: 3 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 3 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 2 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 3 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 2 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.])
+%init: 4 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 5 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.])
+%init: 3 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 3 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 5 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 3 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 5 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 7 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c3}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c0}[.])
+%init: 4 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c4}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 2 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[20] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CaM(ck[20] calcium{c2}[.])
+%init: 1 CaM(ck[1] calcium{c4}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 2 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.])
+%init: 2 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 18 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 17 CaM(ck[1] calcium{c0}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 9 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 8 CaM(ck[1] calcium{c3}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 49 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 62 CaM(ck[1] calcium{c2}[.]), CK(a[2] b[6] c[.] d[10] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[10] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 6 CaM(ck[1] calcium{c4}[.]), CK(a[2] b[6] c[10] d[.] cam[1] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[12] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[14] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[4] c[16] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[7] b[5] c[19] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[7] c[8] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[9] b[17] c[.] d[8] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[11] b[9] c[.] d[10] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[13] b[11] c[.] d[12] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[15] b[13] c[.] d[14] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[18] b[15] c[.] d[16] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[18] c[.] d[19] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 CK(a[1] b[5] c[9] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[2] b[1] c[11] d[.] cam[.] nedd4[.] T286{p}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[13] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[15] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[4] c[18] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[6] c[7] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[8] b[16] c[.] d[7] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[10] b[8] c[.] d[9] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[12] b[10] c[.] d[11] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[14] b[12] c[.] d[13] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[14] c[.] d[15] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[16] b[17] c[.] d[18] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 159 CK(a[1] b[5] c[9] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[2] b[1] c[11] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[3] b[2] c[13] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[4] b[3] c[15] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[6] b[4] c[18] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[5] b[6] c[7] d[.] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[8] b[16] c[.] d[7] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[10] b[8] c[.] d[9] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[12] b[10] c[.] d[11] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[14] b[12] c[.] d[13] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[17] b[14] c[.] d[15] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.]), CK(a[16] b[17] c[.] d[18] cam[.] nedd4[.] T286{u}[.] T305{u}[.] T306{u}[.])
+%init: 1 AMPAR_23(S880{p}[.] Y876{u}[1] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[2] nsf[.]), SFK(b[1]), GRIP(ampa[2])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[1] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{PSD}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[2] nsf[.]), SFK(b[1]), GRIP(ampa[2])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[1] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[2] nsf[.]), SFK(b[1]), GRIP(ampa[2])
+%init: 1 AMPAR_23(S880{u}[.] Y876{p}[1] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[2] pick1[.] grip[3] nsf[.]), PTPMEG(b[1]), RNF(CK{Inactive}[.] E2[.] AMPAR[2] s{u1}[.]), GRIP(ampa[3])
+%init: 1 AMPAR_23(S880{u}[1] Y876{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[3] nsf[.]), PKC(pick1[2] Calcium{c0}[1] Location{Endo}[.]), PICK1(ampa[.] pkc[2]), GRIP(ampa[3])
+%init: 3 AMPAR_23(S880{u}[.] Y876{p}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[3] nsf[.]), PICK1(ampa[1] pkc[2]), PKC(pick1[2] Calcium{c0}[.] Location{Endo}[.]), GRIP(ampa[3])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[1] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{PSD}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[3] nsf[.]), PKC(pick1[2] Calcium{c0}[1] Location{Membrane}[.]), PICK1(ampa[.] pkc[2]), GRIP(ampa[3])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[3] nsf[.]), PICK1(ampa[1] pkc[2]), PKC(pick1[2] Calcium{c0}[.] Location{Endo}[.]), GRIP(ampa[3])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[3] nsf[.]), PICK1(ampa[1] pkc[2]), PKC(pick1[2] Calcium{c0}[.] Location{Endo}[.]), GRIP(ampa[3])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[1] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[2] grip[3] nsf[.]), PKC(pick1[.] Calcium{c0}[1] Location{Endo}[.]), PICK1(ampa[2] pkc[.]), GRIP(ampa[3])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[1] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[3] nsf[.]), PKC(pick1[2] Calcium{c0}[1] Location{Endo}[.]), PICK1(ampa[.] pkc[2]), GRIP(ampa[3])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[1] RNF[2] pick1[.] grip[3] nsf[.]), Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[1]), RNF(CK{Inactive}[.] E2[.] AMPAR[2] s{u1}[.]), GRIP(ampa[3])
+%init: 3 PKC(pick1[.] Calcium{c0}[.] Location{Endo}[.])
+%init: 133 GluA1A1(b[.])
+%init: 1 AMPAR_23(S880{u}[1] Y876{u}[3] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[4] pick1[5] grip[6] nsf[.]), PKC(pick1[2] Calcium{c0}[1] Location{Endo}[.]), PICK1(ampa[.] pkc[2]), SFK(b[3]), RNF(CK{Inactive}[.] E2[.] AMPAR[4] s{u1}[.]), PICK1(ampa[5] pkc[.]), GRIP(ampa[6])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[1] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[2] grip[4] nsf[.]), SFK(b[1]), PICK1(ampa[2] pkc[3]), PKC(pick1[3] Calcium{c0}[.] Location{Endo}[.]), GRIP(ampa[4])
+%init: 17 DUB(AMPAR[.])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[1] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[3] grip[5] nsf[.]), PKC(pick1[2] Calcium{c0}[1] Location{Endo}[.]), PICK1(ampa[.] pkc[2]), PICK1(ampa[3] pkc[4]), PKC(pick1[4] Calcium{c0}[.] Location{Endo}[.]), GRIP(ampa[5])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[1] RNF[.] pick1[2] grip[6] nsf[.]), Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[1]), PICK1(ampa[2] pkc[3]), PKC(pick1[3] Calcium{c0}[4] Location{Endo}[.]), AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[4] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[5] nsf[.]), GRIP(ampa[5]), GRIP(ampa[6])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[1] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[2] RNF[.] pick1[.] grip[3] nsf[.]), PKC(pick1[.] Calcium{c0}[1] Location{Endo}[.]), Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[2]), GRIP(ampa[3])
+%init: 1 AMPAR_23(S880{u}[1] Y876{u}[3] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[4] grip[6] nsf[.]), PKC(pick1[2] Calcium{c0}[1] Location{Membrane}[.]), PICK1(ampa[.] pkc[2]), SFK(b[3]), PICK1(ampa[4] pkc[5]), PKC(pick1[5] Calcium{c2}[.] Location{Membrane}[.]), GRIP(ampa[6])
+%init: 2 CaM(ck[.] calcium{c0}[1]), CaNAB(b[.] calcium{c2}[1])
+%init: 10 CaM(ck[.] calcium{c2}[1]), CaNAB(b[.] calcium{c2}[1])
+%init: 5 CaM(ck[.] calcium{c3}[1]), CaNAB(b[.] calcium{c4}[1])
+%init: 4 CaM(ck[.] calcium{c3}[1]), CaNAB(b[.] calcium{c2}[1])
+%init: 20 CaM(ck[.] calcium{c2}[1]), CaNAB(b[.] calcium{c4}[1])
+%init: 9 CaM(ck[.] calcium{c0}[1]), CaNAB(b[.] calcium{c4}[1])
+%init: 2 AMPAR_23(S880{u}[.] Y876{p}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[2] nsf[.]), PICK1(ampa[1] pkc[.]), GRIP(ampa[2])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{S}[.] Glu{g0}[.] Anchor{PSD}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[2] nsf[.]), PICK1(ampa[1] pkc[.]), GRIP(ampa[2])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{PSD}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[2] nsf[.]), PICK1(ampa[1] pkc[.]), GRIP(ampa[2])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{p}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[2] nsf[.]), PICK1(ampa[1] pkc[.]), GRIP(ampa[2])
+%init: 9 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[2] nsf[.]), PICK1(ampa[1] pkc[.]), GRIP(ampa[2])
+%init: 5 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[2] nsf[.]), PICK1(ampa[1] pkc[.]), GRIP(ampa[2])
+%init: 168 CaM(ck[.] calcium{c3}[.])
+%init: 191 CaM(ck[.] calcium{c0}[.])
+%init: 650 CaM(ck[.] calcium{c2}[.])
+%init: 1 AMPAR_23(S880{p}[1] Y876{p}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.]), PP2A(b[1])
+%init: 66 PP2A(b[.])
+%init: 108 I1(Phos{u}[.] b[.])
+%init: 107 PP1(b[.])
+%init: 1 AMPAR_23(S880{p}[.] Y876{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])
+%init: 2 AMPAR_12(S831{u}[.] S845{u}[.] S880{p}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[.] nsf[.])
+%init: 2 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[1] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[2] grip[3] nsf[.]), SFK(b[1]), PICK1(ampa[2] pkc[.]), GRIP(ampa[3])
+%init: 31 SFK(b[.])
+%init: 2 AMPAR_23(S880{u}[.] Y876{u}[.] Open{B}[.] Glu{g0}[.] Anchor{PSD}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[1] pick1[.] grip[2] nsf[.]), RNF(CK{Inactive}[.] E2[.] AMPAR[1] s{u1}[.]), GRIP(ampa[2])
+%init: 2 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[1] pick1[.] grip[2] nsf[.]), RNF(CK{Inactive}[.] E2[.] AMPAR[1] s{u1}[.]), GRIP(ampa[2])
+%init: 3 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[1] pick1[.] grip[2] nsf[.]), RNF(CK{Inactive}[.] E2[.] AMPAR[1] s{u1}[.]), GRIP(ampa[2])
+%init: 1 AMPAR_23(S880{p}[.] Y876{p}[1] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[2] nsf[.]), PTPMEG(b[1]), GRIP(ampa[2])
+%init: 2 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[1] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{PSD}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[2] nsf[.]), PTPMEG(b[1]), GRIP(ampa[2])
+%init: 5 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[1] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[2] nsf[.]), PTPMEG(b[1]), GRIP(ampa[2])
+%init: 1 PICK1(ampa[.] pkc[1]), PKC(pick1[1] Calcium{c1}[.] Location{Endo}[.])
+%init: 9 PICK1(ampa[.] pkc[1]), PKC(pick1[1] Calcium{c0}[.] Location{Endo}[.])
+%init: 2 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[1] RNF[.] pick1[.] grip[2] nsf[.]), Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[1]), GRIP(ampa[2])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[1] RNF[.] pick1[.] grip[2] nsf[.]), Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[1]), GRIP(ampa[2])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[1] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[2] RNF[.] pick1[3] grip[10] nsf[.]), PTPMEG(b[1]), Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[2]), PICK1(ampa[3] pkc[4]), PKC(pick1[4] Calcium{c0}[5] Location{Endo}[.]), AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[5] Y876{p}[6] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[7] grip[9] nsf[.]), PTPMEG(b[6]), PICK1(ampa[7] pkc[8]), PKC(pick1[8] Calcium{c0}[.] Location{Endo}[.]), GRIP(ampa[9]), GRIP(ampa[10])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[1] S818{u}[2] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[4] grip[5] nsf[.]), SFK(b[1]), PKC(pick1[3] Calcium{c3}[2] Location{Membrane}[.]), PICK1(ampa[.] pkc[3]), PICK1(ampa[4] pkc[.]), GRIP(ampa[5])
+%init: 62 E1(s{u0}[.] E2[.])
+%init: 118 E1(s{u1}[.] E2[.])
+%init: 198 GluA2A3(b[.])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[1] pick1[2] grip[4] nsf[.]), RNF(CK{Inactive}[.] E2[.] AMPAR[1] s{u1}[.]), PICK1(ampa[2] pkc[3]), PKC(pick1[3] Calcium{c1}[.] Location{Endo}[.]), GRIP(ampa[4])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[5] nsf[.]), PICK1(ampa[1] pkc[2]), PKC(pick1[2] Calcium{c0}[3] Location{Endo}[.]), AMPAR_23(S880{u}[3] Y876{p}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[4] nsf[.]), GRIP(ampa[4]), GRIP(ampa[5])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[1] grip[5] nsf[.]), PICK1(ampa[1] pkc[2]), PKC(pick1[2] Calcium{c0}[3] Location{Endo}[.]), AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[3] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[4] nsf[.]), GRIP(ampa[4]), GRIP(ampa[5])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{u}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[1] RNF[.] pick1[2] grip[4] nsf[.]), Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[1]), PICK1(ampa[2] pkc[3]), PKC(pick1[3] Calcium{c0}[.] Location{Endo}[.]), GRIP(ampa[4])
+%init: 1 AMPAR_12(S831{u}[.] S845{u}[.] S880{u}[.] Y876{p}[.] S818{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K868{u0}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[1] RNF[.] pick1[2] grip[4] nsf[.]), Nedd4(Cdomain{Active}[.] E2[.] s{u1}[.] AMPAR[1]), PICK1(ampa[2] pkc[3]), PKC(pick1[3] Calcium{c0}[.] Location{Endo}[.]), GRIP(ampa[4])
+%init: 180 E2(E1[.] s{u1}[.] Nedd4[.] RNF[.])
+%init: 14 PICK1(ampa[.] pkc[.])
+%init: 1 AMPAR_23(S880{u}[.] Y876{u}[.] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[1] pick1[2] grip[7] nsf[.]), RNF(CK{Inactive}[.] E2[.] AMPAR[1] s{u1}[.]), PICK1(ampa[2] pkc[3]), PKC(pick1[3] Calcium{c0}[4] Location{Endo}[.]), AMPAR_23(S880{u}[4] Y876{p}[5] Open{B}[.] Glu{g0}[.] Anchor{X}[.] K870{u0}[.] K882{u0}[.] DUB[.] Nedd4[.] RNF[.] pick1[.] grip[6] nsf[.]), PTPMEG(b[5]), GRIP(ampa[6]), GRIP(ampa[7])
+%init: 66 GluA2(b[.])
+%init: 30 R2C2(cAMP{c0}[.] C{c2}[.])
+%init: 0 Counter()
+%init: 0 G()
+%init: 0 N()
+%init: 0 P()
+%init: 0 Gb()
+%init: 0 Nb()
+%init: 0 Pb()
+%init: 0 Gc()
+%init: 0 Nc()
+%init: 0 Pc()
+
+%mod: [E] = 2414173169 do $STOP;

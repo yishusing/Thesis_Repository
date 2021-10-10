@@ -1,0 +1,23 @@
+library(readxl)
+library(ggplot2)
+library(viridis)
+A12 <- read_excel("temp.xlsx")
+
+ggplot(`A12`, aes(T)) + geom_line(aes(y = cTheta_12,colour = "cTheta_12"), size=1.5, show.legend = FALSE) + geom_line(aes(y = sTheta_12,colour = "sTheta_12"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Theta_12,colour = "Theta_12"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Delta_12,colour = "Delta_12"), size=1.5, show.legend = FALSE)+ geom_line(aes(y = HFS_12,colour = "HFS_12"), size=1.5, show.legend = FALSE) + geom_line(aes(y = weakLTP_12,colour = "weakLTP_12"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
+
+ggsave("A12.png", dpi = 320)
+
+
+ggplot(`A12`, aes(T)) + geom_line(aes(y = LFS_12,colour = "LFS_12"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP50_12,colour = "LFSPP50_12"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP200_12,colour = "LFSPP200_12"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
+
+ggsave("LFS_A12.png", dpi = 320)
+
+A23 <- read_excel("temp.xlsx")
+
+ggplot(`A23`, aes(T)) + geom_line(aes(y = cTheta_23,colour = "cTheta_23"), size=1.5, show.legend = FALSE) + geom_line(aes(y = sTheta_23,colour = "sTheta_23"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Theta_23,colour = "Theta_23"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Delta_23,colour = "Delta_23"), size=1.5, show.legend = FALSE)+ geom_line(aes(y = HFS_23,colour = "HFS_23"), size=1.5, show.legend = FALSE) + geom_line(aes(y = weakLTP_23,colour = "weakLTP_23"), size=1.5, show.legend = FALSE) +  scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
+
+ggsave("A23.png", dpi = 320)
+
+ggplot(`A23`, aes(T)) + geom_line(aes(y = LFS_23,colour = "LFS_23"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP50_23,colour = "LFSPP50_23"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP200_23,colour = "LFSPP200_23"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
+
+ggsave("LFS_A23.png", dpi = 320)

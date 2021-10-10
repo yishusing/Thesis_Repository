@@ -1,0 +1,19 @@
+library(readxl)
+library(ggplot2)
+library(viridis)
+protect <- read_excel("S845_protect.xlsx")
+
+ggplot(`protect`, aes(T)) + geom_line(aes(y = K868_ub,colour = "k868_ub1"), size=1.5, show.legend = FALSE) + geom_line(aes(y = K868_ub2,colour = "ub2"), size=1.5, show.legend = FALSE) + geom_line(aes(y = K868_ub3,colour = "ub3"), size=1.5, show.legend = FALSE) + geom_line(aes(y = K868_ub4,colour = "ub4"), size=1.5, show.legend = FALSE)+ geom_line(aes(y = K868_ub5,colour = "ub5"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + theme_classic() + theme(aspect.ratio=1)  + labs(x = "T(s)", y = "receptor #", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
+
+ggsave("S845_protect.png", dpi = 320)
+
+noprotect <- read_excel("S845_no_protect.xlsx")
+
+ggplot(`noprotect`, aes(T)) + geom_line(aes(y = K868_ub,colour = "ub1"), size=1.5, show.legend = FALSE) + geom_line(aes(y = K868_ub2,colour = "ub2"), size=1.5, show.legend = FALSE) + geom_line(aes(y = K868_ub3,colour = "ub3"), size=1.5, show.legend = FALSE) + geom_line(aes(y = K868_ub4,colour = "ub4"), size=1.5, show.legend = FALSE)+ geom_line(aes(y = K868_ub5,colour = "ub5"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + theme_classic() + theme(aspect.ratio=1) + labs(x = "T(s)", y = "receptor #", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
+
+ggsave("S845_noprotect.png", dpi = 320)
+
+
+ggplot(`noprotect`, aes(T)) + geom_line(aes(y = K868_ub,colour = "ub1"), size=1.5) + geom_line(aes(y = K868_ub2,colour = "ub2"), size=1.5) + geom_line(aes(y = K868_ub3,colour = "ub3"), size=1.5) + geom_line(aes(y = K868_ub4,colour = "ub4"), size=1.5)+ geom_line(aes(y = K868_ub5,colour = "ub5"), size=1.5) + scale_colour_viridis(discrete = TRUE) + theme_classic() + theme(aspect.ratio=1) + labs(x = "T(s)", y = "receptor #", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'), legend.text=element_text(size=32))
+
+ggsave("LegendUB.png", dpi = 320)

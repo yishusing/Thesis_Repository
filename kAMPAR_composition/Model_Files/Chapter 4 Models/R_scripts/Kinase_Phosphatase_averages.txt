@@ -46,26 +46,26 @@ library(ggplot2)
 library(viridis)
 S845 <- read_excel("temp845.xlsx")
 
-ggplot(`S845`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.2) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.2) + geom_line(aes(y = Theta,colour = "Theta"), size=1.2) + geom_line(aes(y = Delta,colour = "Delta"), size=1.2)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.2) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+ggplot(`S845`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Theta,colour = "Theta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Delta,colour = "Delta"), size=1.5, show.legend = FALSE)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.5, show.legend = FALSE) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
 
 ggsave("S845.png", dpi = 320)
 
 
 S831 <- read_excel("temp831.xlsx")
 
-ggplot(`S831`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.2) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.2) + geom_line(aes(y = Theta,colour = "Theta"), size=1.2) + geom_line(aes(y = Delta,colour = "Delta"), size=1.2)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.2) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+ggplot(`S831`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Theta,colour = "Theta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Delta,colour = "Delta"), size=1.5, show.legend = FALSE)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.5, show.legend = FALSE) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
 
 ggsave("S831.png", dpi = 320)
 
 PP <- read_excel("PP1.xlsx")
 
-ggplot(`PP`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.2) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.2) + geom_line(aes(y = Theta,colour = "Theta"), size=1.2) + geom_line(aes(y = Delta,colour = "Delta"), size=1.2)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.2) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+ggplot(`PP`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Theta,colour = "Theta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Delta,colour = "Delta"), size=1.5, show.legend = FALSE)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.5, show.legend = FALSE) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
 
 ggsave("PP1.png", dpi = 320)
 
 CK2 <- read_excel("CK2.xlsx")
 
-ggplot(`CK2`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.2) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.2) + geom_line(aes(y = Theta,colour = "Theta"), size=1.2) + geom_line(aes(y = Delta,colour = "Delta"), size=1.2)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.2) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+ggplot(`CK2`, aes(T)) + geom_line(aes(y = cTheta,colour = "cTheta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = sTheta,colour = "sTheta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Theta,colour = "Theta"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Delta,colour = "Delta"), size=1.5, show.legend = FALSE)+ geom_line(aes(y = HFS,colour = "HFS"), size=1.5, show.legend = FALSE) + geom_line(aes(y = weakLTP,colour = "weakLTP"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
 
 ggsave("CK2.png", dpi = 320)
 
@@ -74,25 +74,25 @@ ggsave("CK2.png", dpi = 320)
 
 S845 <- read_excel("temp845.xlsx")
 
-ggplot(`S845`, aes(T)) + geom_line(aes(y = LFS,colour = "LFS"), size=1.2) + geom_line(aes(y = LFSPP50,colour = "LFSPP50"), size=1.2) + geom_line(aes(y = LFSPP200,colour = "LFSPP200"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+ggplot(`S845`, aes(T)) + geom_line(aes(y = LFS,colour = "LFS"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP50,colour = "LFSPP50"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP200,colour = "LFSPP200"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
 
 ggsave("LFS_S845.png", dpi = 320)
 
 
 S831 <- read_excel("temp831.xlsx")
 
-ggplot(`S831`, aes(T)) + geom_line(aes(y = LFS,colour = "LFS"), size=1.2) + geom_line(aes(y = LFSPP50,colour = "LFSPP50"), size=1.2) + geom_line(aes(y = LFSPP200,colour = "LFSPP200"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+ggplot(`S831`, aes(T)) + geom_line(aes(y = LFS,colour = "LFS"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP50,colour = "LFSPP50"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP200,colour = "LFSPP200"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
 
 ggsave("LFS_S831.png", dpi = 320)
 
 PP <- read_excel("PP1.xlsx")
 
-ggplot(`PP`, aes(T)) + geom_line(aes(y = LFS,colour = "LFS"), size=1.2) + geom_line(aes(y = LFSPP50,colour = "LFSPP50"), size=1.2) + geom_line(aes(y = LFSPP200,colour = "LFSPP200"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+ggplot(`PP`, aes(T)) + geom_line(aes(y = LFS,colour = "LFS"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP50,colour = "LFSPP50"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP200,colour = "LFSPP200"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
 
 ggsave("LFS_PP1.png", dpi = 320)
 
 CK2 <- read_excel("CK2.xlsx")
 
-ggplot(`CK2`, aes(T)) + geom_line(aes(y = LFS,colour = "LFS"), size=1.2) + geom_line(aes(y = LFSPP50,colour = "LFSPP50"), size=1.2) + geom_line(aes(y = LFSPP200,colour = "LFSPP200"), size=1.2) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "#", colour = "") + theme(axis.text=element_text(size=24), axis.title=element_text(size=24,face='bold'), legend.text=element_text(size=16))
+ggplot(`CK2`, aes(T)) + geom_line(aes(y = LFS,colour = "LFS"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP50,colour = "LFSPP50"), size=1.5, show.legend = FALSE) + geom_line(aes(y = LFSPP200,colour = "LFSPP200"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + expand_limits(y=c(0, 75)) + theme_classic() + labs(x = "T(s)", y = "# of molecules", colour = "") + theme(axis.text=element_text(size=32), axis.title=element_text(size=32,face='bold'))
 
 ggsave("LFS_CK2.png", dpi = 320)

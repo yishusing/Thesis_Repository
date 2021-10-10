@@ -279,16 +279,13 @@ CaM(ck[1],calcium{c4}), CaM(ck[2],calcium{c4}), CK(cam[1],b[3],T286{u}), CK(cam[
 
 
 // 1: Activated CaMKII binds to PP
-CK(cam[.],T286{p}[.]), PP1(b[.]) <-> CK(cam[.],T286{p}[1]), PP1(b[1]) @ 3.43E+05/Theta, 1.4
+CK(cam[.],T286{p}[.]), PP1(b[.]) <-> CK(cam[.],T286{p}[1]), PP1(b[1]) @ pp1_binding, pp1_unbinding
 
 //CK(T286{pp}[.]), PP1(b[.]) <-> CK(T286{pp}[1]), PP1(b[1]) @ 50/3011, 50
 //CK(T286{p}[.]), PP1(b[.]) <-> CK(T286{p}[1]), PP1(b[1]) @ 50/3011, 50
 
 // 2: PP dephosphorylates CaMKII
-CK(cam[.],T286{p/u}[1/.]), PP1(b[1/.]) @ 0.35
-
-//CK(T286{p}[1]), PP1(b[1]) -> CK(T286{u}[.]), PP1(b[.]) @ 1 /* shouldnt this be pp -> p, p->u?*/
-//CK(T286{pp}[1]), PP(dp[1]) -> CK(T286{pp}[.]), PP(dp[.]) @ 1
+CK(cam[.],T286{p/u}[1/.]), PP1(b[1/.]) @ ck2_dephos
 
 
 //Gallimore

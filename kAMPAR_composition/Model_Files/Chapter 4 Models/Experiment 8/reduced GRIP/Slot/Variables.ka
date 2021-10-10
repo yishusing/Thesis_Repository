@@ -197,6 +197,9 @@
 %var: CaM_binding 0.0697		//450000000/Theta
 %var: CaM_unbinding 0.126		//4.5
 
+%var: pp1_binding	0.008303
+%var: pp1_unbinding	50
+%var: ck2_dephos		1
 
 //Gallimore
 

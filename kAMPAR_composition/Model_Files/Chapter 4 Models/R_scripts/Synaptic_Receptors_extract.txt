@@ -8,7 +8,7 @@ write_xlsx(Syn_Receptors, "temp.xlsx")
 
 
 ///ALT
-
+library(writexl)
 library(readxl)
 file.list <- list.files(pattern='*.xlsx')
 df.list <- lapply(file.list, read_excel)

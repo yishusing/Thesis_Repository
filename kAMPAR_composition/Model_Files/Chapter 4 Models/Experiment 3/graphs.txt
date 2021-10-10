@@ -1,0 +1,19 @@
+#Plot separate ggplot figures in a loop.
+library(ggplot2)
+library(viridis)
+
+# Make list of variable names to loop over.
+temp = list.files(pattern="*.csv")
+
+
+for (i in temp) {myfiles <- lapply(i,
+                                   FUN = function(files) {
+                                       read.csv(files, header = TRUE, sep = ",")
+                                   })
+df<-as.data.frame(myfiles)
+
+a <- ggplot(`df`, aes(T)) + geom_line(aes(y = Basal,colour = "Basal"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Small, colour ="Small"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Medium, colour ="Medium"), size=1.5, show.legend = FALSE) + geom_line(aes(y = Large, colour ="Large"), size=1.5, show.legend = FALSE) + scale_colour_viridis(discrete = TRUE) + theme_classic() + labs(x = "T(s)", y = "Receptor #", colour = "") + expand_limits(y=c(0, 60)) + theme(axis.text=element_text(size=32), axis.title=element_text(size=36,face='bold'), legend.text=element_text(size=28))
+
+ggsave(a,filename=paste0(i,"_AMPA",".png"), dpi = 320)
+
+}
